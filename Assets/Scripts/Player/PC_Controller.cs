@@ -9,7 +9,7 @@ public class PC_Controller : MonoBehaviour
     public float moveSpeed = 5f;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
-
+    public Vector2 mousePos;
 
     private bool canMove = true;
 
@@ -31,7 +31,7 @@ public class PC_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerRotation();
+        mousePos = PlayerRotation();
     }
 
     private void FixedUpdate()
@@ -89,12 +89,14 @@ public class PC_Controller : MonoBehaviour
     }
 #endregion
 
-    private void PlayerRotation()
+    public Vector2 PlayerRotation()
     {
         Vector3 mousePos = Mouse.current.position.ReadValue();
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 direction = (mouseWorldPosition - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle + 90f);
+        gameObject.transform.rotation = Quaternion.Euler(0, 0, angle + 90f);
+
+        return direction;
     }
 }

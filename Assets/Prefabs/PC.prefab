@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 8942946852217788315}
   - component: {fileID: 3775884177968729870}
   - component: {fileID: 2680856534538523810}
-  - component: {fileID: 8901068625350369984}
   - component: {fileID: 4095820644218574224}
   - component: {fileID: 3314899879110287554}
   - component: {fileID: 1282273913887812499}
@@ -154,43 +153,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
---- !u!70 &8901068625350369984
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3605315496584586624}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
-  m_Direction: 0
+  mousePos: {x: 0, y: 0}
 --- !u!114 &4095820644218574224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +226,11 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   currentGrenade: {fileID: 0}
   weaponHolder: {fileID: 0}
-  dropDistanve: 0.8
+  dropDistance: 0.8
+  startingWeapon: {fileID: 0}
+  stastingGrenade: {fileID: 0}
+  RS: {fileID: 0}
+  PC: {fileID: 0}
 --- !u!114 &6029813842461787600
 MonoBehaviour:
   m_ObjectHideFlags: 0

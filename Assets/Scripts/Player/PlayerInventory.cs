@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -10,36 +11,44 @@ public class PlayerInventory : MonoBehaviour
     public WeaponHolder weaponHolder;
 
     [Header("Drop Settings")]
-    public float dropDistanve = 0.8f;
+    public float dropDistance = 0.8f;
 
     public WeaponData CurrentWeapon => currentWeapon;
     public GrenadeData CurrentGrenade => currentGrenade;
     public WeaponData startingWeapon;
     public GrenadeData stastingGrenade;
 
+    public RiffleScript RS;
+    private ShotgunScript SS;
+    public PC_Controller PC;
+
     private void Start()
     {
+        PC = GetComponent<PC_Controller>();
+
         if (startingWeapon != null)
         {
             currentWeapon = startingWeapon;
             weaponHolder.EquipWeapon(currentWeapon);
+            SetWeaponScriptReferences(currentWeapon);
         }
 
-        if(stastingGrenade != null)
+        if (stastingGrenade != null)
         {
             currentGrenade = stastingGrenade;
         }
     }
-
+    #region --- Pickup/Drop ---
     public void PickupWeapon(WeaponPickup pickup)
     {
         if (currentWeapon != null)
         {
             DropWeapon();
         }
-        
+
         currentWeapon = pickup.weaponData;
         weaponHolder.EquipWeapon(currentWeapon);
+        SetWeaponScriptReferences(currentWeapon);
         Destroy(pickup.gameObject);
 
         Debug.Log($"[Inventory] Equipped weapon: {currentWeapon.weaponName}");
@@ -72,13 +81,53 @@ public class PlayerInventory : MonoBehaviour
         currentGrenade = null;
     }
 
+    #endregion
     private Vector2 GetDropOffset()
     {
-        return Vector2.left * dropDistanve;
+        return Vector2.left * dropDistance;
     }
 
     private void OnInteract()
     {
 
+    }
+
+    public void OnAttack()
+    {
+        if (currentWeapon != null)
+        {
+            if (currentWeapon.weaponType == WeaponType.Rifle)
+            {
+                RS.Shoot(PC.mousePos);
+            }
+            if (currentWeapon.weaponType == WeaponType.Shotgun)
+            {
+                SS.Shoot(PC.mousePos);
+            }
+        }
+    }
+
+    private void OnThrowGrenade()
+    {
+
+    }
+
+    private void SetWeaponScriptReferences(WeaponData weapon)
+    {
+        RS = null;
+        SS = null;
+
+        // Get the script from the INSTANTIATED weapon, not the prefab
+        GameObject weaponInstance = weaponHolder.CurrentWeaponInstance;
+        if (weaponInstance == null) return;
+
+        if (weapon.weaponType == WeaponType.Rifle)
+        {
+            RS = weaponInstance.GetComponent<RiffleScript>();
+        }
+        else if (weapon.weaponType == WeaponType.Shotgun)
+        {
+            SS = weaponInstance.GetComponent<ShotgunScript>();
+        }
     }
 }

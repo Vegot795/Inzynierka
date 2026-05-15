@@ -5,6 +5,9 @@ public class WeaponHolder : MonoBehaviour
     public Transform weaponAttachPoint;
     private GameObject currentWeaponInstance;
 
+    // Expose the instantiated weapon
+    public GameObject CurrentWeaponInstance => currentWeaponInstance;
+
     public void EquipWeapon(WeaponData data)
     {
         UnequipWeapon();
