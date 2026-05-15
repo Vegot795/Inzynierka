@@ -3,8 +3,10 @@ using UnityEngine;
 public class GrenadeData : ScriptableObject
 {
     public string grenadeName;
-    public string explosionRadius;
-    public float damage;
+    public float explosionRadius = 3f;
+    public float damage = 50f;
+    public float moveSpeed = 15f;
     public Sprite grenadeSprite;
     public GameObject prefab;
+    public Sprite grenadeOutline;
 }

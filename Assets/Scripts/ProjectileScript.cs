@@ -5,25 +5,43 @@ public class ProjectileScript : MonoBehaviour
     public float SDT = 3f;
     public float damage;
     public float time;
-
-    private CharacterBase cb;
-    private WeaponData HeldWeapon;
+    public Collider2D col;
+    public GameObject shooter { get; private set; }
 
     private void Start()
     {
-        cb = GetComponent<CharacterBase>();
-        HeldWeapon = transform.parent.GetComponent<WeaponData>();
+        col = GetComponent<Collider2D>();
+    }
 
+    public void Initialize(float weaponDamage, GameObject shooterObject)
+    {
+        damage = weaponDamage;
+        shooter = shooterObject;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log($"[Projectile] OnTriggerEnter2D called. Hit: {collision.gameObject.name}");
+        if (shooter != null && collision.gameObject == shooter)
+        {
+            return;
+        }
+
         if (collision.CompareTag("Enemy"))
         {
             Debug.Log($"[Projectile] Hit enemy: {collision.gameObject.name}");
-            cb.TakeDamage(HeldWeapon.damage);
+            CharacterBase character = collision.GetComponent<CharacterBase>();
+            if (character != null)
+            {
+                character.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.LogWarning($"[Projectile] OnCollisionEnter2D called (should be trigger!). Hit: {collision.gameObject.name}");
     }
 
     private void Update()

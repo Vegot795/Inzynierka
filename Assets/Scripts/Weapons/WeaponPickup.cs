@@ -26,7 +26,9 @@ public class WeaponPickup : PickupBase
 
         SpriteRenderer sr = pickupObj.AddComponent<SpriteRenderer>();
         sr.sprite = data.weaponSprite;
-        sr.sortingOrder = -1; 
+        sr.sortingLayerName = "Ground";
+        sr.sortingOrder = 2;
+
 
         CircleCollider2D col = pickupObj.AddComponent<CircleCollider2D>();
         col.isTrigger = true;
@@ -34,6 +36,11 @@ public class WeaponPickup : PickupBase
 
         WeaponPickup pickup = pickupObj.AddComponent<WeaponPickup>();
         pickup.weaponData = data;
+
+        PickupOutline outline = pickupObj.AddComponent<PickupOutline>();
+        outline.outlineSprite = data.outlineSprite;
+        outline.defaultColor = new Color(0, 191, 191, 255);
+
 
         return pickup;
     }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5968210628067623785}
   - component: {fileID: 3160091126093971344}
   - component: {fileID: 5422767044787021993}
+  - component: {fileID: 7457127526617629704}
   m_Layer: 0
   m_Name: RiffleItem
   m_TagString: Untagged
@@ -122,3 +123,39 @@ MonoBehaviour:
   pulseMinIntensity: 4
   pulseMaxIntensity: 8
   outlineSprite: {fileID: 3143004387345860052, guid: c1a6981dcffd70e4798f1ea358ef1da3, type: 3}
+--- !u!58 &7457127526617629704
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6015368593622660957}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.2734375

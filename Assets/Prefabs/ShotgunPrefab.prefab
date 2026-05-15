@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -333397685
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2408530018317867212, guid: 469737168e44ef84d9fe9626f5db1ea3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -101,7 +101,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be28306725384f4f8bd27a6f71f30f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 0}
   muzzle: {fileID: 6049163514633504153}
+  projectileSpeed: 20
+  damage: 10
+  fireRate: 0.5
+  maxAmmo: 8
+  currentAmmo: 0
+  reloadTime: 3
+  range: 5
+  shotDisplayTime: 0.1
+  muzzleSR: {fileID: 0}
 --- !u!1 &6049163514633504153
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +122,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7265903762418749158}
   - component: {fileID: 4367462595432955820}
+  - component: {fileID: 4802028308567413276}
+  - component: {fileID: 8238829514289551344}
   m_Layer: 0
   m_Name: muzzle
   m_TagString: Untagged
@@ -128,9 +140,9 @@ Transform:
   m_GameObject: {fileID: 6049163514633504153}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.12494, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
+  m_LocalScale: {x: 1.69, y: 1.69, z: 1.69}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1514508792055471424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -175,11 +187,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -333397685
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1229858627709956937, guid: 1118d5a714fb3634f896ae71564fc848, type: 3}
-  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
+  m_Sprite: {fileID: 6778036343861426668, guid: c023ee17779d6bb468548056868da1a2, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -189,3 +201,72 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &4802028308567413276
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049163514633504153}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.421875, y: 0.546875}
+    newSize: {x: 0.015625, y: 0.015625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.18639891, y: -0.271463}
+      - {x: -0.037819296, y: -0.30564636}
+      - {x: 0.05101887, y: -0.30564624}
+      - {x: 0.19666536, y: -0.27095535}
+      - {x: 0.2787961, y: -0.22526665}
+      - {x: 0.013532689, y: 0.30608454}
+      - {x: -0.013624387, y: 0.30566943}
+      - {x: -0.2802629, y: -0.20778081}
+  m_UseDelaunayMesh: 0
+--- !u!114 &8238829514289551344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049163514633504153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b2505c43dbff748b434606011c26e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col: {fileID: 4802028308567413276}
+  enemiesInRange: []

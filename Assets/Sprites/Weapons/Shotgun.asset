@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   weaponName: Shotgun
-  damage: 10
-  range: 0
+  damage: 20
+  projectileSpeed: 0
   fireRate: 5
+  weaponType: 1
+  maxAmmoCapacity: 8
+  currentAmmo: 0
+  reloadTime: 3
   weaponSprite: {fileID: -6439872719477547833, guid: a8b61a8514f97574389d250684419069, type: 3}
-  projectile: {fileID: 0}
+  projectilePrefab: {fileID: 0}
   prefab: {fileID: 5113902077957450635, guid: 5618cf8c86b71b04fb2f8e9b1ff3681d, type: 3}
   muzzleFlash: {fileID: 0}
+  outlineSprite: {fileID: 3143004387345860052, guid: dd59338d12b61904c9fe4c115d0aa53c, type: 3}

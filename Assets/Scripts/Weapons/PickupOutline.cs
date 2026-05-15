@@ -3,7 +3,7 @@ using UnityEngine;
 public class PickupOutline : MonoBehaviour
 {
     [Header("Outline Settings")]
-    public float outlineScale = 1.25f;
+    public float outlineScale = 1f;
 
     [Header("Glow Colors (use HDR)")]
     [ColorUsage(true, true)] public Color defaultColor = new Color(0f, 5f, 5f, 1f);   // HDR cyan
@@ -14,11 +14,11 @@ public class PickupOutline : MonoBehaviour
     public float pulseMinIntensity = 4f;
     public float pulseMaxIntensity = 8f;
 
+    public SpriteRenderer mainSr;
     public Sprite outlineSprite;
 
     private GameObject outlineObject;
     private SpriteRenderer outlineSr;
-    private SpriteRenderer mainSr;
     private Material glowMaterial;
     private bool isHovered;
 

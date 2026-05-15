@@ -38,7 +38,7 @@
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -54,7 +54,7 @@
                     "name": "Next",
                     "type": "Button",
                     "id": "b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -65,7 +65,7 @@
                     "id": "7805d55a-ccee-4655-af62-4400c104796c",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.2,pressPoint=0.1)",
                     "initialStateCheck": false
                 }
             ],
@@ -371,7 +371,7 @@
                     "name": "",
                     "id": "22d0f0a9-b9bb-4039-98d7-e422956ff17f",
                     "path": "<Keyboard>/g",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.2,pressPoint=0.1)",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "ThrowGrenade",

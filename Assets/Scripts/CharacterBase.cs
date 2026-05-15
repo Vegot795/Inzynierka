@@ -17,6 +17,7 @@ public class CharacterBase : MonoBehaviour
     public void TakeDamage(float damage)
     {
         CurrentHp -= damage;
+        Debug.Log($"[{gameObject.name}] Took {damage} damage. Current HP: {CurrentHp}");
         if (CurrentHp <= 0)
         {
             Die();
@@ -26,20 +27,6 @@ public class CharacterBase : MonoBehaviour
     private void Die()
     {
         Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Projectile"))
-        {
-            ProjectileScript projectile = collision.GetComponent<ProjectileScript>();
-            if (projectile != null)
-            {
-                TakeDamage(projectile.damage);
-                Destroy(collision.gameObject);
-            }
-        }
-
     }
 
 }

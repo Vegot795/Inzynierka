@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 7587861970264948387}
   - component: {fileID: 7313315908020550278}
   - component: {fileID: 8501429688159442975}
+  - component: {fileID: 7367026968548973673}
   m_Layer: 0
   m_Name: RifflePrefab
   m_TagString: Untagged
@@ -191,3 +192,25 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7329302021653139206, guid: 470b9dc4aad5da547bc42189856c325a, type: 3}
   muzzle: {fileID: 109985180763392267}
   projectileSpeed: 20
+  damage: 10
+  fireRate: 0.1
+  maxAmmo: 25
+  currentAmmo: 0
+  reloadTime: 3
+--- !u!111 &7367026968548973673
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3213006790434053956}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c461c6f92cb355a4a99684098f10cc44, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0

@@ -13,13 +13,25 @@ public class WeaponHolder : MonoBehaviour
         UnequipWeapon();
         if (data.prefab == null)
         {
-            Debug.LogWarning($"[WeaponHolder] {data.weaponName} has no prefab assigned.");
+            Debug.LogWarning($"[WeaponHolder] {data.weaponName} prefab nieprzypisany.");
             return;
         }
 
         currentWeaponInstance = Instantiate(data.prefab, weaponAttachPoint);
         currentWeaponInstance.transform.localPosition = Vector3.zero;
         currentWeaponInstance.transform.localRotation = Quaternion.identity;
+
+        RiffleScript rifle = currentWeaponInstance.GetComponent<RiffleScript>();
+        if (rifle != null)
+        {
+            rifle.Initialize(data);
+        }
+        
+        ShotgunScript shotgun = currentWeaponInstance.GetComponent<ShotgunScript>();
+        if (shotgun != null)
+        {
+            shotgun.Initialize(data);
+        }
     }
 
     public void UnequipWeapon()

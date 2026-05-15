@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 404830c199bd8be4b854aa0827b43f01, type: 3}
+  m_Name: FlashGrenade
+  m_EditorClassIdentifier: 
+  grenadeName: FlashGrenade
+  explosionRadius: 0
+  damage: 50
+  moveSpeed: 0
+  grenadeSprite: {fileID: -1527999777138193665, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}
+  prefab: {fileID: 6601419296156118187, guid: 344a160db96a5a84d90b28e97964c28e, type: 3}
+  grenadeOutline: {fileID: 8967813616127032350, guid: 6835a2dcd0a17634c9ee4cc00e7b2ece, type: 3}

@@ -39,7 +39,7 @@ public class PickupDetector : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         PickupBase pickup = other.GetComponent<PickupBase>();
-        if (pickup != null && nearbyPickups.Contains(pickup))
+        if (pickup != null && !nearbyPickups.Contains(pickup))
         {
             nearbyPickups.Add(pickup);
         }
@@ -50,6 +50,10 @@ public class PickupDetector : MonoBehaviour
         PickupBase pickup = other.GetComponent<PickupBase>();
         if (pickup != null)
         {
+            if (pickup == hoveredPickup)
+            {
+                hoveredPickup = null;
+            }
             pickup.OnPlayerExit();
             nearbyPickups.Remove(pickup);
         }
