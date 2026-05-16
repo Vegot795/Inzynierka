@@ -41,7 +41,6 @@ public class WeaponPickup : PickupBase
         outline.outlineSprite = data.outlineSprite;
         outline.defaultColor = new Color(0, 191, 191, 255);
 
-
         return pickup;
     }
 }

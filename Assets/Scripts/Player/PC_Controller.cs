@@ -1,18 +1,14 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEditor.Rendering.Canvas.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PC_Controller : MonoBehaviour
+public class PC_Controller : CharacterBase
 {
-    public float moveSpeed = 5f;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
     public Vector2 mousePos;
 
     private bool canMove = true;
-
 
     Vector2 movementInput;
     Vector3 mouseRotation;
@@ -20,15 +16,14 @@ public class PC_Controller : MonoBehaviour
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     SpriteRenderer spriteRenderer;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start() 
     {
+        base.Start();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        MoveSpeed = 10f;
     }
 
-    // Update is called once per frame
     void Update()
     {
         mousePos = PlayerRotation();
@@ -66,10 +61,10 @@ public class PC_Controller : MonoBehaviour
                     movementInput,
                     movementFilter,
                     castCollisions,
-                    moveSpeed * Time.deltaTime + collisionOffset);
+                    MoveSpeed * Time.deltaTime + collisionOffset);
                 if (count == 0)
                 {
-                    rb.MovePosition(rb.position + movementInput * moveSpeed * Time.deltaTime);
+                    rb.MovePosition(rb.position + movementInput * MoveSpeed * Time.deltaTime);
                     return true;
                 }
                 else
@@ -100,5 +95,10 @@ public class PC_Controller : MonoBehaviour
         return direction;
     }
 
+    protected override void Die()
+    {
+        Debug.Log("[Player] Player died! Game Over!");
 
+        base.Die();
+    }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GrenadePickup : PickupBase
 {
+    // To jest obiekt który leży na ziemi / item do podniesienia. To nie funkcja odpowiadająca podnoszeniu granatu.
     public GrenadeData grenadeData;
     private SpriteRenderer sr;
 
@@ -26,7 +27,8 @@ public class GrenadePickup : PickupBase
 
         SpriteRenderer sr = pickupObj.AddComponent<SpriteRenderer>();
         sr.sprite = data.grenadeSprite;
-        sr.sortingOrder = -1; 
+        sr.sortingLayerName = "Ground";
+        sr.sortingOrder = 2; 
 
         CircleCollider2D col = pickupObj.AddComponent<CircleCollider2D>();
         col.isTrigger = true;
@@ -34,6 +36,11 @@ public class GrenadePickup : PickupBase
 
         GrenadePickup pickup = pickupObj.AddComponent<GrenadePickup>();
         pickup.grenadeData = data;
+
+
+        PickupOutline outline = pickupObj.AddComponent<PickupOutline>();
+        outline.outlineSprite = data.grenadeOutline;
+        outline.defaultColor = new Color(0, 191, 191, 255);
 
         return pickup;
     }

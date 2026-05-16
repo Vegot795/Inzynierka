@@ -19,3 +19,4 @@ MonoBehaviour:
   grenadeSprite: {fileID: -1527999777138193665, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}
   prefab: {fileID: 6601419296156118187, guid: 344a160db96a5a84d90b28e97964c28e, type: 3}
   grenadeOutline: {fileID: 8967813616127032350, guid: 6835a2dcd0a17634c9ee4cc00e7b2ece, type: 3}
+  grenadeType: 2

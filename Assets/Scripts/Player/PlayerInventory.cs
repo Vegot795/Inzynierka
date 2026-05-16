@@ -214,8 +214,7 @@ public class PlayerInventory : MonoBehaviour
         Vector2 targetPos = GetClampedGrenadeTarget();
         Debug.Log($"[ThrowGrenade] Target position: {targetPos}");
         
-        GameObject grenadeObj = Instantiate(currentGrenade.prefab, transform.position, Quaternion.identity);
-        
+        GameObject grenadeObj = Instantiate(currentGrenade.prefab, transform.position, Quaternion.identity);        
         if (grenadeObj == null)
         {
             Debug.LogError("[ThrowGrenade] Failed to instantiate grenade!");
@@ -307,6 +306,7 @@ public class PlayerInventory : MonoBehaviour
             animator.SetTrigger(animationName);
         }
     }
+
     private Vector2 GetDropOffset()
     {
         return Vector2.left * dropDistance;
