@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4002498754245441287}
   - component: {fileID: 9168016625087453660}
   - component: {fileID: -8847976426330746131}
+  - component: {fileID: -8992831354017880072}
   m_Layer: 0
   m_Name: FlashGrenadeItem
   m_TagString: Untagged
@@ -77,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1290606635
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1527999777138193665, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -139,3 +140,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupRadius: 0.6
   grenadeData: {fileID: 11400000, guid: 414907ac8cf96d844aa4cf15a61cf2c0, type: 2}
+--- !u!114 &-8992831354017880072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601419296156118187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8165fef5bbeea4dbd63fe033fd76ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineScale: 1
+  defaultColor: {r: 0, g: 5, b: 5, a: 1}
+  hoveredColor: {r: 0, g: 8, b: 2, a: 1}
+  pulseSpeed: 4
+  pulseMinIntensity: 4
+  pulseMaxIntensity: 8
+  mainSr: {fileID: 0}
+  outlineSprite: {fileID: 8967813616127032350, guid: 6835a2dcd0a17634c9ee4cc00e7b2ece, type: 3}

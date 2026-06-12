@@ -1,10 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum GrenadeType
 {
     Frag,
     Kasket,
-    Flash
+    Stun,
+    Mini
 }
 
 [CreateAssetMenu(fileName = "GrenadeData", menuName = "Inventory/Grenade")]
@@ -19,4 +21,5 @@ public class GrenadeData : ScriptableObject
     public GameObject prefab;
     public Sprite grenadeOutline;
     public GrenadeType grenadeType;
+    public GameObject miniGrenadePrefab;
 }

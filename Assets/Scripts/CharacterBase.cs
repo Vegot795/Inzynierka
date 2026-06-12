@@ -20,6 +20,7 @@ public class CharacterBase : MonoBehaviour
     [Header("Character status")]
     public bool isStunned;
     public bool isSlowed;
+    public bool isFlashed;
 
     public CircleCollider2D col;
 
@@ -40,7 +41,7 @@ public class CharacterBase : MonoBehaviour
     public void TakeDamage(float damage)
     {
         CurrentHp -= damage;
-        Debug.Log($"[{gameObject.name}] Took {damage} damage. Current HP: {CurrentHp}");
+        //Debug.Log($"[{gameObject.name}] Took {damage} damage. Current HP: {CurrentHp}");
         if (CurrentHp <= 0)
         {
             Die();

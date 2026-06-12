@@ -10,13 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 404830c199bd8be4b854aa0827b43f01, type: 3}
-  m_Name: FlashGrenade
+  m_Name: StunGrenade
   m_EditorClassIdentifier: 
   grenadeName: FlashGrenade
-  explosionRadius: 0
-  damage: 50
-  moveSpeed: 0
+  explosionRadius: 5
+  damage: 0
+  moveSpeed: 15
   grenadeSprite: {fileID: -1527999777138193665, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}
-  prefab: {fileID: 6601419296156118187, guid: 344a160db96a5a84d90b28e97964c28e, type: 3}
+  prefab: {fileID: 4073478208496610200, guid: d2081a0fbc75d9348b527f64157ef468, type: 3}
   grenadeOutline: {fileID: 8967813616127032350, guid: 6835a2dcd0a17634c9ee4cc00e7b2ece, type: 3}
   grenadeType: 2
+  miniGrenadePrefab: {fileID: 0}
+  smokeSprites:
+  - {fileID: -3944877060474835277, guid: 5221f28a20fed9f4ba40e35d27f22d71, type: 3}
+  - {fileID: -1541151641222532849, guid: 5221f28a20fed9f4ba40e35d27f22d71, type: 3}
+  - {fileID: 8397435683657623858, guid: 5221f28a20fed9f4ba40e35d27f22d71, type: 3}

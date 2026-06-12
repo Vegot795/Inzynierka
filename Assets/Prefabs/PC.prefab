@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 1282273913887812499}
   - component: {fileID: 6029813842461787600}
   - component: {fileID: 6413898365671217204}
-  - component: {fileID: 1428548709596094962}
+  - component: {fileID: 2576312438913014529}
   m_Layer: 0
   m_Name: PC
   m_TagString: Untagged
@@ -195,14 +195,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8a5a8da306321419951ccb3d016ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: 0
+  characterType: 0
   MaxHp: 0
   CurrentHp: 0
   MoveSpeed: 0
-  isFlashed: 0
+  isStunned: 0
   isSlowed: 0
+  isFlashed: 0
   col: {fileID: 0}
-  moveSpeed: 5
   collisionOffset: 0.05
   movementFilter:
     useTriggers: 0
@@ -242,6 +242,7 @@ MonoBehaviour:
   SS: {fileID: 0}
   PC: {fileID: 0}
   animator: {fileID: 0}
+  indicator: {fileID: 0}
 --- !u!114 &6029813842461787600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffd1a0681b99bf49bff246e00a32f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1428548709596094962
+--- !u!114 &2576312438913014529
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0539f0070f3bd8e49b8410a1d34779cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwRangeColor: {r: 0, g: 1, b: 1, a: 0.3}
-  explosionRangeColor: {r: 1, g: 0, b: 0, a: 0.3}
+  rangeIndicatorColor: {r: 0, g: 1, b: 1, a: 0.3}
+  explosionRadius: 0
   circleSegments: 64
+  showFill: 1

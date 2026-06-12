@@ -8,6 +8,7 @@ TagManager:
   - Projectile
   - AmmoDisplay
   - hpDisplay
+  - miniGrenade
   layers:
   - Default
   - TransparentFX
@@ -50,6 +51,9 @@ TagManager:
     locked: 0
   - name: Characters
     uniqueID: 3961569611
+    locked: 0
+  - name: Gizmos
+    uniqueID: 3729060617
     locked: 0
   m_RenderingLayers:
   - Default

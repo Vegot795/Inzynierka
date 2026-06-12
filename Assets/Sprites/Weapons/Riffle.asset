@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Riffle
   damage: 10
-  projectileSpeed: 100
+  projectileSpeed: 10
   fireRate: 0.1
   weaponType: 0
   maxAmmoCapacity: 25

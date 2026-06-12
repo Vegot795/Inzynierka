@@ -55,6 +55,7 @@ public class RiffleScript : MonoBehaviour
 
         Vector2 shootDirection = direction.normalized;
         GameObject newProjectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        newProjectile.GetComponent<ProjectileScript>().Initialize(damage, transform.parent.parent.gameObject);
         Rigidbody2D rb = newProjectile.GetComponent<Rigidbody2D>();
         
         if (newProjectile == null)

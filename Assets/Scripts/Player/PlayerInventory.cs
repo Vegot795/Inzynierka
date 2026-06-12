@@ -15,7 +15,7 @@ public class PlayerInventory : MonoBehaviour
     public float dropDistance = 0.8f;
 
     [Header("Constants")]
-    public float grenadeThrowRange = 2f;
+    public float grenadeThrowRange = 20f;
 
     public WeaponData CurrentWeapon => currentWeapon;
     public GrenadeData CurrentGrenade => currentGrenade;
@@ -25,10 +25,9 @@ public class PlayerInventory : MonoBehaviour
     public ShotgunScript SS;
     public PC_Controller PC;
     public Animator animator;
+    public GrenadeGizmoController indicator;
 
     private bool isAimingGrenade = false;
-
-    private GrenadeGizmoController gizmoController;
     private PlayerInput playerInput;
     private InputAction grenadeAction;
 
@@ -44,6 +43,7 @@ public class PlayerInventory : MonoBehaviour
                 grenadeAction.canceled += OnGrenadeReleased;
             }
         }
+        indicator = GetComponent<GrenadeGizmoController>();
     }
 
     private void OnDestroy()
@@ -59,7 +59,7 @@ public class PlayerInventory : MonoBehaviour
     {
         PC = GetComponent<PC_Controller>();
         
-        gizmoController = gameObject.AddComponent<GrenadeGizmoController>();
+        indicator = gameObject.GetComponent<GrenadeGizmoController>();
 
         if (startingWeapon != null)
         {
@@ -79,8 +79,9 @@ public class PlayerInventory : MonoBehaviour
         if (isAimingGrenade && currentGrenade != null)
         {
             Vector2 targetPos = GetClampedGrenadeTarget();
-            gizmoController.UpdateTargetPosition(targetPos);
         }
+
+
     }
 
     #region --- Pickup/Drop ---
@@ -162,14 +163,17 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadePressed(InputAction.CallbackContext context)
     {
-        Debug.Log("Grenade button pressed");
+        //Debug.Log("Grenade button pressed");
         OnGrenadeHoldStart();
+        indicator.ShowIndicator();
+
     }
 
     private void OnGrenadeReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("Grenade button released");
+        //Debug.Log("Grenade button released");
         OnGrenadeHoldEnd();
+        indicator.HideIndicator();
     }
 
     public void OnGrenadeHoldStart()
@@ -178,61 +182,50 @@ public class PlayerInventory : MonoBehaviour
 
         isAimingGrenade = true;
         Vector2 targetPos = GetClampedGrenadeTarget();
-        gizmoController.ShowGizmos(grenadeThrowRange, currentGrenade.explosionRadius, targetPos);
+        
         
         Debug.Log($"[Inventory] Started aiming grenade");
     }
     public void OnGrenadeHoldEnd()
     {
 
-        Debug.Log($"OnGrenadeHoldEnd");
         if (!isAimingGrenade || currentGrenade == null) return;
 
         isAimingGrenade = false;
-        gizmoController.HideGizmos();
         
-        Debug.Log($"[Inventory] Threw grenade");
         ThrowGrenade();
     }
 
     private void ThrowGrenade()
     {
-        Debug.Log($"[ThrowGrenade] Starting throw...");
         
         if (currentGrenade == null)
         {
-            Debug.LogError("[ThrowGrenade] currentGrenade is null!");
             return;
         }
 
         if (currentGrenade.prefab == null)
         {
-            Debug.LogError($"[ThrowGrenade] Grenade prefab is null on {currentGrenade.grenadeName}!");
             return;
         }
 
         Vector2 targetPos = GetClampedGrenadeTarget();
-        Debug.Log($"[ThrowGrenade] Target position: {targetPos}");
         
         GameObject grenadeObj = Instantiate(currentGrenade.prefab, transform.position, Quaternion.identity);        
         if (grenadeObj == null)
         {
-            Debug.LogError("[ThrowGrenade] Failed to instantiate grenade!");
             return;
         }
         
-        Debug.Log($"[ThrowGrenade] Grenade instantiated: {grenadeObj.name}");
         
         GrenadeScript grenadeScript = grenadeObj.GetComponent<GrenadeScript>();
         
         if (grenadeScript == null)
         {
-            Debug.LogError($"[ThrowGrenade] GrenadeScript component NOT FOUND on prefab {grenadeObj.name}! Add GrenadeScript component to the grenade prefab.");
             Destroy(grenadeObj);
             return;
         }
         
-        Debug.Log($"[ThrowGrenade] GrenadeScript found, calling Initialize...");
         grenadeScript.Initialize(currentGrenade, targetPos);
 
         SpriteRenderer sr = grenadeObj.GetComponent<SpriteRenderer>();
@@ -240,8 +233,6 @@ public class PlayerInventory : MonoBehaviour
         {
             sr.sprite = currentGrenade.grenadeSprite;
         }
-
-        Debug.Log($"[Inventory] Threw grenade to {targetPos}");
         
         currentGrenade = null;
     }
@@ -251,15 +242,25 @@ public class PlayerInventory : MonoBehaviour
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mouseWorldPos.z = 0;
         
-        Vector2 direction = (mouseWorldPos - transform.position);
+        Vector2 playerPos = transform.position;
+        Vector2 mousePos = mouseWorldPos;
+        
+        Vector2 direction = mousePos - playerPos;
         float distance = direction.magnitude;
+        
+        Vector2 targetPos;
         
         if (distance > grenadeThrowRange)
         {
-            direction = direction.normalized * grenadeThrowRange;
+            targetPos = playerPos + direction.normalized * grenadeThrowRange;
         }
-        
-        return (Vector2)transform.position + direction;
+        else
+        {
+            targetPos = mousePos;
+        }
+
+
+        return targetPos;
     }
     #endregion-----------------------------------------------
 
@@ -272,7 +273,6 @@ public class PlayerInventory : MonoBehaviour
         GameObject weaponInstance = weaponHolder.CurrentWeaponInstance;
         if (weaponInstance == null)
         {
-            Debug.LogWarning("[PlayerInventory] Weapon instance is null!");
             return;
         }
 
@@ -280,22 +280,11 @@ public class PlayerInventory : MonoBehaviour
         {
             RS = weaponInstance.GetComponent<RiffleScript>();
             animator = weaponInstance.GetComponent<Animator>();
-            
-            if (RS == null)
-                Debug.LogWarning("[PlayerInventory] RiffleScript component not found on weapon!");
         }
         else if (weapon.weaponType == WeaponType.Shotgun)
         {
             SS = weaponInstance.GetComponent<ShotgunScript>();
             animator = weaponInstance.GetComponent<Animator>();
-            
-            if (SS == null)
-                Debug.LogWarning("[PlayerInventory] ShotgunScript component not found on weapon!");
-        }
-
-        if (animator == null)
-        {
-            Debug.LogWarning("[PlayerInventory] Animator component not found on weapon. Animations will be skipped.");
         }
     }
 
