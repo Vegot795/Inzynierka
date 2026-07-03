@@ -24,9 +24,9 @@ public class MapGenerator : MonoBehaviour
 
     public void Start()
     {
-        GenerateGrid();
+        //GenerateGrid();
     }
-    private void GenerateGrid()
+    /*private void GenerateGrid()
     {
         gridMap = new Grid[mapWidth, mapHeight];
 
@@ -39,6 +39,6 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    Vector3Int TileCenter = new Vector3Int(gridMap.GetLenght(0) / 2,  gridMap.GEt;
+    Vector3Int TileCenter = new Vector3Int(gridMap.GetLenght(0) / 2,  gridMap.GEt);*/
 
 }
