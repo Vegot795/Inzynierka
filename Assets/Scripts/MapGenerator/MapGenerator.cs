@@ -1,11 +1,19 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour
 {
-
     public int mapWidth;
     public int mapHeight;
     public Grid gridMap;
+    public Room roomScript;
+    public Room startRoom;
+    public GameObject gridCellPref;
+
+    [SerializeField] private EnvironmentData[] roomEnvironment;
+
+    private GridCell[,] grid;
+    private readonly List<GridCell> emptyCells = new List<GridCell>();
 
     public enum Directions
     {
@@ -15,30 +23,63 @@ public class MapGenerator : MonoBehaviour
         Right
     }
 
-    public enum Grid
-    {
-        empty,
-        wall,
-        floor
-    }
-
     public void Start()
     {
-        //GenerateGrid();
-    }
-    /*private void GenerateGrid()
-    {
-        gridMap = new Grid[mapWidth, mapHeight];
+        GenerateGrid(mapWidth, mapHeight);
 
-        for (int x = 0; x < mapWidth; x++)
+        if (startRoom != null && roomEnvironment != null)
         {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                gridMap[x, y] = gridMap.empty;
-            }
+            roomScript.SetRoomEnvironment(startRoom, roomEnvironment[0]);
+            Debug.Log($"Start room environment set to: {roomEnvironment[0]}");
         }
     }
 
-    Vector3Int TileCenter = new Vector3Int(gridMap.GetLenght(0) / 2,  gridMap.GEt);*/
+    public void GenerateGrid(int width, int height)
+    {
+        mapWidth = width;
+        mapHeight = height;
+        grid = new GridCell[width, height];
+        emptyCells.Clear();
 
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                GameObject newCellObject = Instantiate(gridCellPref, new Vector3(x, y, 0), Quaternion.identity);
+                newCellObject.transform.SetParent(transform);
+
+                GridCell newCell = newCellObject.GetComponent<GridCell>();
+
+                if (newCell == null)
+                {
+                    Debug.LogError("[MapGenerator] gridCellPref does not contain GridCell component.");
+                    continue;
+                }
+
+                newCell.x = x;
+                newCell.y = y;
+                newCell.type = GridCell.CellType.floor;
+                newCell.environmentData = roomEnvironment[0];
+
+                if (newCell.sr == null)
+                {
+                    newCell.sr = newCellObject.GetComponent<SpriteRenderer>();
+                }
+
+                if (newCell.sr != null)
+                {
+                    newCell.sr.sprite = roomEnvironment[0].Floor;
+                }
+
+                grid[x, y] = newCell;
+                emptyCells.Add(newCell);
+            }
+        }
+
+        Debug.Log($"Grid generated with dimensions: {width}x{height}. Cell count: {emptyCells.Count}");
+
+        startRoom = roomScript.Create(emptyCells);
+
+        Debug.Log($"startRoom created: {startRoom?.roomName}");
+    }
 }
