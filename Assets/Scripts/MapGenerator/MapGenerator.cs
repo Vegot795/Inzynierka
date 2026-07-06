@@ -78,7 +78,7 @@ public class MapGenerator : MonoBehaviour
 
         Debug.Log($"Grid generated with dimensions: {width}x{height}. Cell count: {emptyCells.Count}");
 
-        startRoom = roomScript.Create(emptyCells);
+        startRoom = roomScript.CreateNewRoom(emptyCells);
 
         Debug.Log($"startRoom created: {startRoom?.roomName}");
     }

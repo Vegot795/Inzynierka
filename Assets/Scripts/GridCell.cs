@@ -8,9 +8,15 @@ public class GridCell : MonoBehaviour
     public enum CellType
     {
         empty,
-        wall,
+        wallTop,
+        wallBottom,
+        wallLeft,
+        wallRight,
         floor,
-        corridor,
+        cornerLeftTop,
+        cornerRightTop,
+        cornerLeftBottom,
+        cornerRightBottom
     }
 
 
