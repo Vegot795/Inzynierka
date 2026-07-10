@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Room
@@ -9,6 +10,7 @@ public class Room
     public List<GridCell> cells = new List<GridCell>();
     public List<Room> createdRooms = new List<Room>();
     public int minimalRoomLength = 6;
+    public MapGenerator mapGenerator;
 
     public Room(string roomName, List<GridCell> cells, EnvironmentData environmentData)
     {
@@ -19,6 +21,17 @@ public class Room
 
         SetCellSpritesFromEnvironment(this, environmentData);
     }
+
+    public enum RoomsAdjected
+    {
+        Left,
+        Right,
+        Top,
+        Bottom
+
+    }
+
+    public Dictionary<RoomsAdjected, Room> adjectedRooms = new Dictionary<RoomsAdjected, Room>();
 
     public Room CreateNewRoom(List<GridCell> cells)
     {
@@ -203,5 +216,202 @@ public class Room
             maxX - minX + 1,
             maxY - minY + 1
         );
+    }
+
+    public void SetCellsToCorrectWalls(Room room)
+    {
+        if (room == null || room.cells == null)
+        {
+            return;
+        }
+
+        RectInt bounds = room.bounds;
+
+        foreach (GridCell cell in room.cells)
+        {
+            if (cell == null)
+            {
+                continue;
+            }
+
+            bool isLeft = cell.x == bounds.xMin;
+            bool isRight = cell.x == bounds.xMax - 1;
+            bool isBottom = cell.y == bounds.yMin;
+            bool isTop = cell.y == bounds.yMax - 1;
+
+            if (isLeft && isBottom)
+            {
+                cell.type = GridCell.CellType.cornerLeftBottom;
+            }
+            else if (isRight && isBottom)
+            {
+                cell.type = GridCell.CellType.cornerRightBottom;
+            }
+            else if (isLeft && isTop)
+            {
+                cell.type = GridCell.CellType.cornerLeftTop;
+            }
+            else if (isRight && isTop)
+            {
+                cell.type = GridCell.CellType.cornerRightTop;
+            }
+            else if (isLeft)
+            {
+                cell.type = GridCell.CellType.wallLeft;
+            }
+            else if (isRight)
+            {
+                cell.type = GridCell.CellType.wallRight;
+            }
+            else if (isBottom)
+            {
+                cell.type = GridCell.CellType.wallBottom;
+            }
+            else if (isTop)
+            {
+                cell.type = GridCell.CellType.wallTop;
+            }
+            else
+            {
+                cell.type = GridCell.CellType.floor;
+            }
+        }
+    }
+
+    public void FindAdjectedRooms(Room room, List<Room> allRooms)
+    {
+        if (room == null || allRooms == null)
+        {
+            return;
+        }
+        foreach (Room otherRoom in allRooms)
+        {
+            if (otherRoom == room)
+            {
+                continue;
+            }
+            if (room.bounds.xMax == otherRoom.bounds.xMin && room.bounds.yMin < otherRoom.bounds.yMax && room.bounds.yMax > otherRoom.bounds.yMin)
+            {
+                room.adjectedRooms[RoomsAdjected.Right] = otherRoom;
+            }
+            else if (room.bounds.xMin == otherRoom.bounds.xMax && room.bounds.yMin < otherRoom.bounds.yMax && room.bounds.yMax > otherRoom.bounds.yMin)
+            {
+                room.adjectedRooms[RoomsAdjected.Left] = otherRoom;
+            }
+            else if (room.bounds.yMax == otherRoom.bounds.yMin && room.bounds.xMin < otherRoom.bounds.xMax && room.bounds.xMax > otherRoom.bounds.xMin)
+            {
+                room.adjectedRooms[RoomsAdjected.Top] = otherRoom;
+            }
+            else if (room.bounds.yMin == otherRoom.bounds.yMax && room.bounds.xMin < otherRoom.bounds.xMax && room.bounds.xMax > otherRoom.bounds.xMin)
+            {
+                room.adjectedRooms[RoomsAdjected.Bottom] = otherRoom;
+            }
+        }
+    }
+
+    public void ConnectSmallerRooms()
+    {
+        Dictionary<Room, List<GridCell>> smallerRooms = new Dictionary<Room, List<GridCell>>();
+
+        foreach (Room room in mapGenerator.allRoomList)
+        {
+            smallerRooms.Add(room, room.cells);
+        }
+
+        Debug.Log($"[Room] Found {smallerRooms.Count} rooms to check.");
+
+        if (smallerRooms.Count <= 1)
+        {
+            return;
+        }
+
+        smallerRooms = smallerRooms.OrderBy(s => s.Value.Count).ToDictionary(s => s.Key, s => s.Value);
+
+        int smallestRoomCellCount = smallerRooms.First().Value.Count;
+        List<Room> smallestRoomsList = new List<Room>();
+
+        Debug.Log($"[Room] Smallest room has {smallestRoomCellCount} cells.");
+
+        foreach (var sRoom in smallerRooms)
+        {
+            if (sRoom.Value.Count == smallestRoomCellCount)
+            {
+                smallestRoomsList.Add(sRoom.Key);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        Debug.Log($"[Room] Found {smallestRoomsList.Count} smallest rooms to connect.");
+
+        while (smallestRoomsList.Count > 1)
+        {
+            Room currentRoom = smallestRoomsList[0];
+            Room roomToConnect = null;
+
+            foreach (Room otherRoom in smallestRoomsList)
+            {
+                if (otherRoom != currentRoom && AreRoomsAdjected(currentRoom, otherRoom))
+                {
+                    roomToConnect = otherRoom;
+                    break;
+                }
+            }
+
+            if (roomToConnect != null)
+            {
+                ConnectRooms(currentRoom, roomToConnect);
+
+                smallestRoomsList.Remove(currentRoom);
+                smallestRoomsList.Remove(roomToConnect);
+            }
+            else
+            {
+                smallestRoomsList.Remove(currentRoom);
+            }
+        }
+
+        Debug.Log($"[Room] Connected smallest bordering rooms. Total rooms now: {mapGenerator.allRoomList.Count}"); 
+    }
+
+    public bool AreRoomsAdjected(Room room1, Room room2)
+    {
+        if (room1 == null || room2 == null)
+        {
+            return false;
+        }
+        return room1.adjectedRooms.ContainsValue(room2) || room2.adjectedRooms.ContainsValue(room1);
+    }
+
+    public void ConnectRooms(Room room1, Room room2)
+    {
+        if (room1 == null || room2 == null)
+        {
+            Debug.Log($"[Room] Cannot connect null rooms: room1 = {room1}, room2 = {room2}");
+            return;
+        }
+
+        if (!AreRoomsAdjected(room1, room2))
+        {
+            Debug.LogWarning("[Room] Rooms are not adjected and cannot be connected.");
+            return;
+        }
+
+        List<GridCell> combinedCells = new List<GridCell>(room1.cells);
+        combinedCells.AddRange(room2.cells);
+
+        Room newRoom = new Room("ConnectedRoom", combinedCells, room1.environmentData);
+
+        foreach (GridCell cell in combinedCells)
+        {
+            cell.hasRoom = true;
+            cell.roomOwner = newRoom;
+        }
+
+        mapGenerator.allRoomList.Remove(room1);
+        mapGenerator.allRoomList.Remove(room2);
+        mapGenerator.allRoomList.Add(newRoom);
     }
 }

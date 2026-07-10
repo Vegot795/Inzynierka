@@ -12,6 +12,7 @@ public class MapGenerator : MonoBehaviour
     public Room roomScript;
     public Room startRoom;
     public GameObject gridCellPref;
+    public List<Room> allRoomList = new List<Room>();
 
     [SerializeField] private EnvironmentData[] roomEnvironment;
 
@@ -44,12 +45,13 @@ public class MapGenerator : MonoBehaviour
         }
 
         roomScript = new Room("Room_Manager", new List<GridCell>(), null);
+        roomScript.mapGenerator = this;
         roomList = new List<Room>();
         notUsedRoomEnvironments = roomEnvironment;
 
         GenerateGrid(mapWidth, mapHeight);
 
-        List<Room> allRoomList = new List<Room>(roomList);
+        allRoomList = new List<Room>(roomList);
 
         for (int i = 0; i < iterations; i++)
         {
@@ -84,6 +86,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     nextRoomList.Add(room1);
                     nextRoomList.Add(room2);
+
+                    allRoomList.Remove(room);
                     allRoomList.Add(room1);
                     allRoomList.Add(room2);
                 }
@@ -94,10 +98,17 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
+            
             roomList = nextRoomList;
         }
 
+        foreach (var room in allRoomList)
+        {
+            roomScript.FindAdjectedRooms(room, allRoomList);
+        }
+
         roomCount = roomList.Count;
+        roomScript.ConnectSmallerRooms();
 
         foreach (Room room in allRoomList)
         {
@@ -105,6 +116,7 @@ public class MapGenerator : MonoBehaviour
 
             if (selectedStyle != null)
             {
+                roomScript.SetCellsToCorrectWalls(room);
                 roomScript.SetRoomEnvironment(room, selectedStyle);
                 Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
                 Color randomColor = GetRandomColor();
@@ -116,7 +128,11 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
             }
+
+            
         }
+
+        
     }
 
     public void GenerateGrid(int width, int height)

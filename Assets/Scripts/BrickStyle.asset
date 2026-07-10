@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: BrickStyle
   m_EditorClassIdentifier: 
   type: 0
-  environmentSprites: []
-  WallLeft: {fileID: 0}
-  WallRight: {fileID: 0}
-  WallTop: {fileID: 0}
-  WallBottom: {fileID: 0}
-  WallTopRight: {fileID: 0}
-  WallBottomRight: {fileID: 0}
-  WallTopLeft: {fileID: 0}
-  WallBottomLeft: {fileID: 0}
+  WallLeft: {fileID: -304543729, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
+  WallRight: {fileID: 2138411368, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
+  WallTop: {fileID: -1632951867, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
+  WallBottom: {fileID: -938211204, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
+  WallTopRight: {fileID: -235096766, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
+  WallBottomRight: {fileID: -109098783, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
+  WallTopLeft: {fileID: 7470001371570167474, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
+  WallBottomLeft: {fileID: -1310180660, guid: 4ea62bd860708b14682ae671040902a6, type: 3}
   Floor: {fileID: 21300000, guid: 5baf8a6563e824f40879ac442576e8dc, type: 3}
