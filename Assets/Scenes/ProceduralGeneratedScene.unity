@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 278864517}
   - component: {fileID: 278864518}
-  - component: {fileID: 278864519}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: Untagged
@@ -164,35 +163,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c529fba4c96083743ab3f6fafeecb40a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 10
-  mapHeight: 10
+  iterations: 4
+  roomCount: 0
+  mapWidth: 40
+  mapHeight: 30
   gridMap: {fileID: 710103483}
-  roomScript: {fileID: 0}
-  startRoom: {fileID: 0}
   gridCellPref: {fileID: 1554538527}
   roomEnvironment:
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
---- !u!114 &278864519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 278864515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51682d25b9052444b8fe021869dc32d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomName: 
-  bounds:
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  environmentData: {fileID: 0}
-  cells: []
-  createdRooms: []
+  - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
 --- !u!1 &710103482
 GameObject:
   m_ObjectHideFlags: 0

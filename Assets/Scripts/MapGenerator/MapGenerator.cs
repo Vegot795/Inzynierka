@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour
 {
+    public int iterations = 4;
+    public int roomCount = 0;
+
     public int mapWidth;
     public int mapHeight;
     public Grid gridMap;
@@ -11,6 +14,9 @@ public class MapGenerator : MonoBehaviour
     public GameObject gridCellPref;
 
     [SerializeField] private EnvironmentData[] roomEnvironment;
+
+    private EnvironmentData[] notUsedRoomEnvironments;
+    private List<Room> roomList;
 
     private GridCell[,] grid;
     private readonly List<GridCell> emptyCells = new List<GridCell>();
@@ -25,12 +31,91 @@ public class MapGenerator : MonoBehaviour
 
     public void Start()
     {
+        if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
+        {
+            Debug.LogError("[MapGenerator] Missing room environments.");
+            return;
+        }
+
+        if (gridCellPref == null)
+        {
+            Debug.LogError("[MapGenerator] Missing gridCellPref.");
+            return;
+        }
+
+        roomScript = new Room("Room_Manager", new List<GridCell>(), null);
+        roomList = new List<Room>();
+        notUsedRoomEnvironments = roomEnvironment;
+
         GenerateGrid(mapWidth, mapHeight);
 
-        if (startRoom != null && roomEnvironment != null)
+        List<Room> allRoomList = new List<Room>(roomList);
+
+        for (int i = 0; i < iterations; i++)
         {
-            roomScript.SetRoomEnvironment(startRoom, roomEnvironment[0]);
-            Debug.Log($"Start room environment set to: {roomEnvironment[0]}");
+            if (roomList.Count == 0)
+            {
+                break;
+            }
+
+            List<Room> nextRoomList = new List<Room>();
+            List<Room> randomRoomList = new List<Room>();
+
+            if (roomList.Count >  4 )
+            {
+                int randomRoomCount = Random.Range(roomList.Count*3 / 4, roomList.Count - 1);
+                for (int j = 0; j < randomRoomCount; j++)
+                {
+                    int randomIndex = Random.Range(0, roomList.Count);
+                    randomRoomList.Add(roomList[randomIndex]);
+                    allRoomList.Remove(roomList[randomIndex]);
+                }
+            }
+            else
+            {
+                randomRoomList = roomList;
+            }
+
+            foreach (Room room in randomRoomList)
+            {
+                (Room room1, Room room2) = roomScript.SeparateRoom(room);
+
+                if (room1 != null && room2 != null)
+                {
+                    nextRoomList.Add(room1);
+                    nextRoomList.Add(room2);
+                    allRoomList.Add(room1);
+                    allRoomList.Add(room2);
+                }
+                else
+                {
+                    Debug.LogWarning($"Room separation failed for {room.roomName}. Keeping original room.");
+                    nextRoomList.Add(room);
+                }
+            }
+
+            roomList = nextRoomList;
+        }
+
+        roomCount = roomList.Count;
+
+        foreach (Room room in allRoomList)
+        {
+            EnvironmentData selectedStyle = AssignRandomStyleToRoom(room);
+
+            if (selectedStyle != null)
+            {
+                roomScript.SetRoomEnvironment(room, selectedStyle);
+                Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
+                Color randomColor = GetRandomColor();
+                foreach (var cell in room.cells)
+                {
+                    if (cell.sr != null)
+                    {
+                        cell.sr.color = randomColor;
+                    }
+                }
+            }
         }
     }
 
@@ -80,6 +165,40 @@ public class MapGenerator : MonoBehaviour
 
         startRoom = roomScript.CreateNewRoom(emptyCells);
 
-        Debug.Log($"startRoom created: {startRoom?.roomName}");
+        if (startRoom != null)
+        {
+            roomList.Add(startRoom);
+            Debug.Log($"startRoom created: {startRoom.roomName}");
+        }
     }
+
+    private EnvironmentData AssignRandomStyleToRoom(Room room)
+    {
+        if (notUsedRoomEnvironments.Length == 0)
+        {
+            Debug.LogWarning("[MapGenerator] No more unused room environments available.");
+            return null;
+        }
+        int randomIndex = Random.Range(0, notUsedRoomEnvironments.Length);
+        EnvironmentData selectedEnvironment = notUsedRoomEnvironments[randomIndex];
+        /*
+        List<EnvironmentData> notUsedRooms = new List<EnvironmentData>(notUsedRoomEnvironments);
+        notUsedRooms.RemoveAt(randomIndex);
+        notUsedRoomEnvironments = notUsedRooms.ToArray();*/
+        return selectedEnvironment;
+    }
+
+    #region --- Debugging and Visualization ---
+
+    private Color GetRandomColor()
+    {
+        int randomRed = Random.Range(0, 256);
+        int randomGreen = Random.Range(0, 256);
+        int randomBlue = Random.Range(0, 256);
+
+        return new Color(randomRed / 255f, randomGreen / 255f, randomBlue / 255f);
+    }
+
+    #endregion
+
 }
