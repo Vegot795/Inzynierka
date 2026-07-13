@@ -15,5 +15,9 @@ public class EnvironmentData : ScriptableObject
     public Sprite WallTopLeft;
     public Sprite WallBottomLeft;
     public Sprite Floor;
+    public Sprite CorridorLeftTop;
+    public Sprite CorridorLeftBottom;
+    public Sprite CorridorRightTop;
+    public Sprite CorridorRightBottom;
 }
 

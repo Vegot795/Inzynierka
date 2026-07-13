@@ -4,5 +4,6 @@ public enum EnvironmentType
 {
     wooden,
     stone,
+    brick,
     empty
 }

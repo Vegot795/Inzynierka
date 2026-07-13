@@ -5,11 +5,12 @@ using UnityEngine;
 public class Room
 {
     public string roomName;
+    public int minimalRoomLength = 6;
+    public int roomsConnectedWithCorridor = 0;
     public RectInt bounds;
     public EnvironmentData environmentData;
     public List<GridCell> cells = new List<GridCell>();
     public List<Room> createdRooms = new List<Room>();
-    public int minimalRoomLength = 6;
     public MapGenerator mapGenerator;
 
     public Room(string roomName, List<GridCell> cells, EnvironmentData environmentData)
@@ -151,41 +152,59 @@ public class Room
                 continue;
             }
 
-            if (cell.type == GridCell.CellType.floor)
+            switch (cell.type)
             {
-                cell.sr.sprite = environmentData.Floor;
-            }
-            else if (cell.type == GridCell.CellType.wallTop)
-            {
-                cell.sr.sprite = environmentData.WallTop;
-            }
-            else if (cell.type == GridCell.CellType.wallBottom)
-            {
-                cell.sr.sprite = environmentData.WallBottom;
-            }
-            else if (cell.type == GridCell.CellType.wallLeft)
-            {
-                cell.sr.sprite = environmentData.WallLeft;
-            }
-            else if (cell.type == GridCell.CellType.wallRight)
-            {
-                cell.sr.sprite = environmentData.WallRight;
-            }
-            else if (cell.type == GridCell.CellType.cornerLeftTop)
-            {
-                cell.sr.sprite = environmentData.WallTopLeft;
-            }
-            else if (cell.type == GridCell.CellType.cornerRightTop)
-            {
-                cell.sr.sprite = environmentData.WallTopRight;
-            }
-            else if (cell.type == GridCell.CellType.cornerLeftBottom)
-            {
-                cell.sr.sprite = environmentData.WallBottomLeft;
-            }
-            else if (cell.type == GridCell.CellType.cornerRightBottom)
-            {
-                cell.sr.sprite = environmentData.WallBottomRight;
+                case GridCell.CellType.floor:
+                    cell.sr.sprite = environmentData.Floor;
+                    break;
+
+                case GridCell.CellType.wallTop:
+                    cell.sr.sprite = environmentData.WallTop;
+                    break;
+
+                case GridCell.CellType.wallBottom:
+                    cell.sr.sprite = environmentData.WallBottom;
+                    break;
+
+                case GridCell.CellType.wallLeft:
+                    cell.sr.sprite = environmentData.WallLeft;
+                    break;
+
+                case GridCell.CellType.wallRight:
+                    cell.sr.sprite = environmentData.WallRight;
+                    break;
+
+                case GridCell.CellType.cornerLeftTop:
+                    cell.sr.sprite = environmentData.WallTopLeft;
+                    break;
+
+                case GridCell.CellType.cornerRightTop:
+                    cell.sr.sprite = environmentData.WallTopRight;
+                    break;
+
+                case GridCell.CellType.cornerLeftBottom:
+                    cell.sr.sprite = environmentData.WallBottomLeft;
+                    break;
+
+                case GridCell.CellType.cornerRightBottom:
+                    cell.sr.sprite = environmentData.WallBottomRight;
+                    break;
+
+                case GridCell.CellType.corridorLeftTop:
+                    cell.sr.sprite = environmentData.CorridorLeftTop;
+                    break;
+
+                case GridCell.CellType.corridorRightTop:
+                    cell.sr.sprite = environmentData.CorridorRightTop;
+                    break;
+
+                case GridCell.CellType.corridorLeftBottom:
+                    cell.sr.sprite = environmentData.CorridorLeftBottom;
+                    break;
+
+                case GridCell.CellType.corridorRightBottom:
+                    cell.sr.sprite = environmentData.CorridorRightBottom;
+                    break;
             }
         }
     }
@@ -238,7 +257,7 @@ public class Room
             bool isRight = cell.x == bounds.xMax - 1;
             bool isBottom = cell.y == bounds.yMin;
             bool isTop = cell.y == bounds.yMax - 1;
-
+            
             if (isLeft && isBottom)
             {
                 cell.type = GridCell.CellType.cornerLeftBottom;
@@ -414,4 +433,5 @@ public class Room
         mapGenerator.allRoomList.Remove(room2);
         mapGenerator.allRoomList.Add(newRoom);
     }
+
 }

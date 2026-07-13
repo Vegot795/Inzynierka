@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 
 public class MapGenerator : MonoBehaviour
 {
     public int iterations = 4;
     public int roomCount = 0;
+    public int corridorCount = 0;
 
     public int mapWidth;
     public int mapHeight;
@@ -13,6 +16,7 @@ public class MapGenerator : MonoBehaviour
     public Room startRoom;
     public GameObject gridCellPref;
     public List<Room> allRoomList = new List<Room>();
+    public List<Corridor> corridorList = new List<Corridor>();
 
     [SerializeField] private EnvironmentData[] roomEnvironment;
 
@@ -29,6 +33,19 @@ public class MapGenerator : MonoBehaviour
         Left,
         Right
     }
+    public class Corridor
+    {
+        public Room room1;
+        public Room room2;
+
+        public GridCell leftTopCell;
+        public GridCell rightTopCell;
+        public GridCell leftBottomCell;
+        public GridCell rightBottomCell;
+        public List<GridCell> corridorCells = new List<GridCell>();
+
+    }
+
 
     public void Start()
     {
@@ -53,6 +70,7 @@ public class MapGenerator : MonoBehaviour
 
         allRoomList = new List<Room>(roomList);
 
+        //iteration for creating rooms
         for (int i = 0; i < iterations; i++)
         {
             if (roomList.Count == 0)
@@ -112,12 +130,31 @@ public class MapGenerator : MonoBehaviour
 
         foreach (Room room in allRoomList)
         {
+            room.adjectedRooms.Clear();
+        }
+
+        foreach (Room room in allRoomList)
+        {
+            roomScript.FindAdjectedRooms(room, allRoomList);
+        }
+
+        roomCount = allRoomList.Count;
+
+        //Assigning environment
+        foreach (Room room in allRoomList)
+        {
             EnvironmentData selectedStyle = AssignRandomStyleToRoom(room);
 
             if (selectedStyle != null)
             {
                 roomScript.SetCellsToCorrectWalls(room);
-                roomScript.SetRoomEnvironment(room, selectedStyle);
+
+                room.environmentData = selectedStyle;
+                foreach (var cell in room.cells)
+                {
+                    cell.environmentData = selectedStyle;
+                }
+
                 Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
                 Color randomColor = GetRandomColor();
                 foreach (var cell in room.cells)
@@ -127,12 +164,19 @@ public class MapGenerator : MonoBehaviour
                         cell.sr.color = randomColor;
                     }
                 }
-            }
-
-            
+            }            
         }
 
-        
+        CreateCorridorsBetweenRooms();
+        corridorCount = corridorList.Count;
+
+        foreach (Room room in allRoomList)
+        {
+            if (room.environmentData != null)
+            {
+                roomScript.SetRoomEnvironment(room, room.environmentData);
+            }
+        }
     }
 
     public void GenerateGrid(int width, int height)
@@ -203,6 +247,223 @@ public class MapGenerator : MonoBehaviour
         notUsedRoomEnvironments = notUsedRooms.ToArray();*/
         return selectedEnvironment;
     }
+    #region ----- Corridors -----
+    public void CreateCorridorsBetweenRooms()
+    {
+        foreach (Room room in allRoomList.OrderBy(_ => Random.value))
+        {
+            if (room.roomsConnectedWithCorridor == 0)
+            {
+                TryCreateCorridorForRoom(room, 1);
+            }
+        }
+
+        foreach (Room room in allRoomList.OrderBy(_ => Random.value))
+        {
+            if (room.roomsConnectedWithCorridor == 0)
+            {
+                TryCreateCorridorForRoom(room, 2);
+            }
+        }
+
+        foreach (Room room in allRoomList.OrderBy(_ => Random.value))
+        {
+            if (room.roomsConnectedWithCorridor < 2)
+            {
+                TryCreateCorridorForRoom(room, 2);
+            }
+        }
+    }
+
+    private bool TryCreateCorridorForRoom(Room currentRoom, int maxConnections)
+    {
+        if (currentRoom.adjectedRooms.Count == 0 || currentRoom.roomsConnectedWithCorridor >= maxConnections)
+        {
+            return false;
+        }
+
+        List<Room> potentialRoomsToConnect = currentRoom.adjectedRooms.Values
+            .Where(room => room != null &&
+                           room.roomsConnectedWithCorridor < maxConnections &&
+                           !CorridorAlreadyExists(currentRoom, room))
+            .OrderBy(_ => Random.value)
+            .ToList();
+
+        foreach (Room roomToConnect in potentialRoomsToConnect)
+        {
+            if (CreateCorridor(currentRoom, roomToConnect))
+            {
+                currentRoom.roomsConnectedWithCorridor++;
+                roomToConnect.roomsConnectedWithCorridor++;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool CorridorAlreadyExists(Room room1, Room room2)
+    {
+        return corridorList.Any(corridor =>
+            (corridor.room1 == room1 && corridor.room2 == room2) ||
+            (corridor.room1 == room2 && corridor.room2 == room1));
+    }
+
+    public bool CreateCorridor(Room room1, Room room2)
+    {
+        Room.RoomsAdjected? direction = null;
+        foreach (var room in room1.adjectedRooms)
+        {
+            if (room.Value == room2)
+            {
+                direction = room.Key;
+                break;
+            }
+        }
+
+        if (direction == null)
+        {
+            Debug.LogWarning("Rooms are not adjacent.");
+            return false;
+        }
+
+        List<GridCell> room1PossibbleCorridorCells = new List<GridCell>();        
+
+        switch (direction)
+        {
+            case Room.RoomsAdjected.Left:
+                foreach (var cell in room1.cells)
+                {
+                    if (cell.x == room1.cells.Min(c => c.x))
+                    {
+                        if (room2.cells.Any(c => c.x == cell.x - 1 && c.y == cell.y))
+                        {
+                            room1PossibbleCorridorCells.Add(cell);
+                        }
+                    }
+                }
+                break;
+            case Room.RoomsAdjected.Right:
+                foreach (var cell in room1.cells)
+                {
+                    if (cell.x == room1.cells.Max(c => c.x))
+                    {
+                        if (room2.cells.Any(c => c.x == cell.x + 1 && c.y == cell.y))
+                        {
+                            room1PossibbleCorridorCells.Add(cell);
+                        }
+                    }
+                }
+                break;
+            case Room.RoomsAdjected.Top:
+                foreach (var cell in room1.cells)
+                {
+                    if (cell.y == room1.cells.Max(c => c.y))
+                    {
+                        if (room2.cells.Any(c => c.y == cell.y + 1 && c.x == cell.x))
+                        {
+                            room1PossibbleCorridorCells.Add(cell);
+                        }
+                    }
+                }
+                break;
+            case Room.RoomsAdjected.Bottom:
+                foreach (var cell in room1.cells)
+                {
+                    if (cell.y == room1.cells.Min(c => c.y))
+                    {
+                        if (room2.cells.Any(c => c.y == cell.y - 1 && c.x == cell.x))
+                        {
+                            room1PossibbleCorridorCells.Add(cell);
+                        }
+                    }
+                }
+                break;
+            default:
+                Debug.LogWarning("Unexpected room adjacency.");
+                return false;
+        }
+
+        if (direction == Room.RoomsAdjected.Left || direction == Room.RoomsAdjected.Right)
+        {
+            int minY = room1.cells.Min(c => c.y);
+            int maxY = room1.cells.Max(c => c.y);
+
+            room1PossibbleCorridorCells.RemoveAll(cell => cell.y == minY || cell.y == maxY);
+        }
+        else if (direction == Room.RoomsAdjected.Top || direction == Room.RoomsAdjected.Bottom)
+        {
+            int minX = room1.cells.Min(c => c.x);
+            int maxX = room1.cells.Max(c => c.x);
+
+            room1PossibbleCorridorCells.RemoveAll(cell => cell.x == minX || cell.x == maxX);
+        }
+
+        if (room1PossibbleCorridorCells.Count == 0)
+        {
+            Debug.LogWarning("No valid corridor cells found.");
+            return false;
+        }
+
+        GridCell corridorStart = room1PossibbleCorridorCells[Random.Range(0, room1PossibbleCorridorCells.Count)];
+        Corridor corridor = new Corridor();
+        corridor.room1 = room1;
+        corridor.room2 = room2;
+
+        switch (direction)
+        {
+            case Room.RoomsAdjected.Left:
+                corridor.rightTopCell = corridorStart;
+                corridor.rightBottomCell = room1.cells.FirstOrDefault(c => c.x == corridorStart.x && c.y == corridorStart.y - 1);
+                corridor.leftTopCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x - 1 && c.y == corridorStart.y);
+                corridor.leftBottomCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x - 1 && c.y == corridorStart.y - 1);
+                break;
+            case Room.RoomsAdjected.Right:
+                corridor.leftTopCell = corridorStart;
+                corridor.leftBottomCell = room1.cells.FirstOrDefault(c => c.x == corridorStart.x && c.y == corridorStart.y - 1);
+                corridor.rightTopCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x + 1 && c.y == corridorStart.y);
+                corridor.rightBottomCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x + 1 && c.y == corridorStart.y - 1);
+                break;
+            case Room.RoomsAdjected.Top:
+                corridor.leftBottomCell = corridorStart;
+                corridor.rightBottomCell = room1.cells.FirstOrDefault(c => c.y == corridorStart.y && c.x == corridorStart.x + 1);
+                corridor.leftTopCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y + 1 && c.x == corridorStart.x);
+                corridor.rightTopCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y + 1 && c.x == corridorStart.x + 1);
+                break;
+            case Room.RoomsAdjected.Bottom:
+                corridor.leftTopCell = corridorStart;
+                corridor.rightTopCell = room1.cells.FirstOrDefault(c => c.y == corridorStart.y && c.x == corridorStart.x + 1);
+                corridor.leftBottomCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y - 1 && c.x == corridorStart.x);
+                corridor.rightBottomCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y - 1 && c.x == corridorStart.x + 1);
+                break;
+        }
+
+        if (corridor.leftTopCell == null ||
+            corridor.leftBottomCell == null ||
+            corridor.rightTopCell == null ||
+            corridor.rightBottomCell == null)
+        {
+            Debug.LogWarning("Corridor could not be created because one or more corridor cells were missing.");
+            return false;
+        }
+
+        corridor.corridorCells.Add(corridor.leftTopCell);
+        corridor.corridorCells.Add(corridor.leftBottomCell);
+        corridor.corridorCells.Add(corridor.rightBottomCell);
+        corridor.corridorCells.Add(corridor.rightTopCell);
+
+        corridor.leftTopCell.type = GridCell.CellType.corridorLeftTop;
+        corridor.leftBottomCell.type = GridCell.CellType.corridorLeftBottom;
+        corridor.rightTopCell.type = GridCell.CellType.corridorRightTop;
+        corridor.rightBottomCell.type = GridCell.CellType.corridorRightBottom;
+        corridorList.Add(corridor);
+
+        return true;
+    }
+
+
+
+#endregion
 
     #region --- Debugging and Visualization ---
 

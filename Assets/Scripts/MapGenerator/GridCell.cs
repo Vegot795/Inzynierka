@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridCell : MonoBehaviour
@@ -16,9 +17,12 @@ public class GridCell : MonoBehaviour
         cornerLeftTop,
         cornerRightTop,
         cornerLeftBottom,
-        cornerRightBottom
+        cornerRightBottom,
+        corridorLeftTop,
+        corridorLeftBottom,
+        corridorRightTop,
+        corridorRightBottom
     }
-
 
     public bool hasRoom = false;
     public Room roomOwner = null;
