@@ -24,7 +24,7 @@ public class UIController : MonoBehaviour
    {
        if (PC != null)
        {
-           RiffleScript riffle = PC.GetComponentInChildren<RiffleScript>();
+           WeaponClass riffle = PC.GetComponentInChildren<WeaponClass>();
            if (riffle != null)
            {
                ammoText.text = "Ammo: " + riffle.currentAmmo + "/" + riffle.maxAmmo;
