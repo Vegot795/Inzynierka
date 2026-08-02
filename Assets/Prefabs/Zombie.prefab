@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2557823599578455876}
   - component: {fileID: 3621669129509983958}
-  - component: {fileID: 6696059022749011154}
+  - component: {fileID: -443880750228419532}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6696059022749011154
+--- !u!114 &-443880750228419532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,10 +97,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 470573528831612538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86aa5e040e199074dbe3b9887f0a5122, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ae0d7c4d74699547ad6710c874cf6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  MaxHp: 100
-  CurrentHp: 0

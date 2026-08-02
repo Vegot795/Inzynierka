@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using Unity.Cinemachine;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class MapGenerator : MonoBehaviour
     public GameObject gridCellPref;
     public List<Room> allRoomList = new List<Room>();
     public List<Corridor> corridorList = new List<Corridor>();
+
 
     [SerializeField] private EnvironmentData[] roomEnvironment;
 
@@ -143,7 +145,24 @@ public class MapGenerator : MonoBehaviour
         //Assigning environment
         foreach (Room room in allRoomList)
         {
-            EnvironmentData selectedStyle = AssignRandomStyleToRoom(room);
+            AssignEnvironment(room);
+        }
+
+        CreateCorridorsBetweenRooms();
+        corridorCount = corridorList.Count;
+
+        foreach (Room room in allRoomList)
+        {
+            if (room.environmentData != null)
+            {
+                roomScript.SetRoomEnvironment(room, room.environmentData);
+            }
+        }
+    }
+
+    public void AssignEnvironment (Room room)
+    {
+         EnvironmentData selectedStyle = AssignRandomStyleToRoom(room);
 
             if (selectedStyle != null)
             {
@@ -165,18 +184,6 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
             }            
-        }
-
-        CreateCorridorsBetweenRooms();
-        corridorCount = corridorList.Count;
-
-        foreach (Room room in allRoomList)
-        {
-            if (room.environmentData != null)
-            {
-                roomScript.SetRoomEnvironment(room, room.environmentData);
-            }
-        }
     }
 
     public void GenerateGrid(int width, int height)
