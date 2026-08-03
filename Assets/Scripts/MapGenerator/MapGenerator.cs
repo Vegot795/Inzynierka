@@ -25,8 +25,11 @@ public class MapGenerator : MonoBehaviour
     private EnvironmentData[] notUsedRoomEnvironments;
     private List<Room> roomList;
 
-    private GridCell[,] grid;
+    protected GridCell[,] grid;
     private readonly List<GridCell> emptyCells = new List<GridCell>();
+
+    // Dostep do siatki dla systemu szukania sciezki (GridAdapter).
+    public GridCell[,] Grid => grid;
 
     public enum Directions
     {
@@ -49,7 +52,7 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    public void Start()
+    public virtual void Start()
     {
         if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
         {
@@ -186,7 +189,7 @@ public class MapGenerator : MonoBehaviour
             }            
     }
 
-    public void GenerateGrid(int width, int height)
+    public virtual void GenerateGrid(int width, int height)
     {
         mapWidth = width;
         mapHeight = height;

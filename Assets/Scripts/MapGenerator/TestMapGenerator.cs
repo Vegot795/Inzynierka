@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 
-public class TestMapGenerator : MonoBehaviour
+public class TestMapGenerator : MapGenerator
 {
     public int height = 10;
     public int width = 10;
@@ -28,12 +28,10 @@ public class TestMapGenerator : MonoBehaviour
 
     [SerializeField] private EnvironmentData[] roomEnvironment;
     private readonly List<GridCell> emptyCells = new List<GridCell>();
-    private GridCell[,] grid;
-    public GridCell[,] Grid => grid;
 
-    public  void Start()
+    public override void Start()
     {
-        GenerateTestingGrid(width, height);
+        GenerateGrid(width, height);
         SpawnPlayer();
     }
 
@@ -83,7 +81,7 @@ public class TestMapGenerator : MonoBehaviour
 
     }
 
-    public void GenerateTestingGrid(int width, int height)
+    public override void GenerateGrid(int width, int height)
     {
         var mapWidth = width;
         var mapHeight = height;
