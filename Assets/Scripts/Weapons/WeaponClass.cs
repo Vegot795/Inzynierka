@@ -19,6 +19,7 @@ public class WeaponClass : MonoBehaviour
     private Vector3 muzzlePos;
     private Vector3 spawnPos;
     public WeaponData weaponData;
+    public CharacterBase playerController;
 
 
     public virtual void Initialize(WeaponData data)

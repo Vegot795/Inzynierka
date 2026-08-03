@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public enum CharacterType
 {
     Player,
-    Enemy
+    Enemy,
+    Neutral
 }
 
 public class CharacterBase : MonoBehaviour
@@ -25,6 +26,10 @@ public class CharacterBase : MonoBehaviour
     public CircleCollider2D col;
 
     private List<StatusEffect> activeEffects = new List<StatusEffect>();
+    private List<CharacterBase> attackers = new List<CharacterBase>();
+    private CharacterBase lastAttacker;
+    private float timeToResetAttackers = 30f;
+
 
     private void Update()
     {
@@ -38,17 +43,29 @@ public class CharacterBase : MonoBehaviour
         DetermineCharacterType();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, CharacterBase? attacker)
     {
         CurrentHp -= damage;
-        //Debug.Log($"[{gameObject.name}] Took {damage} damage. Current HP: {CurrentHp}");
+
+        if (attacker != null && !attackers.Contains(attacker))
+        {
+            attackers.Add(attacker);
+            StartCoroutine(ResetAttackers());
+        }
+        lastAttacker = attacker;
+
         if (CurrentHp <= 0)
         {
-            Die();
+            Die(attacker);
         }
     }
+    public IEnumerator ResetAttackers()
+    {
+        yield return new WaitForSeconds(timeToResetAttackers);
+        attackers.Clear();
+    }
 
-    protected virtual void Die()
+    protected virtual void Die(CharacterBase killer)
     {
         Destroy(gameObject);
     }

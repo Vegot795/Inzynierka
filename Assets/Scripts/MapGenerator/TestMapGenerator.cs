@@ -29,6 +29,7 @@ public class TestMapGenerator : MonoBehaviour
     [SerializeField] private EnvironmentData[] roomEnvironment;
     private readonly List<GridCell> emptyCells = new List<GridCell>();
     private GridCell[,] grid;
+    public GridCell[,] Grid => grid;
 
     public  void Start()
     {
@@ -75,12 +76,10 @@ public class TestMapGenerator : MonoBehaviour
         }
 
         PC = Instantiate(playerPrefab, new Vector3(startX, startY, 0), Quaternion.identity);
-        Instantiate(HUD, Vector3.zero, Quaternion.identity);
 
         ccCamera.Target.TrackingTarget = PC.transform;
+        Instantiate(HUD, Vector3.zero, Quaternion.identity);
         
-        PlayerInventory eq = PC.GetComponent<PlayerInventory>();
-        //eq.PickupWeapon(eq.startingWeapon.GetComponent<WeaponPickup>());
 
     }
 

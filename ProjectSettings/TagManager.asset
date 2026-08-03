@@ -9,6 +9,7 @@ TagManager:
   - AmmoDisplay
   - hpDisplay
   - miniGrenade
+  - ScoreDisplay
   layers:
   - Default
   - TransparentFX

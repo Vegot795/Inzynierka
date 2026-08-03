@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 638216328716960959}
   - component: {fileID: 1932478594143146570}
-  - component: {fileID: 4091714860416182758}
   - component: {fileID: 3189862873204207995}
+  - component: {fileID: 3584922899273350568}
   m_Layer: 0
   m_Name: KasketPrefab
   m_TagString: Untagged
@@ -89,25 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4091714860416182758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7677928584485673106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc8bacce7bb7c844d9f4d15b59203b1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  explosionRadius: 1
-  moveSpeed: 15
-  isThrown: 0
-  miniGrenCount: 8
-  animator: {fileID: 3189862873204207995}
-  miniGrenadePrefab: {fileID: 2892383039622883421, guid: d54108b8e39473240b690cabbbe0f343, type: 3}
 --- !u!95 &3189862873204207995
 Animator:
   serializedVersion: 7
@@ -130,3 +111,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3584922899273350568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7677928584485673106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0cf8e61961fb9479bc10af9502502f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  explosionRadius: 1
+  moveSpeed: 15
+  isThrown: 0
+  miniGrenCount: 8
+  animator: {fileID: 3189862873204207995}
+  targetPosition: {x: 0, y: 0}
+  grenadeData: {fileID: 0}
+  grenadeType: 0
+  miniGrenadePrefab: {fileID: 2892383039622883421, guid: d54108b8e39473240b690cabbbe0f343, type: 3}
+  playerController: {fileID: 0}

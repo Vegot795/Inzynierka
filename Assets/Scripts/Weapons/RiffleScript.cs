@@ -17,9 +17,12 @@ public class RiffleScript : WeaponClass
         projectileSpeed = weaponData.projectileSpeed;
         fireRate = weaponData.fireRate;
         projectilePrefab = weaponData.projectilePrefab;
+        playerController = GetComponentInParent<CharacterBase>();
+
 
         Reload();
         base.lastFireTime = -fireRate; // Allow immediate first shot
+
     }
 
     public override void Shoot(Vector2 direction)
@@ -34,7 +37,7 @@ public class RiffleScript : WeaponClass
 
         Vector2 shootDirection = direction.normalized;
         GameObject newProjectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-        newProjectile.GetComponent<ProjectileScript>().Initialize(damage, transform.parent.parent.gameObject);
+        newProjectile.GetComponent<ProjectileScript>().Initialize(damage, playerController);
         Rigidbody2D rb = newProjectile.GetComponent<Rigidbody2D>();
         
         if (newProjectile == null)

@@ -54,6 +54,11 @@ public class PlayerInventory : MonoBehaviour
         }
         indicator = GetComponent<GrenadeGizmoController>();
         weaponClass = GetComponentInChildren<WeaponClass>();
+
+        if (weaponHolder == null)
+        {
+            weaponHolder = GetComponentInChildren<WeaponHolder>();
+        }
     }
 
     private void OnDestroy()
@@ -78,9 +83,20 @@ public class PlayerInventory : MonoBehaviour
 
         if (startingWeapon != null)
         {
-            currentWeapon = startingWeapon;
-            weaponHolder.EquipWeapon(currentWeapon);
-            SetWeaponScriptReferences(currentWeapon);
+            if (weaponHolder == null)
+            {
+                Debug.LogWarning("[Inventory] WeaponHolder nieprzypisany - nie mozna wyposazyc broni startowej.");
+            }
+            else
+            {
+                currentWeapon = startingWeapon;
+                weaponHolder.EquipWeapon(currentWeapon);
+                SetWeaponScriptReferences(currentWeapon);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[Inventory] Bron startowa nieprzypisana na prefabie gracza.");
         }
 
         if (stastingGrenade != null)
@@ -132,7 +148,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void DropWeapon()
     {
-        Vector2 dropPos = (Vector2)transform.position + GetDropOffset();
+        Vector2 dropPos = (Vector2)transform.position;
         var weaponPickup = WeaponPickup.SpawnFromData(currentWeapon, dropPos);
         currentWeapon = null;
         weaponHolder.UnequipWeapon();

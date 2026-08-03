@@ -6,17 +6,17 @@ public class ProjectileScript : MonoBehaviour
     public float damage;
     public float time;
     public Collider2D col;
-    public GameObject shooter { get; private set; }
+    public CharacterBase shooter { get; private set; }
 
     private void Start()
     {
         col = GetComponent<Collider2D>();
     }
 
-    public void Initialize(float weaponDamage, GameObject shooterObject)
+    public void Initialize(float weaponDamage, CharacterBase shooterCharacter)
     {
         damage = weaponDamage;
-        shooter = shooterObject;
+        shooter = shooterCharacter;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,7 +33,7 @@ public class ProjectileScript : MonoBehaviour
             CharacterBase character = collision.GetComponent<CharacterBase>();
             if (character != null)
             {
-                character.TakeDamage(damage);
+                character.TakeDamage(damage, shooter);
             }
             Destroy(gameObject);
         }

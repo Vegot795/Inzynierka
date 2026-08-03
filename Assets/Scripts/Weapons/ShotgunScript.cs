@@ -26,6 +26,7 @@ public class ShotgunScript : WeaponClass
         currentAmmo = maxAmmo;
         muzzleSR = muzzle.GetComponent<SpriteRenderer>();
         muzzleSR.enabled = false;
+        playerController = GetComponentInParent<CharacterBase>();
 
     }
     public override void Shoot(Vector2 direction)
@@ -42,7 +43,7 @@ public class ShotgunScript : WeaponClass
         {
             foreach (GameObject enemy in enemiesInRange)
             {
-                enemy.GetComponent<CharacterBase>().TakeDamage(damage);
+                enemy.GetComponent<CharacterBase>().TakeDamage(damage, playerController);
             }
         }
         base.currentAmmo--;

@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class EnemyController : CharacterBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int scoreValue = 100;
+    protected override void Die(CharacterBase killer)
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Destroy(gameObject);
+        killer.GetComponent<ScoreSystem>()?.AddScore(scoreValue);
     }
 }

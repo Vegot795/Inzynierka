@@ -95,10 +95,10 @@ public class PC_Controller : CharacterBase
         return direction;
     }
 
-    protected override void Die()
+    protected override void Die(CharacterBase killer)
     {
         Debug.Log("[Player] Player died! Game Over!");
 
-        base.Die();
+        base.Die(killer);
     }
 }
