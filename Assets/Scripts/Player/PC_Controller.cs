@@ -22,6 +22,7 @@ public class PC_Controller : CharacterBase
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         MoveSpeed = 10f;
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     void Update()

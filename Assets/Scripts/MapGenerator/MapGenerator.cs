@@ -20,7 +20,7 @@ public class MapGenerator : MonoBehaviour
     public List<Corridor> corridorList = new List<Corridor>();
 
 
-    [SerializeField] private EnvironmentData[] roomEnvironment;
+    [SerializeField] protected EnvironmentData[] roomEnvironment;
 
     private EnvironmentData[] notUsedRoomEnvironments;
     private List<Room> roomList;

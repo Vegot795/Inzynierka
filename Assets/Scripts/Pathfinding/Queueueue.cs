@@ -1,17 +1,15 @@
-using NUnit.Framework;
-using UnityEditor.Search;
-using UnityEngine;
+using System.Collections.Generic;
 
 public class Queueueue<T> where T : System.IComparable<T>
 {
     private List<T> nodes = new List<T>();
     public int Count => nodes.Count;
-    public void Enqueueueue (T node)
+    public void Enqueueueue(T node)
     {
         nodes.Add(node);
         int childIdx = nodes.Count - 1;
 
-        while (childIdx >= 0)
+        while (childIdx > 0)
         {
             int parentIdx = (childIdx - 1) / 2;
             if (nodes[childIdx].CompareTo(nodes[parentIdx]) >= 0)
@@ -23,8 +21,6 @@ public class Queueueue<T> where T : System.IComparable<T>
             childIdx = parentIdx;
         }
     }
-
-    public 
 
     public T Dequeueueue()
     {

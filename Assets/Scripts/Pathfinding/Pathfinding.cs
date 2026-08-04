@@ -1,20 +1,27 @@
-using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Pathfinding : MonoBehaviour
 {
+    public bool smoothPath = true;
+
     private GridAdapter gridAdapter;
 
     private void Awake()
     {
-        gridAdapter = GetComponent<GridAdapter>();
-
+        gridAdapter = FindAnyObjectByType<GridAdapter>();
     }
 
     public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 targetWorldPos)
     {
-        Node startNode = gridAdapter.GetNodeFromWorldPosition(startWorldPos);
-        Node targetNode = gridAdapter.GetNodeFromWorldPosition(targetWorldPos);
+        if (gridAdapter == null)
+        {
+            Debug.LogError("[Pathfinding] No active GridAdapter found in the scene.", this);
+            return null;
+        }
+
+        Node startNode = gridAdapter.NodeCordInWorld(startWorldPos);
+        Node targetNode = gridAdapter.NodeCordInWorld(targetWorldPos);
         if (startNode == null || targetNode == null)
         {
             Debug.LogWarning("Start or target node is null.");
@@ -35,6 +42,12 @@ public class Pathfinding : MonoBehaviour
         while (openSet.Count > 0)
         {
             Node currentNode = openSet.Dequeueueue();
+
+            if (closedSet.Contains(currentNode))
+            {
+                continue;
+            }
+
             openSetLookup.Remove(currentNode);
             closedSet.Add(currentNode);
 
@@ -51,18 +64,15 @@ public class Pathfinding : MonoBehaviour
                 }
 
                 int estimatedGCost = currentNode.GCost + GetDistance(currentNode, neighbor);
-                bool inOpenSet = openSetLookup.Contains(neighbor);
 
-                if(estimatedGCost < neighbor.GCost || !inOpenSet)
+                if (estimatedGCost < neighbor.GCost || !openSetLookup.Contains(neighbor))
                 {
                     neighbor.GCost = estimatedGCost;
                     neighbor.HCost = GetDistance(neighbor, targetNode);
                     neighbor.Parent = currentNode;
-                    if (!inOpenSet)
-                    {
-                        openSet.Enqueueueue(neighbor);
-                        openSetLookup.Add(neighbor);
-                    }
+
+                    openSetLookup.Add(neighbor);
+                    openSet.Enqueueueue(neighbor);
                 }
             }
         }
@@ -71,21 +81,72 @@ public class Pathfinding : MonoBehaviour
 
     private List<Vector3> RetracePath(Node startNode, Node endNode)
     {
-        var path = new List<Vector3>();
+        var nodePath = new List<Node>();
         Node currentNode = endNode;
         while (currentNode != startNode)
         {
-            path.Add(currentNode.worldPosition);
+            nodePath.Add(currentNode);
             currentNode = currentNode.Parent;
         }
+        nodePath.Add(startNode);
+        nodePath.Reverse();
 
-        path.Reverse();
+        if (smoothPath)
+        {
+            nodePath = SmoothPath(nodePath);
+        }
+
+        var path = new List<Vector3>();
+        for (int i = 1; i < nodePath.Count; i++)
+        {
+            path.Add(nodePath[i].worldPosition);
+        }
         return path;
+    }
+
+    private List<Node> SmoothPath(List<Node> nodePath)
+    {
+        var smoothed = new List<Node> { nodePath[0] };
+        int current = 0;
+
+        while (current < nodePath.Count - 1)
+        {
+            int farthest = current + 1;
+
+            for (int i = nodePath.Count - 1; i > current + 1; i--)
+            {
+                if (gridAdapter.HasLineOfSight(nodePath[current], nodePath[i]))
+                {
+                    farthest = i;
+                    break;
+                }
+            }
+
+            smoothed.Add(nodePath[farthest]);
+            current = farthest;
+        }
+
+        return smoothed;
     }
 
     private int GetDistance(Node nodeA, Node nodeB)
     {
-        int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
-        int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
+        int dstX = Mathf.Abs(nodeA.x - nodeB.x);
+        int dstY = Mathf.Abs(nodeA.y - nodeB.y);
+
         if (dstX > dstY)
+        {
+            return 14 * dstY + 10 * (dstX - dstY);
+        }
+        return 14 * dstX + 10 * (dstY - dstX);
+    }
+
+    public Node CellFromWorldPoint(Vector3 worldPoint)
+    {
+        if (gridAdapter == null)
+        {
+            return null;
+        }
+        return gridAdapter.NodeCordInWorld(worldPoint);
+    }
 }

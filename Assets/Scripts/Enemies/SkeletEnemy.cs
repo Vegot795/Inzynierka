@@ -13,4 +13,6 @@ public class SkeletEnemy : MonoBehaviour
     {
         
     }
+
+    // Dodać umiejętność bariera, która nakazuje graczu wejść do niej aby zaatakować szkielet.
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Room
@@ -252,7 +253,8 @@ public class Room
             {
                 continue;
             }
-
+            cell.AddComponent<BoxCollider2D>();
+            cell.gameObject.layer = LayerMask.NameToLayer("Wall");
             bool isLeft = cell.x == bounds.xMin;
             bool isRight = cell.x == bounds.xMax - 1;
             bool isBottom = cell.y == bounds.yMin;

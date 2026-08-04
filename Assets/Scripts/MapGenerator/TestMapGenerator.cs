@@ -1,16 +1,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 
 public class TestMapGenerator : MapGenerator
 {
+    [Header("MapSettings")]
+    public bool spawnTestingEnemy;
+    public float spawnDistance = 5;
+    public int spawnEnemyCount = 1;
+
+
     public int height = 10;
     public int width = 10;
-    public Grid gridMap;
-    public GameObject gridCellPref;
     public Vector2 StartPoint;
     public GameObject playerPrefab;
     public GameObject HUD;
@@ -19,6 +24,7 @@ public class TestMapGenerator : MapGenerator
     public GameObject shotgunPrefab;
     public WeaponType weaponType;
     public GameObject PC;
+    public GameObject enemyPrefab;
 
     public enum WeaponType
     {
@@ -26,13 +32,16 @@ public class TestMapGenerator : MapGenerator
         Shotgun
     }
 
-    [SerializeField] private EnvironmentData[] roomEnvironment;
     private readonly List<GridCell> emptyCells = new List<GridCell>();
 
     public override void Start()
     {
         GenerateGrid(width, height);
         SpawnPlayer();
+        if (spawnTestingEnemy)
+        {
+            SpawnTestingEnemy(PC.transform.position, spawnDistance, spawnEnemyCount);
+        }
     }
 
     public void GiveStartingGear(WeaponType weapon)
@@ -121,11 +130,38 @@ public class TestMapGenerator : MapGenerator
                 grid[x, y] = newCell;
                 emptyCells.Add(newCell);
             }
-        }
-
-         
+        }         
 
         Debug.Log($"Grid generated with dimensions: {width}x{height}. Cell count: {emptyCells.Count}");
+    }
+
+    public void SpawnTestingEnemy(Vector3 targetPosition, float targetDistance, int targetCount)
+    {
+
+        if (enemyPrefab == null)
+        {
+            Debug.LogError("[TestMapGenerator] enemyPrefab is not assigned in the Inspector.");
+            return;
+        }
+
+        Pathfinding sharedPathfinder = GetComponent<Pathfinding>();
+        if (sharedPathfinder == null)
+        {
+            Debug.LogError("[TestMapGenerator] No Pathfinding component on the generator object.", this);
+            return;
+        }
+
+        for (int i = 0; i < targetCount; i++)
+        {
+            Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-targetDistance, targetDistance), Random.Range(-targetDistance, targetDistance), 0);
+            GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+
+            ZombieEnemy zombie = newEnemy.GetComponent<ZombieEnemy>();
+            if (zombie != null)
+            {
+                zombie.pathfinder = sharedPathfinder;
+            }
+        }
     }
 
 }

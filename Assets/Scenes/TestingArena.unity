@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 1710069177}
   m_Layer: 0
   m_Name: GameController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -441,10 +441,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f7e3bf02f3c4f54abd51e464da45400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 50
-  width: 50
+  iterations: 4
+  roomCount: 0
+  corridorCount: 0
+  mapWidth: 0
+  mapHeight: 0
   gridMap: {fileID: 590755294}
   gridCellPref: {fileID: 2067434155583067138, guid: 4dd03261db878af4794c0a6e7f5d1c61, type: 3}
+  roomEnvironment:
+  - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
+  - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
+  spawnTestingEnemy: 0
+  spawnDistance: 5
+  spawnEnemyCount: 1
+  height: 50
+  width: 50
   StartPoint: {x: 25, y: 25}
   playerPrefab: {fileID: 3605315496584586624, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
   HUD: {fileID: 3247313071389218337, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
@@ -453,9 +464,7 @@ MonoBehaviour:
   shotgunPrefab: {fileID: 1007454340570493685, guid: 817955259102adb4aac717bf07fc1a42, type: 3}
   weaponType: 0
   PC: {fileID: 0}
-  roomEnvironment:
-  - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
-  - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
+  enemyPrefab: {fileID: 0}
 --- !u!4 &1710069178
 Transform:
   m_ObjectHideFlags: 0
