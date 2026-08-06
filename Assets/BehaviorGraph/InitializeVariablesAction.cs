@@ -13,7 +13,8 @@ public partial class InitializeVariablesAction : Action
 
     protected override Status OnStart()
     {
-        GameObject gameController = GameObject.FindWithTag("GameController")
+        GameObject gameController = GameObject.FindWithTag("GameController");
+        return Status.Success;
     }
 
     protected override Status OnUpdate()
