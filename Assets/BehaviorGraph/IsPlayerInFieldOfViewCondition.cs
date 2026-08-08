@@ -14,7 +14,6 @@ public partial class IsPlayerInFieldOfViewCondition : Condition
         {
             return false;
         }
-        return true;
 
         EnemyClass enemy = Agent.Value.GetComponent<EnemyClass>();
         return enemy != null && enemy.targetCharacter != null;

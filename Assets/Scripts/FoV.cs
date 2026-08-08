@@ -103,9 +103,7 @@ public class FoV : MonoBehaviour
             {
                 enemy.targetCharacter = null;
             }
-        }
-
-        
+        }        
 
         mesh.Clear();
         mesh.vertices = vertices;

@@ -417,7 +417,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
-      insertIndex: -1
+      insertIndex: 5
       addedObject: {fileID: 1717273318}
   m_SourcePrefab: {fileID: 100100000, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
 --- !u!1 &619394800
@@ -2710,6 +2710,17 @@ CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: 3391511834630576199, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
   m_PrefabInstance: {fileID: 4052161629329876330}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1470460520 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2680856534538523810, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
+  m_PrefabInstance: {fileID: 4052161629329876330}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8a5a8da306321419951ccb3d016ec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1669669810
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3076,6 +3087,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4208527652421629443, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 1470460520}
     - target: {fileID: 8942946852217788315, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.58001
@@ -3117,7 +3132,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 786949975995789034, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}

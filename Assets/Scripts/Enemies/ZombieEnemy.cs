@@ -6,7 +6,6 @@ public class ZombieEnemy : EnemyClass
     public int zombieScoreValue = 100;
 
 
-    public float repathInterval = 0.5f;
 
 
 

@@ -25,6 +25,7 @@ public class TestMapGenerator : MapGenerator
     public WeaponType weaponType;
     public GameObject PC;
     public GameObject enemyPrefab;
+    public List<GameObject> enemyList;
 
     public enum WeaponType
     {
@@ -153,15 +154,24 @@ public class TestMapGenerator : MapGenerator
 
         for (int i = 0; i < targetCount; i++)
         {
-            Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-targetDistance, targetDistance), Random.Range(-targetDistance, targetDistance), 0);
-            GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            try 
+            { 
+                Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-targetDistance, targetDistance), Random.Range(-targetDistance, targetDistance), 0);
+                GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
-            ZombieEnemy zombie = newEnemy.GetComponent<ZombieEnemy>();
-            if (zombie != null)
+                ZombieEnemy zombie = newEnemy.GetComponent<ZombieEnemy>();
+                if (zombie != null)
+                {
+                    zombie.pathfinder = sharedPathfinder;
+                }
+                enemyList.Add(newEnemy);
+            }
+            catch (System.Exception ex)
             {
-                zombie.pathfinder = sharedPathfinder;
+                Debug.LogError($"[TestMapGenerator] Failed to spawn enemy {i + 1}/{targetCount}: {ex.Message}");
             }
         }
+        Debug.Log($"Spawned {enemyList.Count} testing enemies around position {targetPosition} within distance {targetDistance}.");
     }
 
 }

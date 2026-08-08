@@ -12,6 +12,11 @@ public class EnemyClass : CharacterBase
     public float lostIntrestTime = 10f;
     public Pathfinding pathfinder;
     public FoV fov;
+    public float repathInterval = 0.5f;
+    public int attempts = 3;
+    public float minDistance = 1f;
+    public float timer;
+
 
     public List<Vector3> currentPath;
     public int pathIndex;
@@ -21,6 +26,15 @@ public class EnemyClass : CharacterBase
     {
         base.characterType = CharacterType.Enemy;
         gameObject.layer = LayerMask.NameToLayer("Enemy");
+    }
+    void Update()
+    {
+        WalkAccordingToPath();
+
+        if (targetCharacter == null)
+        {
+            StartLoseIntrestDelay();
+        }
     }
 
     public virtual void Attack()
@@ -35,15 +49,23 @@ public class EnemyClass : CharacterBase
         killer.GetComponent<ScoreSystem>()?.AddScore(scoreValue);
     }
 
-    public void StartLostIntrestDelay()
+    public void StartLoseIntrestDelay()
     {
-        float timer = lostIntrestTime;
-        timer = timer - Time.deltaTime;
-        if(timer <= 0)
+        if (targetCharacter == null)
         {
-            lastSpottedPosition = null;
-        }
+            if(lastSpottedPosition == null)
+            {
+                Debug.Log($"[EnemyClass] - No lastSpottedPosition to go to.");
+                return;
+            }
 
+            targetCharacter.position = lastSpottedPosition;
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                lastSpottedPosition = null;
+            }
+        }
     }
 
     void RequestNewPath()
@@ -65,33 +87,33 @@ public class EnemyClass : CharacterBase
         pathIndex = 0;
     }
 
-    public Vector3 FindRandomPointToWalkTo()
+    public Vector3? FindRandomPointToWalkTo(int attempts, float minDistance)
     {
-        var centralPoint = transform.position;
-        /*
-        var distance = base.viewDistance;
-
-        Node cell;
-        
-        Vector3 randomPosition = new Vector3(centralPoint.x + Random.Range(-distance, distance), centralPoint.y + Random.Range(-distance, distance), 0);
-        var destination = pathfinder.CellFromWorldPoint(randomPosition);
-
-        if (destination == null)
+        if (pathfinder == null)
         {
-            return centralPoint;
+            Debug.Log($"[EnemyClass] - Pathfinder is null.");
+            return null;
         }
 
-        cell = pathfinder.CellFromWorldPoint(randomPosition);
-
-        if (cell.walkable)
+        var centralPoint = transform.position;
+        
+        for (int i = 0; i < attempts; i++)
         {
-            return cell.worldPosition;
-        }*/
+            Vector3 randomPosition = new Vector3(centralPoint.x + Random.Range(-viewDistance, viewDistance), centralPoint.y + Random.Range(-viewDistance, viewDistance), 0);
 
-        return centralPoint;
+            Node cell = pathfinder.CellFromWorldPoint(randomPosition);
+
+            if (cell.walkable || cell == null || Vector3.Distance(centralPoint, randomPosition) < minDistance)
+            {
+                continue;
+            }
+            return cell.worldPosition;
+        }
+        return null;
     }
 
-    void Update()
+
+    public void WalkAccordingToPath()
     {
         repathTimer -= Time.deltaTime;
         if (repathTimer <= 0f)
@@ -99,13 +121,10 @@ public class EnemyClass : CharacterBase
             RequestNewPath();
         }
 
-        if (currentPath == null || pathIndex >= currentPath.Count)
+        if (currentPath != null && pathIndex >= currentPath.Count)
         {
-            if (targetCharacter == null)
-            {
-                targetLocation = null;
-                lastSpottedPosition = null;
-            }
+            targetLocation = null;
+            currentPath = null;
             return;
         }
 
@@ -116,6 +135,20 @@ public class EnemyClass : CharacterBase
         {
             pathIndex++;
         }
+    }
+    /// <summary>
+    /// Moves the enemy to a specified cell or a random cell if no target is provided. If the enemy is already moving towards a target, it will not change its destination.
+    /// </summary>
+    /// <param name="targetCell"></param>
+    public void GoToCell(Vector3? targetCell)
+    {
+        if (targetLocation != null)
+        {
+            return; 
+        }
+
+        targetLocation = targetCell;
+        repathTimer = 0f;
     }
 
 }

@@ -1,8 +1,9 @@
 using System;
 using Unity.Behavior;
+using Unity.Properties;
+using UnityEditor;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
-using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Sets target location based on lastSpottedLocation", story: "Sets new targetLocation for enemy to follow", category: "Action", id: "444f6d2f2fd57b2074305b90297bf971")]
@@ -29,7 +30,22 @@ public partial class SetNewTargetLocationAction : Action
             return Status.Failure;
         }
 
-        enemy.targetLocation = enemy.lastSpottedPosition;
-        return Status.Success;
+
+        enemy.GoToCell(enemy.lastSpottedPosition);
+        return enemy.targetLocation != null ? Status.Running : Status.Failure;
+
+    }
+
+    protected override Status OnUpdate()
+    {
+        EnemyClass enemy = Agent.Value.GetComponent<EnemyClass>();
+
+        if (enemy == null)
+        {
+            return Status.Failure;
+        }
+
+
+        return enemy.targetLocation != null ? Status.Running : Status.Success;
     }
 }

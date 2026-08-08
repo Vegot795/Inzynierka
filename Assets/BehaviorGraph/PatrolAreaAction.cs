@@ -10,43 +10,40 @@ using UnityEditor;
 [NodeDescription(name: "Patrol area", story: "Enemy will patrol area until it sees player", category: "Action", id: "f043c4cce82b9f675cfb43893f3b0457")]
 public partial class PatrolAreaAction : Action
 {
-    [SerializeField] public BlackboardVariable<GameObject> Agent;
-    [SerializeField] public BlackboardVariable<GameObject> Pathfinder;
+    [SerializeReference] public BlackboardVariable<GameObject> Agent;
 
 
     protected override Status OnStart()
     {
-        EnemyClass MobScript = Agent.Value.GetComponent<EnemyClass>();
-
         if (Agent == null || Agent.Value == null)
         {
             return Status.Failure;
         }
 
-        if (Pathfinder == null || Pathfinder.Value == null)
+        EnemyClass MobScript = Agent.Value.GetComponent<EnemyClass>();
+
+        if (MobScript == null || MobScript is not EnemyClass)
         {
             return Status.Failure;
         }
 
-        if (MobScript == null || MobScript is not )
-        {
-            return Status.Failure;
-        }
+        var randomPoint = MobScript.FindRandomPointToWalkTo(MobScript.attempts, MobScript.minDistance);
+        MobScript.GoToCell(randomPoint);
 
-        return Status.Running;
+        return MobScript.targetLocation != null ? Status.Running : Status.Failure;
     }
 
     protected override Status OnUpdate()
     {
         EnemyClass MobScript = Agent.Value.GetComponent<EnemyClass>();
-        MobScript.PatrolArea(Pathfinder.Value.transform.position, Pathfinder.Value.GetComponent<PatrolPath>().GetPatrolPoints());
+
+        if (MobScript == null)
+        {
+            return Status.Failure; 
+        }
 
 
-        return Status.Success;
-    }
-
-    protected override void OnEnd()
-    {
+        return MobScript.targetLocation != null ? Status.Running : Status.Success;
     }
 }
 
