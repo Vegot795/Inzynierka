@@ -422,6 +422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1710069178}
   - component: {fileID: 1710069177}
+  - component: {fileID: 1710069179}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: GameController
@@ -453,7 +454,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
   spawnTestingEnemy: 0
   spawnDistance: 5
-  spawnEnemyCount: 1
+  spawnEnemyCount: 2
   height: 50
   width: 50
   StartPoint: {x: 25, y: 25}
@@ -465,6 +466,7 @@ MonoBehaviour:
   weaponType: 0
   PC: {fileID: 0}
   enemyPrefab: {fileID: 0}
+  enemyList: []
 --- !u!4 &1710069178
 Transform:
   m_ObjectHideFlags: 0
@@ -480,6 +482,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710069179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710069176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99413c313df0abb4fa875f1670e61e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapGenerator: {fileID: 1710069177}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
