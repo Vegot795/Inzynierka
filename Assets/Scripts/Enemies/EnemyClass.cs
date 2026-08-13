@@ -37,11 +37,13 @@ public class EnemyClass : CharacterBase
         }
     }
 
-    private void Awake()
+    public override void Awake()
     {
         base.characterType = CharacterType.Enemy;
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         rb = GetComponent<Rigidbody2D>();
+        fov = GetComponentInChildren<FoV>(true);
+        CurrentHp = MaxHp;
     }
     void Update()
     {

@@ -16,9 +16,9 @@ public class PC_Controller : CharacterBase
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     SpriteRenderer spriteRenderer;
 
-    protected override void Start() 
+    public override void Awake() 
     {
-        base.Start();
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         MoveSpeed = 10f;

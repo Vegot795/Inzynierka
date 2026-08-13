@@ -22,15 +22,16 @@ public class ProjectileScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log($"[Projectile] OnTriggerEnter2D called. Hit: {collision.gameObject.name}");
+        CharacterBase character = collision.GetComponent<CharacterBase>();
+
         if (shooter != null && collision.gameObject == shooter)
         {
             return;
         }
 
-        if (collision.CompareTag("Enemy"))
+        if (shooter != null && collision.gameObject != shooter)
         {
             Debug.Log($"[Projectile] Hit enemy: {collision.gameObject.name}");
-            CharacterBase character = collision.GetComponent<CharacterBase>();
             if (character != null)
             {
                 character.TakeDamage(damage, shooter);

@@ -3,19 +3,17 @@ using UnityEngine;
 
 public class ZombieEnemy : EnemyClass
 {
+    [Header("Zombie Stats")]
     public int zombieScoreValue = 100;
 
     private Collider2D attackCol;
 
 
 
-    protected override void Start()
+    public override void Awake()
     {
-        MaxHp = 100f;
-        CurrentHp = MaxHp;
-        MoveSpeed = 8f;
+        base.Awake();
         scoreValue = zombieScoreValue;
-        fov = GetComponentInChildren<FoV>(true);
         attackCol = transform.Find("AttackCollider").GetComponent<Collider2D>();
     }
 
@@ -43,5 +41,6 @@ public class ZombieEnemy : EnemyClass
         }
     }
 
+   
 
 }

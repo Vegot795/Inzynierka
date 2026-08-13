@@ -36,7 +36,7 @@ public class CharacterBase : MonoBehaviour
         TickEffect();
     }
 
-    protected virtual void Start()
+    public virtual void Awake()
     {
         col = GetComponent<CircleCollider2D>();
         CurrentHp = MaxHp;
