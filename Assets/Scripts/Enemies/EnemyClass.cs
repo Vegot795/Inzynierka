@@ -10,11 +10,9 @@ public class EnemyClass : CharacterBase
     public float attackCooldown = 1f;
     public int scoreValue;
     public float viewDistance = 6f;
-    public float lostIntrestTime = 10f;
     public float repathInterval = 0.5f;
     public int attempts = 3;
     public float minDistance = 1f;
-    public float timer;
 
     [Header("Character Components")]
     public Pathfinding pathfinder;
@@ -48,11 +46,6 @@ public class EnemyClass : CharacterBase
     void Update()
     {
         WalkAccordingToPath();
-
-        if (targetCharacter == null)
-        {
-            StartLoseIntrestDelay();
-        }
     }
 
     public virtual void Attack(CharacterBase target)
@@ -71,25 +64,6 @@ public class EnemyClass : CharacterBase
 
         Destroy(gameObject);
         killer.GetComponent<ScoreSystem>()?.AddScore(scoreValue);
-    }
-
-    public void StartLoseIntrestDelay()
-    {
-        if (targetCharacter == null)
-        {
-            if(lastSpottedPosition == null)
-            {
-                Debug.Log($"[EnemyClass] - No lastSpottedPosition to go to.");
-                return;
-            }
-
-            targetCharacter.position = (Vector3) lastSpottedPosition;
-            timer -= Time.deltaTime;
-            if (timer <= 0)
-            {
-                lastSpottedPosition = null;
-            }
-        }
     }
 
     void RequestNewPath()

@@ -7,7 +7,7 @@ public abstract class PickupBase : MonoBehaviour
     public float pickupRadius = 0.6f;
     protected PickupOutline outline;
 
-    protected virtual void Awake()
+    public virtual void Awake()
     {
         outline = GetComponent<PickupOutline>();
     }

@@ -9,7 +9,7 @@ public class ZombieEnemy : EnemyClass
 
 
 
-    void Start()
+    protected override void Start()
     {
         MaxHp = 100f;
         CurrentHp = MaxHp;
