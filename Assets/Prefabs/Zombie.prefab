@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -443880750228419532}
   - component: {fileID: 7788373236236326680}
   - component: {fileID: 9215528548592237936}
+  - component: {fileID: -5292560318568801215}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -107,21 +108,28 @@ MonoBehaviour:
   characterType: 0
   MaxHp: 0
   CurrentHp: 0
-  MoveSpeed: 8
+  MoveSpeed: 10
   isStunned: 0
   isSlowed: 0
   isFlashed: 0
   col: {fileID: 7788373236236326680}
+  canAttack: 1
+  Damage: 10
+  attackCooldown: 1
   scoreValue: 0
-  targetCharacter: {fileID: 0}
   viewDistance: 6
   lostIntrestTime: 10
+  repathInterval: 0.5
+  attempts: 3
+  minDistance: 1
+  timer: 0
   pathfinder: {fileID: 0}
   fov: {fileID: 0}
-  repathInterval: 0.5
+  targetCharacter: {fileID: 0}
   currentPath: []
   pathIndex: 0
   repathTimer: 0
+  rb: {fileID: 0}
   zombieScoreValue: 100
 --- !u!58 &7788373236236326680
 CircleCollider2D:
@@ -157,8 +165,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.328125
+  m_Offset: {x: 0, y: 0.06472081}
+  m_Radius: 0.2634042
 --- !u!114 &9215528548592237936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +196,33 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 470573528831612538}
+--- !u!50 &-5292560318568801215
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470573528831612538}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 5
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &4099116899343495320
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 8592095368727682526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.623, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -363,11 +398,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0008453727, y: -0.3009423}
+  m_Offset: {x: 0.0008453727, y: -0.27782774}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -377,5 +412,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.62635815, y: 0.10393596}
+  m_Size: {x: 0.62635815, y: 0.08852625}
   m_EdgeRadius: 0

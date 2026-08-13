@@ -3,7 +3,7 @@ using Unity.Behavior;
 using UnityEngine;
 
 [Serializable, Unity.Properties.GeneratePropertyBag]
-[Condition(name: "Is player in field of view", story: "Checks if enemy can see [player] in fov", category: "Conditions", id: "1804271ad19fcaa982799d880814522b")]
+[Condition(name: "Is player in field of view", story: "Checks if [Agent] can see targetCharacter in fov", category: "Conditions", id: "1804271ad19fcaa982799d880814522b")]
 public partial class IsPlayerInFieldOfViewCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
@@ -16,6 +16,16 @@ public partial class IsPlayerInFieldOfViewCondition : Condition
         }
 
         EnemyClass enemy = Agent.Value.GetComponent<EnemyClass>();
-        return enemy != null && enemy.targetCharacter != null;
+        //Debug.Log($"Enemy: {enemy}, TargetCharacter: {enemy?.targetCharacter}");
+        if (enemy == null || enemy.targetCharacter == null)
+        {
+            return false;
+        }
+        
+        if (enemy != null && enemy.targetCharacter != null)
+        {
+            return true;
+        }
+        return false;
     }
 }

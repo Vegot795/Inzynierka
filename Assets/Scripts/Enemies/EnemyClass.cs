@@ -4,28 +4,46 @@ using UnityEngine;
 
 public class EnemyClass : CharacterBase
 {
+    [Header("Enemy Class Stats")]
+    public bool canAttack = true;
+    public int Damage;
+    public float attackCooldown = 1f;
     public int scoreValue;
-    public Transform targetCharacter;
-    public Vector3? targetLocation;
-    public Vector3? lastSpottedPosition;
     public float viewDistance = 6f;
     public float lostIntrestTime = 10f;
-    public Pathfinding pathfinder;
-    public FoV fov;
     public float repathInterval = 0.5f;
     public int attempts = 3;
     public float minDistance = 1f;
     public float timer;
 
-
+    [Header("Character Components")]
+    public Pathfinding pathfinder;
+    public FoV fov;
+    public Transform targetCharacter;
+    public Vector3? targetLocation;
+    public Vector3? lastSpottedPosition;
     public List<Vector3> currentPath;
     public int pathIndex;
     public float repathTimer;
+    public Rigidbody2D rb;
+
+    public Pathfinding Pathfinder
+    {
+        get
+        {
+            if (pathfinder == null)
+            {
+                pathfinder = Pathfinding.Instance;
+            }
+            return pathfinder;
+        }
+    }
 
     private void Awake()
     {
         base.characterType = CharacterType.Enemy;
         gameObject.layer = LayerMask.NameToLayer("Enemy");
+        rb = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
@@ -37,9 +55,15 @@ public class EnemyClass : CharacterBase
         }
     }
 
-    public virtual void Attack()
+    public virtual void Attack(CharacterBase target)
     {
         return;
+    }
+
+    public IEnumerator<WaitForSeconds> AttackCooldownCoroutine(float cooldownTime)
+    {
+        yield return new WaitForSeconds(cooldownTime);
+        canAttack = true;
     }
 
     protected override void Die(CharacterBase killer)
@@ -59,7 +83,7 @@ public class EnemyClass : CharacterBase
                 return;
             }
 
-            targetCharacter.position = lastSpottedPosition;
+            targetCharacter.position = (Vector3) lastSpottedPosition;
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
@@ -96,15 +120,17 @@ public class EnemyClass : CharacterBase
         }
 
         var centralPoint = transform.position;
-        
+        Debug.Log($"[EnemyClass] - Central Point: {centralPoint}");
+
         for (int i = 0; i < attempts; i++)
         {
             Vector3 randomPosition = new Vector3(centralPoint.x + Random.Range(-viewDistance, viewDistance), centralPoint.y + Random.Range(-viewDistance, viewDistance), 0);
-
+            //Debug.Log($"[EnemyClass] - Random Position: {randomPosition}");
             Node cell = pathfinder.CellFromWorldPoint(randomPosition);
-
-            if (cell.walkable || cell == null || Vector3.Distance(centralPoint, randomPosition) < minDistance)
+            //Debug.Log($"[EnemyClass] - Cell: {cell?.worldPosition}, Walkable: {cell?.walkable}");
+            if (!cell.walkable || cell == null || Vector3.Distance(centralPoint, randomPosition) < minDistance)
             {
+                Debug.Log($"[EnemyClass] - Cell is not walkable or too close to the central point. Attempt {i + 1} of {attempts}.");
                 continue;
             }
             return cell.worldPosition;
@@ -121,7 +147,12 @@ public class EnemyClass : CharacterBase
             RequestNewPath();
         }
 
-        if (currentPath != null && pathIndex >= currentPath.Count)
+        if(currentPath == null)
+        {
+            return;
+        }
+
+        if (pathIndex >= currentPath.Count)
         {
             targetLocation = null;
             currentPath = null;
@@ -129,7 +160,7 @@ public class EnemyClass : CharacterBase
         }
 
         Vector3 destination = currentPath[pathIndex];
-        transform.position = Vector3.MoveTowards(transform.position, destination, MoveSpeed * Time.deltaTime);
+        rb.MovePositionAndRotation(Vector3.MoveTowards(transform.position, destination, MoveSpeed * Time.deltaTime), Quaternion.LookRotation(Vector3.forward, destination - transform.position));
 
         if (Vector3.Distance(transform.position, destination) < 0.05f)
         {
@@ -144,11 +175,13 @@ public class EnemyClass : CharacterBase
     {
         if (targetLocation != null)
         {
+            Debug.Log($"[EnemyClass] - Already moving towards a target. Current target: {targetLocation}");
             return; 
         }
 
         targetLocation = targetCell;
         repathTimer = 0f;
+        Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
     }
 
 }

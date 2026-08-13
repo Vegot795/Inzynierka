@@ -22,8 +22,8 @@ public partial class SetCharacterAsTargetAction : Action
             return Status.Failure;
         }
 
-        enemy.targetCharacter = fov.spotted.transform;
-        enemy.lastSpottedPosition = fov.spotted.transform.position;
+        enemy.targetLocation = enemy.targetCharacter.position;
+        enemy.lastSpottedPosition = enemy.targetCharacter.position;
 
         return Status.Success;
     }

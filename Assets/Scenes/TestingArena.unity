@@ -350,6 +350,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+      propertyPath: orthographic size
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -423,6 +427,7 @@ GameObject:
   - component: {fileID: 1710069178}
   - component: {fileID: 1710069177}
   - component: {fileID: 1710069179}
+  - component: {fileID: 1710069180}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: GameController
@@ -452,7 +457,7 @@ MonoBehaviour:
   roomEnvironment:
   - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
-  spawnTestingEnemy: 0
+  spawnTestingEnemy: 1
   spawnDistance: 5
   spawnEnemyCount: 2
   height: 50
@@ -465,7 +470,7 @@ MonoBehaviour:
   shotgunPrefab: {fileID: 1007454340570493685, guid: 817955259102adb4aac717bf07fc1a42, type: 3}
   weaponType: 0
   PC: {fileID: 0}
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
   enemyList: []
 --- !u!4 &1710069178
 Transform:
@@ -495,6 +500,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MapGenerator: {fileID: 1710069177}
+--- !u!114 &1710069180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710069176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330eae4fd3aba164da3f254eebd65e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothPath: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

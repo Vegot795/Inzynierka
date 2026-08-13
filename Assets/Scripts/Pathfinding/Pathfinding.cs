@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class Pathfinding : MonoBehaviour
 {
+    public static Pathfinding Instance { get; private set; }
     public bool smoothPath = true;
 
     private GridAdapter gridAdapter;

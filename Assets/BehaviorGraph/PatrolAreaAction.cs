@@ -26,8 +26,15 @@ public partial class PatrolAreaAction : Action
         {
             return Status.Failure;
         }
+        //Debug.Log("PatrolAreaAction: OnStart called for " + Agent.Value.name);
+        Vector3? randomPoint = null;
 
-        var randomPoint = MobScript.FindRandomPointToWalkTo(MobScript.attempts, MobScript.minDistance);
+        if (randomPoint == null || randomPoint == Vector3.zero)
+        {
+            randomPoint = MobScript.FindRandomPointToWalkTo(MobScript.attempts, MobScript.minDistance);
+            //Debug.Log("PatrolAreaAction: Random point to walk to: " + randomPoint);
+
+        }
         MobScript.GoToCell(randomPoint);
 
         return MobScript.targetLocation != null ? Status.Running : Status.Failure;
@@ -36,13 +43,20 @@ public partial class PatrolAreaAction : Action
     protected override Status OnUpdate()
     {
         EnemyClass MobScript = Agent.Value.GetComponent<EnemyClass>();
+        Debug.Log("PatrolAreaAction: OnUpdate called for " + Agent.Value.name);
 
         if (MobScript == null)
         {
+            //Debug.LogError("PatrolAreaAction: MobScript is null for " + Agent.Value.name);
             return Status.Failure; 
         }
 
+        if (MobScript.targetCharacter != null)
+        {
+            return Status.Failure;
+        }
 
+        //Debug.Log("PatrolAreaAction: Current target location: " + MobScript.targetLocation);
         return MobScript.targetLocation != null ? Status.Running : Status.Success;
     }
 }

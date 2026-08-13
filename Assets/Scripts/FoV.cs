@@ -80,6 +80,7 @@ public class FoV : MonoBehaviour
 
             if (hit.collider != null && hit.distance < spottedDistance)
             {
+                Debug.DrawLine(origin, hit.point, Color.red);
                 CharacterBase character = hit.collider.GetComponentInParent<CharacterBase>();
                 if (character != null && character != parent)
                 {
@@ -97,8 +98,7 @@ public class FoV : MonoBehaviour
             if (spotted != null)
             {
                 enemy.targetCharacter = spotted.transform;
-                enemy.lastSpottedPosition = spotted.transform.position;
-            }
+                enemy.lastSpottedPosition = spotted.transform.position;            }
             else
             {
                 enemy.targetCharacter = null;
@@ -112,8 +112,6 @@ public class FoV : MonoBehaviour
         mesh.triangles = triangles;
         mesh.RecalculateBounds();
     }
-
-
 
     public bool CanSee(Vector3 worldPoint)
     {
