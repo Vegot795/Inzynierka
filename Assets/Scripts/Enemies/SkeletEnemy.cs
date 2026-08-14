@@ -9,6 +9,8 @@ public class SkeletEnemy : EnemyClass
     public GameObject rod;
     public GameObject skeletProjectilePrefab;
     public float projectileSpeed;
+    public GameObject CallRange;
+    List <enemyZombie> helpers = new List<enemyZombie>();
 
 
     public override void Awake()
@@ -91,4 +93,28 @@ public class SkeletEnemy : EnemyClass
     * Umiejętność bariera: Skelet może stworzyć barierę, która ogranicza ruch gracza. Gracz musi wejść do bariery, aby zaatakować szkielet.
     */
 
+    private List<enemyZombie> CallForHelp() 
+{
+    var CallDistane = 10f;
+    var NeededMobs = 3f;
+
+    CircleCollider2D RangeCallCol = CallRange.AddComponent<CircleCollider2D>();
+    RangeCallCol.Range = 10f;
+    RangeCallCol.isTrigger = true;
+    
+
+}
+
+    private void OnTriggerEnter(Collider collision) 
+{
+
+
+
+    foreach(var collider in collision)
+    {
+        var col = collider.GetConponent<enemyZombie>()
+
+    helpers.Add(col)
+    }
+}
 }
