@@ -10,6 +10,7 @@ TagManager:
   - hpDisplay
   - miniGrenade
   - ScoreDisplay
+  - RangeDetector
   layers:
   - Default
   - TransparentFX

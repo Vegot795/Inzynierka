@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletEnemy : EnemyClass
@@ -5,19 +6,45 @@ public class SkeletEnemy : EnemyClass
     [Header("Skelet Stats")]
     public int skeletScoreValue = 300;
     public float attackRange = 5f;
+    public float callRange = 10f;
+    public int neededMobs = 3;
     public GameObject skeletProjectile;
     public GameObject rod;
     public GameObject skeletProjectilePrefab;
     public float projectileSpeed;
-    public GameObject CallRange;
-    List <enemyZombie> helpers = new List<enemyZombie>();
+    public GameObject CallRangeObject;
+    CircleCollider2D RangeCallCol;
+    public GameObject WallSpotObject;
+    public GameObject WallSpots;
+    public Vector3 playerTargetLocation;
+    public List<ZombieEnemy> zombiesCalled;
+
+    public bool isBeingProtected = false;
 
 
     public override void Awake()
     {
         base.Awake();
+
+        if (CallRangeObject == null)
+        {
+            CallRangeObject = transform.Find("RangeCallCol").gameObject;
+        }
+        if (WallSpots == null)
+        { 
+            WallSpots = transform.Find("WallSpots").gameObject;
+        }
         scoreValue = skeletScoreValue;
         rod = transform.Find("Rod").gameObject;
+        RangeCallCol = CallRangeObject.GetComponent<CircleCollider2D>();
+        RangeCallCol.radius = callRange;
+        RangeCallCol.isTrigger = true;
+    }
+
+    public override void Attack(CharacterBase target)
+    {
+        Vector2 direction = target.transform.position - transform.position;
+        PlayShootAnimation(direction);
     }
 
     public void ShootProjectile(Vector2 direction)
@@ -93,28 +120,64 @@ public class SkeletEnemy : EnemyClass
     * Umiejętność bariera: Skelet może stworzyć barierę, która ogranicza ruch gracza. Gracz musi wejść do bariery, aby zaatakować szkielet.
     */
 
-    private List<enemyZombie> CallForHelp() 
-{
-    var CallDistane = 10f;
-    var NeededMobs = 3f;
-
-    CircleCollider2D RangeCallCol = CallRange.AddComponent<CircleCollider2D>();
-    RangeCallCol.Range = 10f;
-    RangeCallCol.isTrigger = true;
-    
-
-}
-
-    private void OnTriggerEnter(Collider collision) 
-{
-
-
-
-    foreach(var collider in collision)
+    public void CallForHelp()
     {
-        var col = collider.GetConponent<enemyZombie>()
+        var zombiesAround = CallRangeObject.GetComponent<SkeletHelpCaller>().zombiesAround;
+        var closestZombie = new ZombieEnemy[neededMobs];
+        List<(EnemyClass, float)> zombieDistances = new List<(EnemyClass, float)>();
 
-    helpers.Add(col)
+        foreach (var zombie in zombiesAround)
+        {
+            float distance = Vector3.Distance(zombie.transform.position, transform.position);
+            zombieDistances.Add((zombie, distance));
+        }
+
+        zombieDistances.Sort((a, b) => a.Item2.CompareTo(b.Item2));
+        for (int i = 0; i < neededMobs-1; i++)
+        {
+            closestZombie[i] = (ZombieEnemy)zombieDistances[i].Item1;
+        }
+        var spawnSpots = CreateShieldSpots();
+
+        for (int i =0; i < spawnSpots.Count; i++)
+        {
+            closestZombie[i].spotLocation = spawnSpots[i].transform.position;
+            closestZombie[i].calledbySkeleton = true;
+            closestZombie[i].skeletonCaller = this;
+            zombiesCalled.Add(closestZombie[i]);
+        }
+        isBeingProtected = true;
     }
-}
+
+    public void CancelTheCall()
+    {
+        foreach (var zombie in zombiesCalled)
+        {
+            if (zombie != null)
+            {
+                zombie.calledbySkeleton = false;
+                zombie.skeletonCaller = null;
+                zombie.spotLocation = Vector3.zero;
+            }
+        }
+
+        zombiesCalled.Clear();
+        isBeingProtected = false;
+    }
+
+    private List<GameObject> CreateShieldSpots()
+    {
+        List<GameObject> shieldSpots = new List<GameObject>();
+        for (int i = 0; i < neededMobs; i++)
+        {
+            Vector3 spawnPosition = new Vector3(2, -(neededMobs / 2) + i + 0.5f, 0);
+            var spawnSpot = Instantiate(WallSpotObject);
+            spawnSpot.transform.localPosition = spawnPosition;
+            spawnSpot.transform.parent = WallSpots.transform;
+            shieldSpots.Add(spawnSpot);
+        }
+        return shieldSpots;
+    }
+
+    
 }

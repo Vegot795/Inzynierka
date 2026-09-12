@@ -7,6 +7,9 @@ public class ZombieEnemy : EnemyClass
     public int zombieScoreValue = 100;
 
     private Collider2D attackCol;
+    public bool calledbySkeleton = false;
+    public EnemyClass skeletonCaller;
+    public Vector3 spotLocation;
 
 
 
@@ -40,7 +43,5 @@ public class ZombieEnemy : EnemyClass
             Debug.Log($"{character.name} has been attacked, current HP: {character.CurrentHp}");
         }
     }
-
-   
 
 }

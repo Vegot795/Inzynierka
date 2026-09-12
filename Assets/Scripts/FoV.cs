@@ -129,30 +129,12 @@ public class FoV : MonoBehaviour
         return Physics2D.Raycast(origin, toTarget.normalized, distance, sightBlockerMask).collider == null;
     }
 
-    public bool CanSee(Transform target)
-    {
-        if (target == null)
-            return false;
-
-        Vector3 origin = transform.position;
-        Vector3 toTarget = target.position - origin;
-        toTarget.z = 0f;
-
-        float distance = toTarget.magnitude;
-        if (distance > viewDistance)
-            return false;
-
-        if (Vector3.Angle(transform.right, toTarget) > fov / 2f)
-            return false;
-
-        RaycastHit2D hit = Physics2D.Raycast(origin, toTarget.normalized, distance, sightBlockerMask);
-        return hit.collider == null || hit.collider.transform.IsChildOf(target);
-    }
-
     public void SetAimDirection(Vector3 worldDirection)
     {
         if (worldDirection.sqrMagnitude < 0.0001f)
+        { 
             return;
+        }
 
         float angle = Mathf.Atan2(worldDirection.y, worldDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);

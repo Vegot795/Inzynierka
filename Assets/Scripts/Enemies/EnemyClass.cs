@@ -160,4 +160,17 @@ public class EnemyClass : CharacterBase
         Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
     }
 
+    public void GetCellToGetInRange(Vector3 targetPosition, float minDistance)
+    {
+        Vector3? cellToGo = FindRandomPointToWalkTo(attempts, minDistance);
+        if (cellToGo != null)
+        {
+            GoToCell(cellToGo);
+        }
+        else
+        {
+            Debug.Log($"[EnemyClass] - No valid cell found to get in range of target at {targetPosition}");
+        }
+    }
+
 }
