@@ -24,7 +24,7 @@ public class TestMapGenerator : MapGenerator
     public GameObject shotgunPrefab;
     public WeaponType weaponType;
     public GameObject PC;
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefabs;
     public List<GameObject> enemyList;
 
     public enum WeaponType
@@ -139,7 +139,7 @@ public class TestMapGenerator : MapGenerator
     public void SpawnTestingEnemy(Vector3 targetPosition, float targetDistance, int targetCount)
     {
 
-        if (enemyPrefab == null)
+        if (enemyPrefabs == null)
         {
             Debug.LogError("[TestMapGenerator] enemyPrefab is not assigned in the Inspector.");
             return;
@@ -152,12 +152,12 @@ public class TestMapGenerator : MapGenerator
             return;
         }
 
-        for (int i = 0; i < targetCount; i++)
+        for (int i = 0; i < enemyPrefabs.Length; i++)
         {
             try 
             { 
                 Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-targetDistance, targetDistance), Random.Range(-targetDistance, targetDistance), 0);
-                GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                GameObject newEnemy = Instantiate(enemyPrefabs[i], spawnPosition, Quaternion.identity);
 
                 ZombieEnemy zombie = newEnemy.GetComponent<ZombieEnemy>();
                 if (zombie != null)

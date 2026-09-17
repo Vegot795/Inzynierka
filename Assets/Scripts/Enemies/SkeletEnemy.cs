@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkeletEnemy : EnemyClass
@@ -14,8 +15,9 @@ public class SkeletEnemy : EnemyClass
     public float projectileSpeed;
     public GameObject CallRangeObject;
     CircleCollider2D RangeCallCol;
-    public GameObject WallSpotObject;
+    //public GameObject WallSpotObject;
     public GameObject WallSpots;
+    public List<GameObject> WallSpotsList = new List<GameObject>();
     public Vector3 playerTargetLocation;
     public List<ZombieEnemy> zombiesCalled;
 
@@ -133,7 +135,7 @@ public class SkeletEnemy : EnemyClass
         }
 
         zombieDistances.Sort((a, b) => a.Item2.CompareTo(b.Item2));
-        for (int i = 0; i < neededMobs-1; i++)
+        for (int i = 0; i < neededMobs; i++)
         {
             closestZombie[i] = (ZombieEnemy)zombieDistances[i].Item1;
         }
@@ -168,14 +170,18 @@ public class SkeletEnemy : EnemyClass
     private List<GameObject> CreateShieldSpots()
     {
         List<GameObject> shieldSpots = new List<GameObject>();
-        for (int i = 0; i < neededMobs; i++)
+        if (WallSpotsList.Count != 0)
         {
-            Vector3 spawnPosition = new Vector3(2, -(neededMobs / 2) + i + 0.5f, 0);
-            var spawnSpot = Instantiate(WallSpotObject);
-            spawnSpot.transform.localPosition = spawnPosition;
-            spawnSpot.transform.parent = WallSpots.transform;
-            shieldSpots.Add(spawnSpot);
-        }
+            for (int i = 0; i < neededMobs; i++)
+            {
+                Vector3 spawnPosition = new Vector3(2, -(neededMobs / 2) + i + 0.5f, 0);
+                var spawnSpot = Instantiate(new GameObject());
+                spawnSpot.transform.parent = WallSpots.transform;
+                spawnSpot.transform.localPosition = spawnPosition;
+                WallSpotsList.Add(spawnSpot);
+                shieldSpots.Add(spawnSpot);
+            }
+        }        
         return shieldSpots;
     }
 

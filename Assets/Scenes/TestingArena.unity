@@ -352,7 +352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 2.328125
+      value: 3.3828125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -470,7 +470,11 @@ MonoBehaviour:
   shotgunPrefab: {fileID: 1007454340570493685, guid: 817955259102adb4aac717bf07fc1a42, type: 3}
   weaponType: 0
   PC: {fileID: 0}
-  enemyPrefab: {fileID: 2814517985326584477, guid: 9408248746e909b48a5928e2131d0d71, type: 3}
+  enemyPrefabs:
+  - {fileID: 2814517985326584477, guid: 9408248746e909b48a5928e2131d0d71, type: 3}
+  - {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
+  - {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
+  - {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
   enemyList: []
 --- !u!4 &1710069178
 Transform:

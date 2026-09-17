@@ -3,7 +3,7 @@ using Unity.Behavior;
 using UnityEngine;
 
 [Serializable, Unity.Properties.GeneratePropertyBag]
-[Condition(name: "IsCalledBySkeleton", story: "Is [self] called by skeleton to protect", category: "Conditions", id: "10dd2671044f6b6a3d0388d06ad1dd71")]
+[Condition(name: "IsCalledBySkeleton", story: "Is [Agent] called by skeleton to protect", category: "Conditions", id: "10dd2671044f6b6a3d0388d06ad1dd71")]
 public partial class IsCalledBySkeletonCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;

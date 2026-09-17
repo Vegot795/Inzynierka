@@ -28,6 +28,8 @@ public partial class CallNearbyZombiesAction : Action
         {
             return Status.Failure;
         }
+        skelet.CallForHelp();
+
 
         return Status.Running;
     }
@@ -35,12 +37,6 @@ public partial class CallNearbyZombiesAction : Action
     protected override Status OnUpdate()
     {
         SkeletEnemy skelet = Agent.Value.GetComponent<SkeletEnemy>();
-        skelet.CallForHelp();
-
-        if (skelet.zombiesCalled.Count >= skelet.neededMobs)
-        {
-            return Status.Success;
-        }
 
         if (skelet.zombiesCalled.Count == 0)
         {
@@ -48,8 +44,11 @@ public partial class CallNearbyZombiesAction : Action
             Debug.Log("Skelet - CallNearbyZombiesAction - No zombies available to protect the skelet.");
             return Status.Failure;
         }
-
-        return Status.Running;
+        else
+        {
+            Debug.Log("Skelet - zombiesCalled.Count: " + skelet.zombiesCalled.Count);
+            return Status.Success;
+        }
     }
 }
 
