@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae0d7c4d74699547ad6710c874cf6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 0
+  characterType: 1
   MaxHp: 0
   CurrentHp: 0
   MoveSpeed: 10
@@ -118,11 +118,9 @@ MonoBehaviour:
   attackCooldown: 1
   scoreValue: 0
   viewDistance: 6
-  lostIntrestTime: 10
   repathInterval: 0.5
   attempts: 3
   minDistance: 1
-  timer: 0
   pathfinder: {fileID: 0}
   fov: {fileID: 0}
   targetCharacter: {fileID: 0}
@@ -131,6 +129,9 @@ MonoBehaviour:
   repathTimer: 0
   rb: {fileID: 0}
   zombieScoreValue: 100
+  calledbySkeleton: 0
+  skeletonCaller: {fileID: 0}
+  spotLocation: {x: 0, y: 0, z: 0}
 --- !u!58 &7788373236236326680
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -333,7 +334,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   viewColor: {r: 1, g: 1, b: 0.4, a: 0.25}
-  ownerType: 0
+  ownerType: 1
   parent: {fileID: 0}
   spotted: {fileID: 0}
 --- !u!1 &8592095368727682526

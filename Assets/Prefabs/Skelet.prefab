@@ -110,8 +110,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   viewColor: {r: 1, g: 1, b: 0.4, a: 0.25}
-  ownerType: 0
-  parent: {fileID: 1748247875639635847}
+  ownerType: 1
+  parent: {fileID: 0}
   spotted: {fileID: 0}
 --- !u!1 &2814517985326584477
 GameObject:
@@ -123,7 +123,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1142039673127977842}
   - component: {fileID: 8217553625411971997}
-  - component: {fileID: 1748247875639635847}
+  - component: {fileID: 3883588047340874038}
+  - component: {fileID: 1337434706131897101}
+  - component: {fileID: 3334923756349928669}
   m_Layer: 0
   m_Name: Skelet
   m_TagString: Untagged
@@ -205,7 +207,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1748247875639635847
+--- !u!114 &3883588047340874038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,17 +216,111 @@ MonoBehaviour:
   m_GameObject: {fileID: 2814517985326584477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86aa5e040e199074dbe3b9887f0a5122, type: 3}
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 0
+  m_Graph: {fileID: 422712620515005184, guid: 0d3e012beeeb7e74da6e0f0ff2c1cac0, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 6501290611097206860
+  - rid: 6501290611097206862
+  m_OriginalGraph: {fileID: 0}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 6501290611097206860
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 2814517985326584477}
+    - rid: 6501290611097206862
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 7266239134650125585
+          m_Value1: 4236543479128637574
+        Name: AttackRange
+        m_Value: 10
+--- !u!114 &1337434706131897101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814517985326584477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34061fd72b96b50458657ce4465eecc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterType: 1
   MaxHp: 0
   CurrentHp: 0
-  MoveSpeed: 0
+  MoveSpeed: 10
   isStunned: 0
   isSlowed: 0
   isFlashed: 0
   col: {fileID: 0}
+  canAttack: 1
+  Damage: 0
+  attackCooldown: 1
+  scoreValue: 0
+  viewDistance: 6
+  repathInterval: 0.5
+  attempts: 3
+  minDistance: 1
+  pathfinder: {fileID: 0}
+  fov: {fileID: 0}
+  targetCharacter: {fileID: 0}
+  currentPath: []
+  pathIndex: 0
+  repathTimer: 0
+  rb: {fileID: 0}
+  skeletScoreValue: 300
+  attackRange: 5
+  callRange: 10
+  neededMobs: 3
+  skeletProjectile: {fileID: 7329302021653139206, guid: 470b9dc4aad5da547bc42189856c325a, type: 3}
+  rod: {fileID: 0}
+  skeletProjectilePrefab: {fileID: 0}
+  projectileSpeed: 0
+  CallRangeObject: {fileID: 0}
+  WallSpotObject: {fileID: 0}
+  WallSpots: {fileID: 0}
+  playerTargetLocation: {x: 0, y: 0, z: 0}
+  zombiesCalled: []
+  isBeingProtected: 0
+--- !u!50 &3334923756349928669
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814517985326584477}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &4273124811743824211
 GameObject:
   m_ObjectHideFlags: 0

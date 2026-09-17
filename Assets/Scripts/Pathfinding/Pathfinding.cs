@@ -11,6 +11,7 @@ public class Pathfinding : MonoBehaviour
     private void Awake()
     {
         gridAdapter = FindAnyObjectByType<GridAdapter>();
+        Instance = this;
     }
 
     public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 targetWorldPos)

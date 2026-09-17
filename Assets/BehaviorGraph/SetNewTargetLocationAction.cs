@@ -6,7 +6,7 @@ using UnityEngine;
 using Action = Unity.Behavior.Action;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Sets target location based on lastSpottedLocation", story: "Sets new targetLocation for enemy to follow", category: "Action", id: "444f6d2f2fd57b2074305b90297bf971")]
+[NodeDescription(name: "{Sets target location based on lastSpottedLocation", story: "Sets new targetLocation for enemy to follow", category: "Action", id: "444f6d2f2fd57b2074305b90297bf971")]
 public partial class SetNewTargetLocationAction : Action
 {
     [SerializeReference] public BlackboardVariable<Transform> Agent;
@@ -15,6 +15,7 @@ public partial class SetNewTargetLocationAction : Action
     {
         if (Agent == null || Agent.Value == null)
         {
+            Debug.LogError("SetNewTargetLocationAction: Agent is not assigned or is null.");
             return Status.Failure;
         }
 
@@ -22,11 +23,13 @@ public partial class SetNewTargetLocationAction : Action
 
         if (enemy == null)
         {
+            Debug.LogError("SetNewTargetLocationAction: EnemyClass component is missing on Agent.");
             return Status.Failure;
         }
 
         if (enemy.lastSpottedPosition == null)
         {
+            Debug.LogError("SetNewTargetLocationAction: lastSpottedPosition is null.");
             return Status.Failure;
         }
 
@@ -42,10 +45,21 @@ public partial class SetNewTargetLocationAction : Action
 
         if (enemy == null)
         {
+            Debug.LogError("SetNewTargetLocationAction: EnemyClass component is missing on Agent.");
             return Status.Failure;
         }
 
+        if (enemy.targetLocation == null)
+        {
+            enemy.lastSpottedPosition = null;
+            Debug.LogError("SetNewTargetLocationAction: targetLocation is null.");
+            return Status.Success;
+        }
+        else
+        {
+            return Status.Running;
+        }
 
-        return enemy.targetLocation != null ? Status.Running : Status.Success;
+        //return enemy.targetLocation != null ? Status.Running : Status.Success;
     }
 }

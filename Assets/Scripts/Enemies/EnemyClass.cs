@@ -31,7 +31,6 @@ public class EnemyClass : CharacterBase
         {
             if (pathfinder == null)
             {
-                pathfinder = Pathfinding.Instance;
             }
             return pathfinder;
         }
@@ -39,6 +38,7 @@ public class EnemyClass : CharacterBase
 
     public override void Awake()
     {
+        pathfinder = Pathfinding.Instance;
         base.characterType = CharacterType.Enemy;
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         rb = GetComponent<Rigidbody2D>();
@@ -74,11 +74,13 @@ public class EnemyClass : CharacterBase
 
         if (pathfinder == null)
         {
+            Debug.Log("EnemyClass: Pathfinder is null.");
             return;
         }
 
         if (targetLocation == null)
         {
+            Debug.Log("Target location is null. Cannot find path.");
             currentPath = null;
             return;
         }
@@ -125,6 +127,8 @@ public class EnemyClass : CharacterBase
 
         if(currentPath == null)
         {
+            Debug.Log($"[EnemyClass] - Current path is null. Cannot walk.");
+            targetLocation = null;
             return;
         }
 
@@ -158,6 +162,11 @@ public class EnemyClass : CharacterBase
         targetLocation = targetCell;
         repathTimer = 0f;
         Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
+
+        if (Mathf.Approximately(Vector3.Distance(transform.position, targetLocation.Value), 0f))
+        {
+            targetLocation = null;
+        }
     }
 
     public void GetCellToGetInRange(Vector3 targetPosition, float minDistance)

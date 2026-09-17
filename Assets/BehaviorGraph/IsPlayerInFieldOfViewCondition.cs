@@ -3,7 +3,7 @@ using Unity.Behavior;
 using UnityEngine;
 
 [Serializable, Unity.Properties.GeneratePropertyBag]
-[Condition(name: "Is player in field of view", story: "Checks if [Agent] can see [targetCharacter] in fov", category: "Conditions", id: "1804271ad19fcaa982799d880814522b")]
+[Condition(name: "Is player in field of view of the [Agent]", story: "Checks if [Agent] can see [targetCharacter] in fov", category: "Conditions", id: "1804271ad19fcaa982799d880814522b")]
 public partial class IsPlayerInFieldOfViewCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
