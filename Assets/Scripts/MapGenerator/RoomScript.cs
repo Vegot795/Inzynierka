@@ -12,6 +12,7 @@ public class Room
     public List<GridCell> cells = new List<GridCell>();
     public List<Room> createdRooms = new List<Room>();
     public MapGenerator mapGenerator;
+    public Room parentRoom;
 
     public Room(string roomName, List<GridCell> cells, EnvironmentData environmentData)
     {
@@ -49,7 +50,7 @@ public class Room
 
         createdRooms.Add(newRoom);
 
-        Debug.Log("Created new room: " + newRoomName + " with bounds: " + newRoom.bounds);
+        //Debug.Log("Created new room: " + newRoomName + " with bounds: " + newRoom.bounds);
 
         return newRoom;
     }
@@ -88,6 +89,9 @@ public class Room
                 Room leftRoom = CreateNewRoom(leftCells);
                 Room rightRoom = CreateNewRoom(rightCells);
 
+                leftRoom.parentRoom = room;
+                rightRoom.parentRoom = room;
+
                 return (leftRoom, rightRoom);
             }
             else
@@ -110,6 +114,8 @@ public class Room
 
                 Room topRoom = CreateNewRoom(topCells);
                 Room bottomRoom = CreateNewRoom(bottomCells);
+                topRoom.parentRoom = room;
+                bottomRoom.parentRoom = room;
 
                 return (topRoom, bottomRoom);
             }
@@ -327,33 +333,46 @@ public class Room
             }
         }
     }
-
+    
     public void ConnectSmallerRooms()
     {
-        Dictionary<Room, List<GridCell>> smallerRooms = new Dictionary<Room, List<GridCell>>();
+        Dictionary<Room, List<GridCell>> allRooms = new Dictionary<Room, List<GridCell>>();
 
         foreach (Room room in mapGenerator.allRoomList)
         {
-            smallerRooms.Add(room, room.cells);
+            allRooms.Add(room, room.cells);
         }
 
-        Debug.Log($"[Room] Found {smallerRooms.Count} rooms to check.");
+        Debug.Log($"[Room] Found {allRooms.Count} rooms to check.");
 
-        if (smallerRooms.Count <= 1)
+        if (allRooms.Count <= 1)
         {
             return;
         }
 
-        smallerRooms = smallerRooms.OrderBy(s => s.Value.Count).ToDictionary(s => s.Key, s => s.Value);
+        allRooms = allRooms.OrderBy(s => s.Value.Count).ToDictionary(s => s.Key, s => s.Value);
+        List<int> roomSizes = new List<int>();
+        foreach (var sRoom in allRooms)
+        {
+            if(!roomSizes.Contains(sRoom.Value.Count))
+            {
+                roomSizes.Add(sRoom.Value.Count);
+            }
+        }
 
-        int smallestRoomCellCount = smallerRooms.First().Value.Count;
+        roomSizes = roomSizes.OrderBy(i => i).ToList();
+        var roomSizeLowerLimit = roomSizes[2];
+        Debug.Log("[CELL COUNT] Unique room sizes: " + string.Join(", ", roomSizes));
+        Debug.Log("[CELL COUNT] Room size lower limit for connection: " + roomSizeLowerLimit);
+
+        int smallestRoomCellCount = allRooms.First().Value.Count;
         List<Room> smallestRoomsList = new List<Room>();
 
         Debug.Log($"[Room] Smallest room has {smallestRoomCellCount} cells.");
 
-        foreach (var sRoom in smallerRooms)
+        foreach (var sRoom in allRooms)
         {
-            if (sRoom.Value.Count == smallestRoomCellCount)
+            if (sRoom.Value.Count <= roomSizeLowerLimit)
             {
                 smallestRoomsList.Add(sRoom.Key);
             }
@@ -372,7 +391,9 @@ public class Room
 
             foreach (Room otherRoom in smallestRoomsList)
             {
-                if (otherRoom != currentRoom && AreRoomsAdjected(currentRoom, otherRoom))
+                if (otherRoom != currentRoom && 
+                    otherRoom.parentRoom != currentRoom.parentRoom && 
+                    AreRoomsAdjected(currentRoom, otherRoom))
                 {
                     roomToConnect = otherRoom;
                     break;
@@ -412,7 +433,7 @@ public class Room
             return;
         }
 
-        if (!AreRoomsAdjected(room1, room2))
+        if (!HasCommonBorder(room1, room2))
         {
             Debug.LogWarning("[Room] Rooms are not adjected and cannot be connected.");
             return;
@@ -433,5 +454,19 @@ public class Room
         mapGenerator.allRoomList.Remove(room2);
         mapGenerator.allRoomList.Add(newRoom);
     }
+    public bool HasCommonBorder(Room room1, Room room2)
+    {
+        RectInt room1Bounds = room1.bounds;
+        RectInt room2Bounds = room2.bounds;
 
+        bool sidebBySide = (room1Bounds.xMax == room2Bounds.xMin || room1Bounds.xMin == room2Bounds.xMax) && (room1Bounds.yMin < room2Bounds.yMax && room1Bounds.yMax > room2Bounds.yMin);
+        bool topToBottom = (room1Bounds.yMax == room2Bounds.yMin || room1Bounds.yMin == room2Bounds.yMax) && (room1Bounds.xMin < room2Bounds.xMax && room1Bounds.xMax > room2Bounds.xMin);
+        return sidebBySide || topToBottom;
+    }
+    private bool HasCommonParent(Room room1, Room room2)
+    {
+        return room1.parentRoom != null && room1.parentRoom == room2.parentRoom;
+    }
+
+    
 }
