@@ -191,7 +191,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadePressed(InputAction.CallbackContext context)
     {
-        //Debug.Log("Grenade button pressed");
+        //Debug.Log("Grenade GameObject pressed");
         OnGrenadeHoldStart();
         indicator.ShowIndicator();
 
@@ -199,7 +199,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadeReleased(InputAction.CallbackContext context)
     {
-        //Debug.Log("Grenade button released");
+        //Debug.Log("Grenade GameObject released");
         OnGrenadeHoldEnd();
         indicator.HideIndicator();
     }
