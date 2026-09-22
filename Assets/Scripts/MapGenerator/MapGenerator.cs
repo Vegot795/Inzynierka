@@ -8,6 +8,7 @@ public class MapGenerator : MonoBehaviour
     public int iterations = 4;
     public int roomCount = 0;
     public int corridorCount = 0;
+    public int smallRoomCellLimit = 100;
 
     public int mapWidth;
     public int mapHeight;
@@ -17,6 +18,7 @@ public class MapGenerator : MonoBehaviour
     public GameObject gridCellPref;
     public List<Room> allRoomList = new List<Room>();
     public List<Corridor> corridorList = new List<Corridor>();
+    private List<GridCell> cellsList = new List<GridCell>();
 
     [SerializeField] private EnvironmentData[] roomEnvironment;
 
@@ -84,11 +86,17 @@ public class MapGenerator : MonoBehaviour
             if (roomList.Count >  4 )
             {
                 int randomRoomCount = Random.Range(roomList.Count*3 / 4, roomList.Count - 1);
+                randomRoomList = roomList.OrderBy(_ => Random.value).Take(randomRoomCount).ToList();
+                /*
                 for (int j = 0; j < randomRoomCount; j++)
                 {
                     int randomIndex = Random.Range(0, roomList.Count);
                     randomRoomList.Add(roomList[randomIndex]);
                     allRoomList.Remove(roomList[randomIndex]);
+                }*/
+                foreach(Room room in randomRoomList)
+                {
+                    allRoomList.Remove(room);
                 }
             }
             else
@@ -155,7 +163,7 @@ public class MapGenerator : MonoBehaviour
                     cell.environmentData = selectedStyle;
                 }
 
-                Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
+                //Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
                 Color randomColor = GetRandomColor();
                 foreach (var cell in room.cells)
                 {
@@ -166,6 +174,7 @@ public class MapGenerator : MonoBehaviour
                 }
             }            
         }
+        GroupUpExistingRooms();
 
         CreateCorridorsBetweenRooms();
         corridorCount = corridorList.Count;
@@ -218,6 +227,7 @@ public class MapGenerator : MonoBehaviour
 
                 grid[x, y] = newCell;
                 emptyCells.Add(newCell);
+                cellsList.Add(newCell);
             }
         }
 
@@ -247,6 +257,71 @@ public class MapGenerator : MonoBehaviour
         notUsedRoomEnvironments = notUsedRooms.ToArray();*/
         return selectedEnvironment;
     }
+
+    private Dictionary<int, List<Room>> GroupUpExistingRooms()
+    {
+        Dictionary<Room, List<GridCell>> allRooms = new Dictionary<Room, List<GridCell>>();
+        foreach (var room in allRoomList)
+        {
+            allRooms.Add(room, room.cells);
+        }
+        allRooms = allRooms.OrderBy(s => s.Value.Count).ToDictionary(s => s.Key, s => s.Value);
+        List<int> roomSizes = new List<int>();
+        foreach (var sRoom in allRooms)
+        {
+            if (!roomSizes.Contains(sRoom.Value.Count))
+            {
+                roomSizes.Add(sRoom.Value.Count);
+            }
+        }
+
+        Dictionary<int, List<Room>> roomsBySize = new Dictionary<int, List<Room>>();
+        foreach (int size in roomSizes)
+        {
+            roomsBySize[size] = allRooms.Where(s => s.Value.Count == size).Select(s => s.Key).ToList();
+            Debug.Log("[Room] Found " + roomsBySize[size].Count + " rooms of size " + size);
+        }
+        Debug.Log("[Room] Grouped up existing rooms by size");
+        return roomsBySize;
+    }
+
+    private void DeleteSomeRooms()
+    {
+        var allRooms = GroupUpExistingRooms();
+        List<int> roomKeys = allRooms.Keys.ToList();
+        roomKeys = roomKeys.OrderBy(s => s).ToList();
+        Debug.Log("[Room] Room sizes in ascending order: " + string.Join(", ", roomKeys));
+        int deletedRoomsCount = 0;
+        foreach (var roomGroup in allRooms)
+        {
+            if (roomGroup.Key <= roomKeys[3])
+            {
+                if (roomGroup.Value.Count >= 5)
+                {
+                    int roomsToDeleteCount = roomGroup.Value.Count / 2;
+                    Debug.Log("[Room] Deleting " + roomsToDeleteCount + " rooms of size " + roomGroup.Key);
+                    for (int i = 0; i < roomsToDeleteCount; i++)
+                    {
+                        deletedRoomsCount++;
+                        Room roomToDelete = roomGroup.Value[i];
+                        foreach (var cell in roomToDelete.cells)
+                        {
+                            cell.type = GridCell.CellType.floor;
+                            cell.environmentData = roomEnvironment[0];
+                            if (cell.sr != null)
+                            {
+                                cell.sr.sprite = roomEnvironment[0].Floor;
+                            }
+                        }
+                        allRoomList.Remove(roomToDelete);
+                        Debug.Log("[Room] Deleted room: " + roomToDelete.roomName);
+                    }
+                }
+            }
+        }
+        Debug.Log($"[Room] Deleted a total of {deletedRoomsCount} rooms");
+    }
+
     #region ----- Corridors -----
     public void CreateCorridorsBetweenRooms()
     {
@@ -386,17 +461,21 @@ public class MapGenerator : MonoBehaviour
 
         if (direction == Room.RoomsAdjected.Left || direction == Room.RoomsAdjected.Right)
         {
-            int minY = room1.cells.Min(c => c.y);
-            int maxY = room1.cells.Max(c => c.y);
+            int minY1 = room1.bounds.yMin;
+            int maxY1 = room1.bounds.yMax - 1;
+            int minY2 = room2.bounds.yMin;
+            int maxY2 = room2.bounds.yMax - 1;
 
-            room1PossibbleCorridorCells.RemoveAll(cell => cell.y == minY || cell.y == maxY);
+            room1PossibbleCorridorCells.RemoveAll(cell => cell.y - 1 <= minY1 || cell.y >= maxY2 || cell.y - 1 <= minY2 || cell.y >= maxY1);
         }
         else if (direction == Room.RoomsAdjected.Top || direction == Room.RoomsAdjected.Bottom)
         {
-            int minX = room1.cells.Min(c => c.x);
-            int maxX = room1.cells.Max(c => c.x);
+            int minX1 = room1.bounds.xMin;
+            int maxX1 = room1.bounds.xMax - 1;
+            int minX2 = room2.bounds.xMin;
+            int maxX2 = room2.bounds.xMax - 1;
 
-            room1PossibbleCorridorCells.RemoveAll(cell => cell.x == minX || cell.x == maxX);
+            room1PossibbleCorridorCells.RemoveAll(cell => cell.x <= minX1 || cell.x + 1 >= maxX1 || cell.x - 1 <= minX2 || cell.x + 1>= maxX2);
         }
 
         if (room1PossibbleCorridorCells.Count == 0)
@@ -452,18 +531,45 @@ public class MapGenerator : MonoBehaviour
         corridor.corridorCells.Add(corridor.rightBottomCell);
         corridor.corridorCells.Add(corridor.rightTopCell);
 
-        corridor.leftTopCell.type = GridCell.CellType.corridorLeftTop;
-        corridor.leftBottomCell.type = GridCell.CellType.corridorLeftBottom;
-        corridor.rightTopCell.type = GridCell.CellType.corridorRightTop;
-        corridor.rightBottomCell.type = GridCell.CellType.corridorRightBottom;
+        corridor.leftTopCell.type = GridCell.CellType.floor;
+        corridor.leftBottomCell.type = GridCell.CellType.floor;
+        corridor.rightTopCell.type = GridCell.CellType.floor;
+        corridor.rightBottomCell.type = GridCell.CellType.floor;
+
+        foreach (var cell in corridor.corridorCells)
+        {
+            Debug.Log($"[Corridor] Corridor cell at ({cell.x}, {cell.y}) of type {cell.type}");
+            var cellNeighbors = GetCellNeighbors(cell);
+            foreach (var kvp in cellNeighbors)
+            {
+                var cellDirection = kvp.Key;
+                var neighbor = kvp.Value;
+
+                if(neighbor == null)
+                {
+                    Debug.Log("[Cell] missing neighbor for cell at (" + cell.x + ", " + cell.y + ") in direction " + cellDirection);
+                }
+                
+            }
+        }
         corridorList.Add(corridor);
 
         return true;
     }
 
+    public Dictionary<Directions, GridCell> GetCellNeighbors(GridCell cell)
+    {
+        Dictionary<Directions, GridCell> neighbors = new Dictionary<Directions, GridCell>();
 
+        neighbors.Add(Directions.Up, cellsList.FirstOrDefault(c => c.x == cell.x && c.y == cell.y + 1));
+        neighbors.Add(Directions.Down, cellsList.FirstOrDefault(c => c.x == cell.x && c.y == cell.y - 1));
+        neighbors.Add(Directions.Left, cellsList.FirstOrDefault(c => c.x == cell.x - 1 && c.y == cell.y));
+        neighbors.Add(Directions.Right, cellsList.FirstOrDefault(c => c.x == cell.x + 1 && c.y == cell.y));
 
-#endregion
+        return neighbors;
+    }
+
+    #endregion
 
     #region --- Debugging and Visualization ---
 

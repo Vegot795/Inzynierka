@@ -39,7 +39,13 @@ public class GridCell : MonoBehaviour
         this.environmentData = environmentData;
 
     }
-
+    public enum Directions
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
 }
 
 
