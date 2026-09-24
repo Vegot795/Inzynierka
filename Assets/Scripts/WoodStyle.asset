@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: WoodStyle
   m_EditorClassIdentifier: 
   type: 0
-  WallLeft: {fileID: 0}
-  WallRight: {fileID: 0}
-  WallTop: {fileID: 0}
-  WallBottom: {fileID: 0}
-  WallTopRight: {fileID: 0}
-  WallBottomRight: {fileID: 0}
-  WallTopLeft: {fileID: 0}
-  WallBottomLeft: {fileID: 0}
-  Floor: {fileID: -3355943227074464134, guid: 85dcf1835255eb04b84a093459c5502e, type: 3}
+  WallLeft: {fileID: 131778066, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  WallRight: {fileID: -1906001826, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  WallTop: {fileID: 2115953753, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  WallBottom: {fileID: -1880799626, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  WallTopRight: {fileID: 2038110907, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  WallBottomRight: {fileID: 2101812972, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  WallTopLeft: {fileID: 591633493066017539, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  WallBottomLeft: {fileID: -951962945, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  Floor: {fileID: 1358874828, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
+  CorridorLeftTop: {fileID: -321855533, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
+  CorridorLeftBottom: {fileID: 7365239531021942775, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
+  CorridorRightTop: {fileID: -1966935408, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
+  CorridorRightBottom: {fileID: -1216096108, guid: eb09377c85eea3a488d966166e9f2310, type: 3}

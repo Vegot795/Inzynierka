@@ -27,6 +27,8 @@ public class MapGenerator : MonoBehaviour
 
     private GridCell[,] grid;
     private readonly List<GridCell> emptyCells = new List<GridCell>();
+    private List<Corridor> createdCorridors = new List<Corridor>();
+
 
     public enum Directions
     {
@@ -45,6 +47,13 @@ public class MapGenerator : MonoBehaviour
         public GridCell leftBottomCell;
         public GridCell rightBottomCell;
         public List<GridCell> corridorCells = new List<GridCell>();
+
+        public enum Orientation
+        {
+            Horizontal,
+            Vertical
+        }
+        public Orientation orientation;
 
     }
 
@@ -177,6 +186,7 @@ public class MapGenerator : MonoBehaviour
         GroupUpExistingRooms();
 
         CreateCorridorsBetweenRooms();
+        CreateCorridorWalls(corridorList);
         corridorCount = corridorList.Count;
 
         foreach (Room room in allRoomList)
@@ -186,6 +196,7 @@ public class MapGenerator : MonoBehaviour
                 roomScript.SetRoomEnvironment(room, room.environmentData);
             }
         }
+        GiveCollidersToWalls();
     }
 
     public void GenerateGrid(int width, int height)
@@ -320,6 +331,26 @@ public class MapGenerator : MonoBehaviour
             }
         }
         Debug.Log($"[Room] Deleted a total of {deletedRoomsCount} rooms");
+    }
+
+    private void GiveCollidersToWalls()
+    {
+        List<GridCell> wallsList = cellsList.Where(c => c.type != GridCell.CellType.floor)
+            .ToList();
+
+        foreach (GridCell wall in wallsList)
+        {
+            Sprite sprite = wall.GetComponent<SpriteRenderer>().sprite;
+            var shapeCount = sprite.GetPhysicsShapeCount();
+            List<Vector2> vectorList = new List<Vector2>();
+            PolygonCollider2D col = wall.AddComponent<PolygonCollider2D>();
+            for (int i = 0; i < shapeCount; i++)
+            {
+                var shape = sprite.GetPhysicsShape(i, vectorList);
+                col.SetPath(i, vectorList);
+                vectorList.Clear();
+            }
+        }
     }
 
     #region ----- Corridors -----
@@ -486,6 +517,7 @@ public class MapGenerator : MonoBehaviour
 
         GridCell corridorStart = room1PossibbleCorridorCells[Random.Range(0, room1PossibbleCorridorCells.Count)];
         Corridor corridor = new Corridor();
+        createdCorridors.Add(corridor);
         corridor.room1 = room1;
         corridor.room2 = room2;
 
@@ -496,24 +528,28 @@ public class MapGenerator : MonoBehaviour
                 corridor.rightBottomCell = room1.cells.FirstOrDefault(c => c.x == corridorStart.x && c.y == corridorStart.y - 1);
                 corridor.leftTopCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x - 1 && c.y == corridorStart.y);
                 corridor.leftBottomCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x - 1 && c.y == corridorStart.y - 1);
+                corridor.orientation = Corridor.Orientation.Horizontal;
                 break;
             case Room.RoomsAdjected.Right:
                 corridor.leftTopCell = corridorStart;
                 corridor.leftBottomCell = room1.cells.FirstOrDefault(c => c.x == corridorStart.x && c.y == corridorStart.y - 1);
                 corridor.rightTopCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x + 1 && c.y == corridorStart.y);
                 corridor.rightBottomCell = room2.cells.FirstOrDefault(c => c.x == corridorStart.x + 1 && c.y == corridorStart.y - 1);
+                corridor.orientation = Corridor.Orientation.Horizontal;
                 break;
             case Room.RoomsAdjected.Top:
                 corridor.leftBottomCell = corridorStart;
                 corridor.rightBottomCell = room1.cells.FirstOrDefault(c => c.y == corridorStart.y && c.x == corridorStart.x + 1);
                 corridor.leftTopCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y + 1 && c.x == corridorStart.x);
                 corridor.rightTopCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y + 1 && c.x == corridorStart.x + 1);
+                corridor.orientation = Corridor.Orientation.Vertical;
                 break;
             case Room.RoomsAdjected.Bottom:
                 corridor.leftTopCell = corridorStart;
                 corridor.rightTopCell = room1.cells.FirstOrDefault(c => c.y == corridorStart.y && c.x == corridorStart.x + 1);
                 corridor.leftBottomCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y - 1 && c.x == corridorStart.x);
                 corridor.rightBottomCell = room2.cells.FirstOrDefault(c => c.y == corridorStart.y - 1 && c.x == corridorStart.x + 1);
+                corridor.orientation = Corridor.Orientation.Vertical;
                 break;
         }
 
@@ -538,7 +574,7 @@ public class MapGenerator : MonoBehaviour
 
         foreach (var cell in corridor.corridorCells)
         {
-            Debug.Log($"[Corridor] Corridor cell at ({cell.x}, {cell.y}) of type {cell.type}");
+            //Debug.Log($"[Corridor] Corridor cell at ({cell.x}, {cell.y}) of type {cell.type}");
             var cellNeighbors = GetCellNeighbors(cell);
             foreach (var kvp in cellNeighbors)
             {
@@ -567,6 +603,117 @@ public class MapGenerator : MonoBehaviour
         neighbors.Add(Directions.Right, cellsList.FirstOrDefault(c => c.x == cell.x + 1 && c.y == cell.y));
 
         return neighbors;
+    }
+
+    public void CreateCorridorWalls(List<Corridor> corridors)
+    {
+        foreach (var corridor in corridors)
+        {
+            //Checking if a wall next to corridor wall belongs to the same room as corridor wall
+            if (corridor.orientation == Corridor.Orientation.Horizontal)
+            {
+                var leftTopWall = cellsList.FirstOrDefault(c => c.x == corridor.leftTopCell.x && c.y == corridor.leftTopCell.y + 1);
+                var leftBottomWall = cellsList.FirstOrDefault(c => c.x == corridor.leftBottomCell.x && c.y == corridor.leftBottomCell.y - 1);
+                var rightTopWall = cellsList.FirstOrDefault(c => c.x == corridor.rightTopCell.x && c.y == corridor.rightTopCell.y + 1);
+                var rightBottomWall = cellsList.FirstOrDefault(c => c.x == corridor.rightBottomCell.x && c.y == corridor.rightBottomCell.y - 1);
+
+                //LeftTop
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftTopWall.x && c.y == leftTopWall.y + 1)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftTopWall.x && c.y == leftTopWall.y + 1)))
+                {
+                    leftTopWall.type = GridCell.CellType.corridorRightTop;
+                }
+                else
+                {
+                    leftTopWall.type = GridCell.CellType.wallTop;
+                }
+                Debug.Log($"[CORRIDOR] - {leftTopWall.type} created at {leftTopWall.x}, {leftTopWall.y}");
+                //RightTop
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightTopWall.x && c.y == rightTopWall.y + 1)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightTopWall.x && c.y == rightTopWall.y + 1)))
+                {
+                    rightTopWall.type = GridCell.CellType.corridorLeftTop;
+                }
+                else
+                {
+                    rightTopWall.type = GridCell.CellType.wallTop;
+                }
+
+                //LeftBottom
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftBottomWall.x && c.y == leftBottomWall.y - 1)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftBottomWall.x && c.y == leftBottomWall.y - 1)))
+                {
+                    leftBottomWall.type = GridCell.CellType.corridorRightBottom;
+                }
+                else
+                {
+                    leftBottomWall.type = GridCell.CellType.wallBottom;
+                }
+                //RightBottom
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightBottomWall.x && c.y == rightBottomWall.y - 1)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightBottomWall.x && c.y == rightBottomWall.y - 1)))
+                {
+                    rightBottomWall.type = GridCell.CellType.corridorLeftBottom;
+                }
+                else
+                {
+                    rightBottomWall.type = GridCell.CellType.wallBottom;
+                }
+
+            }
+            else if (corridor.orientation == Corridor.Orientation.Vertical)
+            // In this one, due to orientation, the name of the wall will be opposite bi-directional than the cell position to match the rest of the walls
+            {
+                var leftTopWall = cellsList.FirstOrDefault(c => c.x == corridor.leftTopCell.x - 1 && c.y == corridor.leftTopCell.y);
+                var leftBottomWall = cellsList.FirstOrDefault(c => c.x == corridor.leftBottomCell.x - 1 && c.y == corridor.leftBottomCell.y);
+                var rightTopWall = cellsList.FirstOrDefault(c => c.x == corridor.rightTopCell.x + 1 && c.y == corridor.rightTopCell.y);
+                var rightBottomWall = cellsList.FirstOrDefault(c => c.x == corridor.rightBottomCell.x + 1 && c.y == corridor.rightBottomCell.y);
+
+                //LeftTop
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftTopWall.x - 1 && c.y == leftTopWall.y)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftTopWall.x - 1 && c.y == leftTopWall.y)))
+                {
+                    leftTopWall.type = GridCell.CellType.corridorLeftBottom;
+                }
+                else
+                {
+                    leftTopWall.type = GridCell.CellType.wallLeft;
+                }
+
+                //RightTop
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightTopWall.x + 1 && c.y == rightTopWall.y)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightTopWall.x + 1 && c.y == rightTopWall.y)))
+                {
+                    rightTopWall.type = GridCell.CellType.corridorRightBottom;
+                }
+                else
+                {
+                    rightTopWall.type = GridCell.CellType.wallRight;
+                }
+
+                //LeftBottom
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftBottomWall.x - 1 && c.y == leftBottomWall.y)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == leftBottomWall.x - 1 && c.y == leftBottomWall.y)))
+                {
+                    leftBottomWall.type = GridCell.CellType.corridorLeftTop;
+                }
+                else
+                {
+                    leftBottomWall.type = GridCell.CellType.wallLeft;
+                }
+
+                //RightBottom
+                if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightBottomWall.x + 1 && c.y == rightBottomWall.y)) ||
+                    corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightBottomWall.x + 1 && c.y == rightBottomWall.y)))
+                {
+                    rightBottomWall.type = GridCell.CellType.corridorRightTop;
+                }
+                else
+                {
+                    rightBottomWall.type = GridCell.CellType.wallRight;
+                }
+            }
+        }
     }
 
     #endregion
