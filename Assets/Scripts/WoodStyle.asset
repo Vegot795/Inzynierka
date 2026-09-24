@@ -22,7 +22,7 @@ MonoBehaviour:
   WallTopLeft: {fileID: 591633493066017539, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
   WallBottomLeft: {fileID: -951962945, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
   Floor: {fileID: 1358874828, guid: 9f94ec9ba585ae447a1f9f8ca58921fb, type: 3}
-  CorridorLeftTop: {fileID: -321855533, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
-  CorridorLeftBottom: {fileID: 7365239531021942775, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
-  CorridorRightTop: {fileID: -1966935408, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
-  CorridorRightBottom: {fileID: -1216096108, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
+  CorridorLeftTop: {fileID: -1966935408, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
+  CorridorLeftBottom: {fileID: -1216096108, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
+  CorridorRightTop: {fileID: -321855533, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
+  CorridorRightBottom: {fileID: 7365239531021942775, guid: eb09377c85eea3a488d966166e9f2310, type: 3}
