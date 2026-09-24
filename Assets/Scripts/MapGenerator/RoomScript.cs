@@ -34,7 +34,6 @@ public class Room
     }
 
     public Dictionary<RoomsAdjected, Room> adjectedRooms = new Dictionary<RoomsAdjected, Room>();
-
     public Room CreateNewRoom(List<GridCell> cells)
     {
         int newRoomCount = createdRooms.Count + 1;
@@ -468,5 +467,27 @@ public class Room
         return room1.parentRoom != null && room1.parentRoom == room2.parentRoom;
     }
 
-    
+    public void CheckConnectedRooms(List<Room> checkedRooms)
+    {
+        if (!checkedRooms.Contains(this))
+        {
+            checkedRooms.Add(this);
+            List<Room> connectedRooms = new List<Room>();
+
+            var ownedCorridors = mapGenerator.corridorList.Where(c => c.room1 == this || c.room2 == this);
+            foreach (var corridor in ownedCorridors)
+            {
+                if (corridor.room1 != this)
+                {
+                    corridor.room1.CheckConnectedRooms(checkedRooms);
+                }
+                else
+                {
+                    corridor.room2.CheckConnectedRooms(checkedRooms);
+                }
+            }
+
+        }
+        
+    }
 }

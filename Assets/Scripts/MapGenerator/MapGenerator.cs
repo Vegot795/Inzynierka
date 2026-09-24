@@ -10,6 +10,7 @@ public class MapGenerator : MonoBehaviour
     public int corridorCount = 0;
     public int smallRoomCellLimit = 100;
 
+    public bool canGoOnWithVerifying = false;
     public int mapWidth;
     public int mapHeight;
     public Grid gridMap;
@@ -78,117 +79,13 @@ public class MapGenerator : MonoBehaviour
         notUsedRoomEnvironments = roomEnvironment;
 
         GenerateGrid(mapWidth, mapHeight);
+        GenerateRooms();
 
-        allRoomList = new List<Room>(roomList);
-
-        //iteration for creating rooms
-        for (int i = 0; i < iterations; i++)
-        {
-            if (roomList.Count == 0)
-            {
-                break;
-            }
-
-            List<Room> nextRoomList = new List<Room>();
-            List<Room> randomRoomList = new List<Room>();
-
-            if (roomList.Count >  4 )
-            {
-                int randomRoomCount = Random.Range(roomList.Count*3 / 4, roomList.Count - 1);
-                randomRoomList = roomList.OrderBy(_ => Random.value).Take(randomRoomCount).ToList();
-                /*
-                for (int j = 0; j < randomRoomCount; j++)
-                {
-                    int randomIndex = Random.Range(0, roomList.Count);
-                    randomRoomList.Add(roomList[randomIndex]);
-                    allRoomList.Remove(roomList[randomIndex]);
-                }*/
-                foreach(Room room in randomRoomList)
-                {
-                    allRoomList.Remove(room);
-                }
-            }
-            else
-            {
-                randomRoomList = roomList;
-            }
-
-            foreach (Room room in randomRoomList)
-            {
-                (Room room1, Room room2) = roomScript.SeparateRoom(room);
-
-                if (room1 != null && room2 != null)
-                {
-                    nextRoomList.Add(room1);
-                    nextRoomList.Add(room2);
-
-                    allRoomList.Remove(room);
-                    allRoomList.Add(room1);
-                    allRoomList.Add(room2);
-                }
-                else
-                {
-                    Debug.LogWarning($"Room separation failed for {room.roomName}. Keeping original room.");
-                    nextRoomList.Add(room);
-                }
-            }
-
-            
-            roomList = nextRoomList;
-        }
-
-        foreach (var room in allRoomList)
-        {
-            roomScript.FindAdjectedRooms(room, allRoomList);
-        }
-
-        roomCount = roomList.Count;
-        roomScript.ConnectSmallerRooms();
-
-        foreach (Room room in allRoomList)
-        {
-            room.adjectedRooms.Clear();
-        }
-
-        foreach (Room room in allRoomList)
-        {
-            roomScript.FindAdjectedRooms(room, allRoomList);
-        }
-
-        roomCount = allRoomList.Count;
-
-        //Assigning environment
-        foreach (Room room in allRoomList)
-        {
-            EnvironmentData selectedStyle = AssignRandomStyleToRoom(room);
-
-            if (selectedStyle != null)
-            {
-                roomScript.SetCellsToCorrectWalls(room);
-
-                room.environmentData = selectedStyle;
-                foreach (var cell in room.cells)
-                {
-                    cell.environmentData = selectedStyle;
-                }
-
-                //Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
-                Color randomColor = GetRandomColor();
-                foreach (var cell in room.cells)
-                {
-                    if (cell.sr != null)
-                    {
-                        cell.sr.color = randomColor;
-                    }
-                }
-            }            
-        }
         GroupUpExistingRooms();
 
         CreateCorridorsBetweenRooms();
         CreateCorridorWalls(corridorList);
-        corridorCount = corridorList.Count;
-
+        CheckIfRoomsAreConnected();
         foreach (Room room in allRoomList)
         {
             if (room.environmentData != null)
@@ -198,6 +95,8 @@ public class MapGenerator : MonoBehaviour
         }
         GiveCollidersToWalls();
     }
+
+    #region ----- Map Generating -----
 
     public void GenerateGrid(int width, int height)
     {
@@ -252,7 +151,137 @@ public class MapGenerator : MonoBehaviour
             Debug.Log($"startRoom created: {startRoom.roomName}");
         }
     }
+    private void GiveCollidersToWalls()
+    {
+        List<GridCell> wallsList = cellsList.Where(c => c.type != GridCell.CellType.floor)
+            .ToList();
 
+        foreach (GridCell wall in wallsList)
+        {
+            Sprite sprite = wall.GetComponent<SpriteRenderer>().sprite;
+            var shapeCount = sprite.GetPhysicsShapeCount();
+            List<Vector2> vectorList = new List<Vector2>();
+            PolygonCollider2D col = wall.AddComponent<PolygonCollider2D>();
+            for (int i = 0; i < shapeCount; i++)
+            {
+                var shape = sprite.GetPhysicsShape(i, vectorList);
+                col.SetPath(i, vectorList);
+                vectorList.Clear();
+            }
+        }
+    }
+
+    #endregion
+
+    #region ----- Rooms -----
+    public void GenerateRooms()
+    {
+
+        allRoomList = new List<Room>(roomList);
+
+        //iteration for creating rooms
+        for (int i = 0; i < iterations; i++)
+        {
+            if (roomList.Count == 0)
+            {
+                break;
+            }
+
+            List<Room> nextRoomList = new List<Room>();
+            List<Room> randomRoomList = new List<Room>();
+
+            if (roomList.Count > 4)
+            {
+                int randomRoomCount = Random.Range(roomList.Count * 3 / 4, roomList.Count - 1);
+                randomRoomList = roomList.OrderBy(_ => Random.value).Take(randomRoomCount).ToList();
+                /*
+                for (int j = 0; j < randomRoomCount; j++)
+                {
+                    int randomIndex = Random.Range(0, roomList.Count);
+                    randomRoomList.Add(roomList[randomIndex]);
+                    allRoomList.Remove(roomList[randomIndex]);
+                }*/
+                foreach (Room room in randomRoomList)
+                {
+                    allRoomList.Remove(room);
+                }
+            }
+            else
+            {
+                randomRoomList = roomList;
+            }
+
+            foreach (Room room in randomRoomList)
+            {
+                (Room room1, Room room2) = roomScript.SeparateRoom(room);
+
+                if (room1 != null && room2 != null)
+                {
+                    nextRoomList.Add(room1);
+                    nextRoomList.Add(room2);
+
+                    allRoomList.Remove(room);
+                    allRoomList.Add(room1);
+                    allRoomList.Add(room2);
+                }
+                else
+                {
+                    Debug.LogWarning($"Room separation failed for {room.roomName}. Keeping original room.");
+                    nextRoomList.Add(room);
+                }
+            }
+
+
+            roomList = nextRoomList;
+        }
+
+        foreach (var room in allRoomList)
+        {
+            roomScript.FindAdjectedRooms(room, allRoomList);
+        }
+
+        roomCount = roomList.Count;
+        roomScript.ConnectSmallerRooms();
+
+        foreach (Room room in allRoomList)
+        {
+            room.adjectedRooms.Clear();
+        }
+
+        foreach (Room room in allRoomList)
+        {
+            roomScript.FindAdjectedRooms(room, allRoomList);
+        }
+
+        roomCount = allRoomList.Count;
+
+        //Assigning environment
+        foreach (Room room in allRoomList)
+        {
+            EnvironmentData selectedStyle = AssignRandomStyleToRoom(room);
+
+            if (selectedStyle != null)
+            {
+                roomScript.SetCellsToCorrectWalls(room);
+
+                room.environmentData = selectedStyle;
+                foreach (var cell in room.cells)
+                {
+                    cell.environmentData = selectedStyle;
+                }
+
+                //Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
+                Color randomColor = GetRandomColor();
+                foreach (var cell in room.cells)
+                {
+                    if (cell.sr != null)
+                    {
+                        cell.sr.color = randomColor;
+                    }
+                }
+            }
+        }
+    }
     private EnvironmentData AssignRandomStyleToRoom(Room room)
     {
         if (notUsedRoomEnvironments.Length == 0)
@@ -333,25 +362,7 @@ public class MapGenerator : MonoBehaviour
         Debug.Log($"[Room] Deleted a total of {deletedRoomsCount} rooms");
     }
 
-    private void GiveCollidersToWalls()
-    {
-        List<GridCell> wallsList = cellsList.Where(c => c.type != GridCell.CellType.floor)
-            .ToList();
-
-        foreach (GridCell wall in wallsList)
-        {
-            Sprite sprite = wall.GetComponent<SpriteRenderer>().sprite;
-            var shapeCount = sprite.GetPhysicsShapeCount();
-            List<Vector2> vectorList = new List<Vector2>();
-            PolygonCollider2D col = wall.AddComponent<PolygonCollider2D>();
-            for (int i = 0; i < shapeCount; i++)
-            {
-                var shape = sprite.GetPhysicsShape(i, vectorList);
-                col.SetPath(i, vectorList);
-                vectorList.Clear();
-            }
-        }
-    }
+    #endregion
 
     #region ----- Corridors -----
     public void CreateCorridorsBetweenRooms()
@@ -727,6 +738,51 @@ public class MapGenerator : MonoBehaviour
         int randomBlue = Random.Range(0, 256);
 
         return new Color(randomRed / 255f, randomGreen / 255f, randomBlue / 255f);
+    }
+
+    private void CheckIfRoomsAreConnected()
+    {
+        List<Room> CheckedRooms = new List<Room>();
+        var randomRoom = allRoomList[Random.Range(0, allRoomList.Count)];
+
+        Queue<Room> roomsToCheck = new Queue<Room>();
+        roomsToCheck.Enqueue(randomRoom);
+
+        Debug.Log("[RoomChecker] is about to start");
+        while (roomsToCheck.Count != 0)
+        {
+            var currentRoom = roomsToCheck.Peek();
+            var ownedCorridors = corridorList.Where(c => c.room1 == currentRoom || c.room2 == currentRoom);
+            foreach (var corridor in ownedCorridors)
+            {
+                Room roomToQueue;
+                if (corridor.room1 != currentRoom)
+                {
+                    roomToQueue = corridor.room1;
+                }
+                else
+                {
+                    roomToQueue = corridor.room2;
+                }
+
+                if (!CheckedRooms.Contains(roomToQueue))
+                {
+                    Debug.Log($"[RoomChecker] - {roomToQueue.roomName} will be added to the queue ");
+                    roomsToCheck.Enqueue(roomToQueue);
+                }
+            }
+            CheckedRooms.Add(currentRoom);
+            var finishedRoom = roomsToCheck.Dequeue();
+            Debug.Log($"[RoomChecker] - Dequeued {finishedRoom.roomName}");
+        }
+        Debug.Log($"[RoomChecker] - Queue Finished, checked {CheckedRooms.Count} out of {allRoomList.Count} rooms");
+
+        List<Room> roomsToConnectSomehow = new List<Room>();
+        roomsToConnectSomehow = allRoomList.Except(CheckedRooms).ToList();
+        Debug.Log($"[RoomChecker] - Rooms to connect somehow: {roomsToConnectSomehow.Count}");
+
+
+
     }
 
     #endregion
