@@ -9,8 +9,6 @@ public class MapGenerator : MonoBehaviour
     public int roomCount = 0;
     public int corridorCount = 0;
     public int smallRoomCellLimit = 100;
-
-    public bool canGoOnWithVerifying = false;
     public int mapWidth;
     public int mapHeight;
     public Grid gridMap;
@@ -531,6 +529,8 @@ public class MapGenerator : MonoBehaviour
         createdCorridors.Add(corridor);
         corridor.room1 = room1;
         corridor.room2 = room2;
+        room1.OwnedCorridors.Add(corridor);
+        room2.OwnedCorridors.Add(corridor);
 
         switch (direction)
         {
@@ -743,46 +743,53 @@ public class MapGenerator : MonoBehaviour
     private void CheckIfRoomsAreConnected()
     {
         List<Room> CheckedRooms = new List<Room>();
+        //iterating as long as all rooms are connected
         var randomRoom = allRoomList[Random.Range(0, allRoomList.Count)];
-
-        Queue<Room> roomsToCheck = new Queue<Room>();
-        roomsToCheck.Enqueue(randomRoom);
-
-        Debug.Log("[RoomChecker] is about to start");
-        while (roomsToCheck.Count != 0)
+        while (CheckedRooms.Count == allRoomList.Count)
         {
-            var currentRoom = roomsToCheck.Peek();
-            var ownedCorridors = corridorList.Where(c => c.room1 == currentRoom || c.room2 == currentRoom);
-            foreach (var corridor in ownedCorridors)
+            Queue<Room> roomsToCheck = new Queue<Room>();
+            roomsToCheck.Enqueue(randomRoom);
+            Debug.Log("[RoomChecker] is about to start");
+            CheckedRooms.Clear();
+            while (roomsToCheck.Count != 0)
             {
-                Room roomToQueue;
-                if (corridor.room1 != currentRoom)
+                var currentRoom = roomsToCheck.Peek();
+                var ownedCorridors = currentRoom.OwnedCorridors;
+                foreach (var corridor in ownedCorridors)
                 {
-                    roomToQueue = corridor.room1;
-                }
-                else
-                {
-                    roomToQueue = corridor.room2;
-                }
+                    Room roomToQueue;
+                    if (corridor.room1 != currentRoom)
+                    {
+                        roomToQueue = corridor.room1;
+                    }
+                    else
+                    {
+                        roomToQueue = corridor.room2;
+                    }
 
-                if (!CheckedRooms.Contains(roomToQueue))
-                {
-                    Debug.Log($"[RoomChecker] - {roomToQueue.roomName} will be added to the queue ");
-                    roomsToCheck.Enqueue(roomToQueue);
+                    if (!CheckedRooms.Contains(roomToQueue))
+                    {
+                        Debug.Log($"[RoomChecker] - {roomToQueue.roomName} will be added to the queue ");
+                        roomsToCheck.Enqueue(roomToQueue);
+                    }
                 }
+                CheckedRooms.Add(currentRoom);
+                var finishedRoom = roomsToCheck.Dequeue();
+                Debug.Log($"[RoomChecker] - Dequeued {finishedRoom.roomName}");
             }
-            CheckedRooms.Add(currentRoom);
-            var finishedRoom = roomsToCheck.Dequeue();
-            Debug.Log($"[RoomChecker] - Dequeued {finishedRoom.roomName}");
+            Debug.Log($"[RoomChecker] - Queue Finished, checked {CheckedRooms.Count} out of {allRoomList.Count} rooms");
+
+            List<Room> roomsToConnectSomehow = new List<Room>();
+            roomsToConnectSomehow = allRoomList.Except(CheckedRooms).ToList();
+            Debug.Log($"[RoomChecker] - Rooms to connect somehow: {roomsToConnectSomehow.Count}");
+
+            Room newRoom = roomsToConnectSomehow
+                .Where(x => x.adjectedRooms.Values.Any(y => CheckedRooms.Contains(y)))
+                .FirstOrDefault();
+            Room newRoomGoodNeighbour = newRoom.adjectedRooms.Values.FirstOrDefault(x => CheckedRooms.Contains(x));
+            CreateCorridor(newRoom, newRoomGoodNeighbour);
         }
-        Debug.Log($"[RoomChecker] - Queue Finished, checked {CheckedRooms.Count} out of {allRoomList.Count} rooms");
-
-        List<Room> roomsToConnectSomehow = new List<Room>();
-        roomsToConnectSomehow = allRoomList.Except(CheckedRooms).ToList();
-        Debug.Log($"[RoomChecker] - Rooms to connect somehow: {roomsToConnectSomehow.Count}");
-
-
-
+        Debug.Log($"[RoomChecker] - All rooms has been connected onto one building");
     }
 
     #endregion

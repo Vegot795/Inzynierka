@@ -13,6 +13,7 @@ public class Room
     public List<Room> createdRooms = new List<Room>();
     public MapGenerator mapGenerator;
     public Room parentRoom;
+    public List<MapGenerator.Corridor> OwnedCorridors = new List<MapGenerator.Corridor>();
 
     public Room(string roomName, List<GridCell> cells, EnvironmentData environmentData)
     {
