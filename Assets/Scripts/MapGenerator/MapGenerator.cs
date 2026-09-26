@@ -5,6 +5,16 @@ using Unity.VisualScripting;
 
 public class MapGenerator : MonoBehaviour
 {
+    [Header("Scripts")]
+    public static MapGenerator Instance { get; private set; }
+    public DoorScript doorScript;
+    public Room roomScript;
+
+    [Header("Prefabs")]
+    public GameObject gridCellPref;
+    public GameObject doorPrefab;
+
+    [Header("Map Settings")]
     public int iterations = 4;
     public int roomCount = 0;
     public int corridorCount = 0;
@@ -12,9 +22,7 @@ public class MapGenerator : MonoBehaviour
     public int mapWidth;
     public int mapHeight;
     public Grid gridMap;
-    public Room roomScript;
     public Room startRoom;
-    public GameObject gridCellPref;
     public List<Room> allRoomList = new List<Room>();
     public List<Corridor> corridorList = new List<Corridor>();
     private List<GridCell> cellsList = new List<GridCell>();
@@ -84,6 +92,7 @@ public class MapGenerator : MonoBehaviour
         CreateCorridorsBetweenRooms();
         CreateCorridorWalls(corridorList);
         CheckIfRoomsAreConnected();
+        MakeEveryRoomHasEnoughCorridors();
         foreach (Room room in allRoomList)
         {
             if (room.environmentData != null)
@@ -726,26 +735,12 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
-
-    #endregion
-
-    #region --- Debugging and Visualization ---
-
-    private Color GetRandomColor()
-    {
-        int randomRed = Random.Range(0, 256);
-        int randomGreen = Random.Range(0, 256);
-        int randomBlue = Random.Range(0, 256);
-
-        return new Color(randomRed / 255f, randomGreen / 255f, randomBlue / 255f);
-    }
-
     private void CheckIfRoomsAreConnected()
     {
         List<Room> CheckedRooms = new List<Room>();
         //iterating as long as all rooms are connected
         var randomRoom = allRoomList[Random.Range(0, allRoomList.Count)];
-        while (CheckedRooms.Count == allRoomList.Count)
+        while (CheckedRooms.Count < allRoomList.Count)
         {
             Queue<Room> roomsToCheck = new Queue<Room>();
             roomsToCheck.Enqueue(randomRoom);
@@ -786,11 +781,62 @@ public class MapGenerator : MonoBehaviour
             Room newRoom = roomsToConnectSomehow
                 .Where(x => x.adjectedRooms.Values.Any(y => CheckedRooms.Contains(y)))
                 .FirstOrDefault();
+            if (newRoom == null)
+            {
+                Debug.LogWarning($"[RoomChecker] - No new room found to connect, but there are still {roomsToConnectSomehow.Count} rooms left to connect. This might indicate a problem with the room adjacency.");
+                break;
+            }
             Room newRoomGoodNeighbour = newRoom.adjectedRooms.Values.FirstOrDefault(x => CheckedRooms.Contains(x));
             CreateCorridor(newRoom, newRoomGoodNeighbour);
+            if (newRoomGoodNeighbour == null)
+            {
+                Debug.LogWarning($"[RoomChecker] - No good neighbour found for {newRoom.roomName}. This might indicate a problem with the room adjacency.");
+                break;
+            }
         }
         Debug.Log($"[RoomChecker] - All rooms has been connected onto one building");
     }
+
+    private void MakeEveryRoomHasEnoughCorridors()
+    {
+        List<Room> roomsWithNotEnoughCorridors = allRoomList.Where(x => x.roomsConnectedWithCorridor < 2).ToList();
+        foreach (var room in roomsWithNotEnoughCorridors)
+        {
+            TryCreateCorridorForRoom(room, 3);
+        }
+    }
+
+
+    #endregion
+
+    #region ----- Doors -----
+
+    private void CreateDoors()
+    {
+        List<Corridor> corridors = corridorList;
+        foreach (var corridor in corridors)
+        {
+            GameObject newDoor = Instantiate(doorPrefab);
+            var newDoorScript = newDoor.GetComponent<DoorScript>();
+            newDoorScript.mapGenerator = this;
+            newDoorScript.belongedCorridor = corridor;
+
+        }
+    }
+
+    #endregion
+
+    #region --- Debugging and Visualization ---
+
+    private Color GetRandomColor()
+    {
+        int randomRed = Random.Range(0, 256);
+        int randomGreen = Random.Range(0, 256);
+        int randomBlue = Random.Range(0, 256);
+
+        return new Color(randomRed / 255f, randomGreen / 255f, randomBlue / 255f);
+    }
+
 
     #endregion
 
