@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridCell : MonoBehaviour
@@ -46,6 +44,18 @@ public class GridCell : MonoBehaviour
         Left,
         Right
     }
+}
+
+public class NodeBase
+{
+    public NodeBase Connection { get; private set; }
+    public float G {  get; private set; }
+    public float H { get; private set; }
+    public float F => G + H;
+
+    public void SetConnection(NodeBase nodeBase) =>Connection = nodeBase;
+    public void SetG(float g) => G = g;
+    public void SetH(float h) => H = h;
 }
 
 

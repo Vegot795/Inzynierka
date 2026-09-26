@@ -21,6 +21,7 @@ public class PlayerInventory : MonoBehaviour
     public GrenadeData CurrentGrenade => currentGrenade;
     public WeaponData startingWeapon;
     public GrenadeData stastingGrenade;
+    public WeaponClass weaponClass;
     public RiffleScript RS;
     public ShotgunScript SS;
     public PC_Controller PC;
@@ -30,6 +31,8 @@ public class PlayerInventory : MonoBehaviour
     private bool isAimingGrenade = false;
     private PlayerInput playerInput;
     private InputAction grenadeAction;
+    private InputAction attackAction;
+    private bool isFiring = false;
 
     private void Awake()
     {
@@ -42,8 +45,20 @@ public class PlayerInventory : MonoBehaviour
                 grenadeAction.started += OnGrenadePressed;
                 grenadeAction.canceled += OnGrenadeReleased;
             }
+            attackAction = playerInput.actions["Attack"];
+            if (attackAction != null)
+            {
+                attackAction.started += OnAttackStarted;
+                attackAction.canceled += OnAttackCanceled;
+            }
         }
         indicator = GetComponent<GrenadeGizmoController>();
+        weaponClass = GetComponentInChildren<WeaponClass>();
+
+        if (weaponHolder == null)
+        {
+            weaponHolder = GetComponentInChildren<WeaponHolder>();
+        }
     }
 
     private void OnDestroy()
@@ -52,6 +67,11 @@ public class PlayerInventory : MonoBehaviour
         {
             grenadeAction.started -= OnGrenadePressed;
             grenadeAction.canceled -= OnGrenadeReleased;
+        }
+        if (attackAction != null)
+        {
+            attackAction.started -= OnAttackStarted;
+            attackAction.canceled -= OnAttackCanceled;
         }
     }
 
@@ -63,9 +83,20 @@ public class PlayerInventory : MonoBehaviour
 
         if (startingWeapon != null)
         {
-            currentWeapon = startingWeapon;
-            weaponHolder.EquipWeapon(currentWeapon);
-            SetWeaponScriptReferences(currentWeapon);
+            if (weaponHolder == null)
+            {
+                Debug.LogWarning("[Inventory] WeaponHolder nieprzypisany - nie mozna wyposazyc broni startowej.");
+            }
+            else
+            {
+                currentWeapon = startingWeapon;
+                weaponHolder.EquipWeapon(currentWeapon);
+                SetWeaponScriptReferences(currentWeapon);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[Inventory] Bron startowa nieprzypisana na prefabie gracza.");
         }
 
         if (stastingGrenade != null)
@@ -81,7 +112,10 @@ public class PlayerInventory : MonoBehaviour
             Vector2 targetPos = GetClampedGrenadeTarget();
         }
 
-
+        if (isFiring)
+        {
+            MakeWeaponShootScript();
+        }
     }
 
     #region --- Pickup/Drop ---
@@ -114,7 +148,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void DropWeapon()
     {
-        Vector2 dropPos = (Vector2)transform.position + GetDropOffset();
+        Vector2 dropPos = (Vector2)transform.position;
         var weaponPickup = WeaponPickup.SpawnFromData(currentWeapon, dropPos);
         currentWeapon = null;
         weaponHolder.UnequipWeapon();
@@ -127,38 +161,32 @@ public class PlayerInventory : MonoBehaviour
         currentGrenade = null;
     }
     #endregion-----------------------------------------------
-    
 
-    
+
+
     #region --- Combat ---
-    public void OnAttack()
+
+    private void OnAttackStarted(InputAction.CallbackContext ctx) => isFiring = true;
+    private void OnAttackCanceled(InputAction.CallbackContext ctx) => isFiring = false;
+
+    public void MakeWeaponShootScript()
     {
         if (currentWeapon == null) return;
 
-        if (currentWeapon.weaponType == WeaponType.Rifle)
+        if (!weaponClass) return;
+
+        weaponClass.Shoot(PC.mousePos);
+
+        switch (currentWeapon.weaponType)
         {
-            if (RS != null && RS.CanShoot())
-            {
-                RS.Shoot(PC.mousePos);
+            case WeaponType.Rifle:
+
                 PlayAnimation("ShootingRiffle");
-            }
-            else if (RS != null && RS.currentAmmo <= 0)
-            {
-                RS.StartCoroutine(RS.DelayReload(RS.reloadTime));
-            }
-        }
-        else if (currentWeapon.weaponType == WeaponType.Shotgun)
-        {
-            if (SS != null && SS.currentAmmo > 0)
-            { 
-                SS.Shoot(PC.mousePos);
+                break;
+            case WeaponType.Shotgun:
                 PlayAnimation("Shoot");
-            }
-            else if (SS != null && SS.currentAmmo <= 0)
-            {
-                SS.StartCoroutine(SS.DelayReload(SS.reloadTime));
-            }
-        }
+                break;
+        }            
     }
 
     private void OnGrenadePressed(InputAction.CallbackContext context)
@@ -266,8 +294,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void SetWeaponScriptReferences(WeaponData weapon)
     {
-        RS = null;
-        SS = null;
+        weaponClass = null;
         animator = null;
         
         GameObject weaponInstance = weaponHolder.CurrentWeaponInstance;
@@ -276,16 +303,7 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        if (weapon.weaponType == WeaponType.Rifle)
-        {
-            RS = weaponInstance.GetComponent<RiffleScript>();
-            animator = weaponInstance.GetComponent<Animator>();
-        }
-        else if (weapon.weaponType == WeaponType.Shotgun)
-        {
-            SS = weaponInstance.GetComponent<ShotgunScript>();
-            animator = weaponInstance.GetComponent<Animator>();
-        }
+        weaponClass = weaponInstance.GetComponent<WeaponClass>();
     }
 
     private void PlayAnimation(string animationName)
@@ -300,4 +318,6 @@ public class PlayerInventory : MonoBehaviour
     {
         return Vector2.left * dropDistance;
     }
+
+
 }

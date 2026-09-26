@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: Shotgun
   damage: 20
   projectileSpeed: 0
-  fireRate: 5
+  fireRate: 0.75
   weaponType: 1
   maxAmmoCapacity: 8
   currentAmmo: 0

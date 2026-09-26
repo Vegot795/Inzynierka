@@ -1,26 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class RiffleScript : MonoBehaviour
+public class RiffleScript : WeaponClass
 {
     public GameObject projectilePrefab;
     public GameObject muzzle;
 
-
-    [Header("Projectile Settings")]
-    public float projectileSpeed = 20f;
-    public float damage = 10f;
-    public float fireRate = 0.1f;
-    public int maxAmmo;
-    public int currentAmmo;
-    public float reloadTime = 3f;
-
-    private Vector3 muzzlePos;
-    private Vector3 spawnPos;
-    private WeaponData weaponData;
-    private float lastFireTime;
-    private bool isReloading = false;
-    public void Initialize(WeaponData data)
+    public override void Initialize(WeaponData data)
     {
         Debug.Log($"Initializing Riffle with data: {data.weaponName}, Max Ammo: {data.maxAmmoCapacity}");
         weaponData = data;
@@ -31,22 +17,18 @@ public class RiffleScript : MonoBehaviour
         projectileSpeed = weaponData.projectileSpeed;
         fireRate = weaponData.fireRate;
         projectilePrefab = weaponData.projectilePrefab;
+        playerController = GetComponentInParent<CharacterBase>();
+
 
         Reload();
-        lastFireTime = -fireRate; // Allow immediate first shot
+        base.lastFireTime = -fireRate; // Allow immediate first shot
+
     }
 
-    public bool CanShoot()
-    {
-        return currentAmmo > 0 
-            && !isReloading 
-            && Time.time >= lastFireTime + fireRate;
-    }
-
-    public void Shoot(Vector2 direction)
+    public override void Shoot(Vector2 direction)
     {
         
-        if (!CanShoot())
+        if (!base.CanShoot())
         {
             return;
         }
@@ -55,7 +37,7 @@ public class RiffleScript : MonoBehaviour
 
         Vector2 shootDirection = direction.normalized;
         GameObject newProjectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-        newProjectile.GetComponent<ProjectileScript>().Initialize(damage, transform.parent.parent.gameObject);
+        newProjectile.GetComponent<ProjectileScript>().Initialize(damage, playerController);
         Rigidbody2D rb = newProjectile.GetComponent<Rigidbody2D>();
         
         if (newProjectile == null)
@@ -68,8 +50,8 @@ public class RiffleScript : MonoBehaviour
 
         rb.linearVelocity = shootDirection * projectileSpeed;
 
-        currentAmmo--;
-        lastFireTime = Time.time;
+        base.currentAmmo--;
+        base.lastFireTime = Time.time;
 
         if (currentAmmo == 0)
         {
@@ -77,18 +59,5 @@ public class RiffleScript : MonoBehaviour
         }
     }
 
-    public IEnumerator DelayReload(float time)
-    {
-        isReloading = true;
-        Debug.Log($"[RiffleScript] Starting reload for {time} seconds...");
-        yield return new WaitForSeconds(time); 
-        Reload();
-        isReloading = false;
-    }
 
-    public void Reload()
-    {
-        currentAmmo = maxAmmo;
-        Debug.Log($"[RiffleScript] Reloaded. Current ammo: {currentAmmo}");
-    }
 }

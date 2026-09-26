@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupRadius: 0.6
-  weaponData: {fileID: 0}
+  weaponData: {fileID: 11400000, guid: efbd532f2254ae943bc555640e2c9c45, type: 2}
 --- !u!114 &-4806405794807032724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +122,7 @@ MonoBehaviour:
   pulseSpeed: 4
   pulseMinIntensity: 4
   pulseMaxIntensity: 8
+  mainSr: {fileID: 0}
   outlineSprite: {fileID: 3143004387345860052, guid: dd59338d12b61904c9fe4c115d0aa53c, type: 3}
 --- !u!58 &8465750647258693112
 CircleCollider2D:

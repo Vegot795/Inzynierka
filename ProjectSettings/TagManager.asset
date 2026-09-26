@@ -9,15 +9,17 @@ TagManager:
   - AmmoDisplay
   - hpDisplay
   - miniGrenade
+  - ScoreDisplay
+  - RangeDetector
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

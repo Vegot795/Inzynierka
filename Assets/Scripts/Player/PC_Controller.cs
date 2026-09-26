@@ -16,12 +16,13 @@ public class PC_Controller : CharacterBase
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     SpriteRenderer spriteRenderer;
 
-    protected override void Start() 
+    public override void Awake() 
     {
-        base.Start();
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         MoveSpeed = 10f;
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     void Update()
@@ -95,10 +96,10 @@ public class PC_Controller : CharacterBase
         return direction;
     }
 
-    protected override void Die()
+    protected override void Die(CharacterBase killer)
     {
         Debug.Log("[Player] Player died! Game Over!");
 
-        base.Die();
+        base.Die(killer);
     }
 }

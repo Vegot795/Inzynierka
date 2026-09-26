@@ -5,8 +5,9 @@ public class WeaponPickup : PickupBase
     public WeaponData weaponData;
     private SpriteRenderer sr;
     
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         sr = GetComponent<SpriteRenderer>();
         if (weaponData != null && sr != null)
         {
