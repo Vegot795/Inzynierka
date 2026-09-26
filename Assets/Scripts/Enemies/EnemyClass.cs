@@ -65,7 +65,7 @@ public class EnemyClass : CharacterBase
     {
 
         Destroy(gameObject);
-        killer.GetComponent<ScoreSystem>()?.AddScore(scoreValue);
+        killer.GetComponent<PlayerInventory>()?.AddScore(scoreValue);
     }
 
     void RequestNewPath()

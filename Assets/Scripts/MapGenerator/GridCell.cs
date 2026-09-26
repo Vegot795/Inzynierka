@@ -21,9 +21,10 @@ public class GridCell : MonoBehaviour
         corridorRightTop,
         corridorRightBottom
     }
-
+    
     public bool hasRoom = false;
     public Room roomOwner = null;
+    public MapGenerator.Corridor corridorOwner = null;
     public int x;
     public int y;
     public CellType type = CellType.empty;

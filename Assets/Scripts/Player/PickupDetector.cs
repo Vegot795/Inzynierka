@@ -24,16 +24,29 @@ public class PickupDetector : MonoBehaviour
         UpdateHoveredPickup();
     }
 
-    private void OnPickup(InputValue value)
+    private void OnInteraction(InputValue value)
     {
         if (hoveredPickup == null)
         {
             return;
         }
 
-        hoveredPickup.OnPickedUp(inventory);
-        nearbyPickups.Remove(hoveredPickup);
-        hoveredPickup = null;
+        if (hoveredPickup is DoorScript)
+        {
+            DoorScript ds = (DoorScript)hoveredPickup;
+            if (inventory.currentScorePoints >= ds.price)
+            {
+                ds.OnPickedUp(inventory);
+            }
+        }
+        else
+        {
+            hoveredPickup.OnPickedUp(inventory);
+            nearbyPickups.Remove(hoveredPickup);
+            hoveredPickup = null;
+        }
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)

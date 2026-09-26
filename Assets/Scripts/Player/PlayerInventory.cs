@@ -17,6 +17,7 @@ public class PlayerInventory : MonoBehaviour
     [Header("Constants")]
     public float grenadeThrowRange = 20f;
 
+    public int currentScorePoints;
     public WeaponData CurrentWeapon => currentWeapon;
     public GrenadeData CurrentGrenade => currentGrenade;
     public WeaponData startingWeapon;
@@ -36,6 +37,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void Awake()
     {
+        currentScorePoints = 0;
         playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
         {
@@ -291,6 +293,21 @@ public class PlayerInventory : MonoBehaviour
         return targetPos;
     }
     #endregion-----------------------------------------------
+
+
+    #region --- Score System ---
+
+    public void AddScore(int scoreToAdd)
+    {
+        currentScorePoints = currentScorePoints + scoreToAdd;
+    }
+
+    public void RemoveScore(int scoreToRemove)
+    {
+        currentScorePoints = currentScorePoints - scoreToRemove;
+    }
+
+    #endregion
 
     private void SetWeaponScriptReferences(WeaponData weapon)
     {

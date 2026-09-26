@@ -35,7 +35,7 @@ public class TestMapGenerator : MapGenerator
 
     private readonly List<GridCell> emptyCells = new List<GridCell>();
 
-    public override void Start()
+    public override void Awake()
     {
         GenerateGrid(width, height);
         SpawnPlayer();

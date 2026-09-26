@@ -51,13 +51,13 @@ public class UIController : MonoBehaviour
     {
         if (PC != null)
         {
-            ScoreSystem scoreSystem = PC.GetComponent<ScoreSystem>();
-            if (scoreSystem != null)
+            PlayerInventory inventory = PC.GetComponent<PlayerInventory>();
+            if (inventory != null)
             {
                 
                 if (scoreText != null)
                 {
-                    scoreText.text = "Score: " + scoreSystem.currentScorePoints;
+                    scoreText.text = "Score: " + inventory.currentScorePoints;
                 }
             }
             else

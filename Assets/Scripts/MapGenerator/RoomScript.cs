@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class Room
 {
+    [Header("Scripts")]
+    public MapGenerator mapGenerator;
+
+    [Header("Specs")]
     public string roomName;
     public int minimalRoomLength = 6;
     public int roomsConnectedWithCorridor = 0;
     public RectInt bounds;
     public EnvironmentData environmentData;
+    public Room parentRoom;
+
+    [Header("Lists")]
+    public List<MapGenerator.Corridor> OwnedCorridors = new List<MapGenerator.Corridor>();
     public List<GridCell> cells = new List<GridCell>();
     public List<Room> createdRooms = new List<Room>();
-    public MapGenerator mapGenerator;
-    public Room parentRoom;
-    public List<MapGenerator.Corridor> OwnedCorridors = new List<MapGenerator.Corridor>();
+    public List<GameObject> spawners = new List<GameObject>();
 
     public Room(string roomName, List<GridCell> cells, EnvironmentData environmentData)
     {
@@ -121,8 +127,8 @@ public class Room
                 return (topRoom, bottomRoom);
             }
         }
-        else 
-        { 
+        else
+        {
             Debug.LogWarning("[Room] Room is too small to separate.");
             return (null, null);
         }
@@ -216,7 +222,7 @@ public class Room
         }
     }
 
-    private RectInt GetRoomBounds(List<GridCell> cells)
+    public RectInt GetRoomBounds(List<GridCell> cells)
     {
         if (cells == null || cells.Count == 0)
         {
@@ -259,13 +265,12 @@ public class Room
             {
                 continue;
             }
-            cell.AddComponent<BoxCollider2D>();
             cell.gameObject.layer = LayerMask.NameToLayer("Wall");
             bool isLeft = cell.x == bounds.xMin;
             bool isRight = cell.x == bounds.xMax - 1;
             bool isBottom = cell.y == bounds.yMin;
             bool isTop = cell.y == bounds.yMax - 1;
-            
+
             if (isLeft && isBottom)
             {
                 cell.type = GridCell.CellType.cornerLeftBottom;
@@ -335,7 +340,7 @@ public class Room
             }
         }
     }
-    
+
     public void ConnectSmallerRooms()
     {
         Dictionary<Room, List<GridCell>> allRooms = new Dictionary<Room, List<GridCell>>();
@@ -356,7 +361,7 @@ public class Room
         List<int> roomSizes = new List<int>();
         foreach (var sRoom in allRooms)
         {
-            if(!roomSizes.Contains(sRoom.Value.Count))
+            if (!roomSizes.Contains(sRoom.Value.Count))
             {
                 roomSizes.Add(sRoom.Value.Count);
             }
@@ -393,8 +398,8 @@ public class Room
 
             foreach (Room otherRoom in smallestRoomsList)
             {
-                if (otherRoom != currentRoom && 
-                    otherRoom.parentRoom != currentRoom.parentRoom && 
+                if (otherRoom != currentRoom &&
+                    otherRoom.parentRoom != currentRoom.parentRoom &&
                     AreRoomsAdjected(currentRoom, otherRoom))
                 {
                     roomToConnect = otherRoom;
@@ -415,7 +420,7 @@ public class Room
             }
         }
 
-        Debug.Log($"[Room] Connected smallest bordering rooms. Total rooms now: {mapGenerator.allRoomList.Count}"); 
+        Debug.Log($"[Room] Connected smallest bordering rooms. Total rooms now: {mapGenerator.allRoomList.Count}");
     }
 
     public bool AreRoomsAdjected(Room room1, Room room2)
@@ -469,4 +474,5 @@ public class Room
     {
         return room1.parentRoom != null && room1.parentRoom == room2.parentRoom;
     }
+   
 }

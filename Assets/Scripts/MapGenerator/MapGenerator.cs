@@ -6,15 +6,21 @@ using Unity.VisualScripting;
 public class MapGenerator : MonoBehaviour
 {
     [Header("Scripts")]
-    public static MapGenerator Instance { get; private set; }
+    public static MapGenerator MG { get; private set; }
     public DoorScript doorScript;
     public Room roomScript;
+    public GameControllerScript GC;
 
     [Header("Prefabs")]
     public GameObject gridCellPref;
     public GameObject doorPrefab;
+    public GameObject spawnerPrefab;
+    public GameObject cellsKid;
+    public GameObject doorsKid;
+    public GameObject spawnersKid;
 
     [Header("Map Settings")]
+    public bool isMapReady = false;
     public int iterations = 4;
     public int roomCount = 0;
     public int corridorCount = 0;
@@ -23,18 +29,20 @@ public class MapGenerator : MonoBehaviour
     public int mapHeight;
     public Grid gridMap;
     public Room startRoom;
+    [Header("Lists")]
     public List<Room> allRoomList = new List<Room>();
     public List<Corridor> corridorList = new List<Corridor>();
-    private List<GridCell> cellsList = new List<GridCell>();
+    public List<GridCell> cellsList = new List<GridCell>();
+    private List<Room> roomList = new List<Room>();
+    private List<Corridor> createdCorridors = new List<Corridor>();
 
+    public List<SpawnerScript> spawnerList = new List<SpawnerScript>();
     [SerializeField] public EnvironmentData[] roomEnvironment;
 
+    private readonly List<GridCell> emptyCells = new List<GridCell>();
     private EnvironmentData[] notUsedRoomEnvironments;
-    private List<Room> roomList;
 
     public GridCell[,] grid;
-    private readonly List<GridCell> emptyCells = new List<GridCell>();
-    private List<Corridor> createdCorridors = new List<Corridor>();
 
     public GridCell[,] Grid => grid;
 
@@ -65,9 +73,13 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-
-    public virtual void Start()
+    public virtual void SetupGenerator()
     {
+        if (MG == null)
+        {
+            MG = this;
+        }
+
         if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
         {
             Debug.LogError("[MapGenerator] Missing room environments.");
@@ -80,20 +92,31 @@ public class MapGenerator : MonoBehaviour
             return;
         }
 
+        GC = GameObject.Find("GameController").GetComponent<GameControllerScript>();
+        if (GC == null)
+        {
+            Debug.LogWarning($"[MapGenerator] - GC is missing!!!");
+        }
         roomScript = new Room("Room_Manager", new List<GridCell>(), null);
         roomScript.mapGenerator = this;
-        roomList = new List<Room>();
         notUsedRoomEnvironments = roomEnvironment;
+        doorScript = doorPrefab.GetComponent<DoorScript>();
+        GC.allSpawners = spawnerList;
+    }
 
+    public virtual void Awake()
+    {
+
+        SetupGenerator();
         GenerateGrid(mapWidth, mapHeight);
         GenerateRooms();
 
         GroupUpExistingRooms();
 
         CreateCorridorsBetweenRooms();
+        MakeEveryRoomHasEnoughCorridors();
         CreateCorridorWalls(corridorList);
         CheckIfRoomsAreConnected();
-        MakeEveryRoomHasEnoughCorridors();
         foreach (Room room in allRoomList)
         {
             if (room.environmentData != null)
@@ -102,6 +125,9 @@ public class MapGenerator : MonoBehaviour
             }
         }
         GiveCollidersToWalls();
+        CreateDoors();
+        CreateSpawners();
+        GC.SetupGame(FindStartRoom());
     }
 
     #region ----- Map Generating -----
@@ -118,7 +144,8 @@ public class MapGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 GameObject newCellObject = Instantiate(gridCellPref, new Vector3(x, y, 0), Quaternion.identity);
-                newCellObject.transform.SetParent(transform);
+           
+                newCellObject.transform.SetParent(cellsKid.transform);
 
                 GridCell newCell = newCellObject.GetComponent<GridCell>();
 
@@ -370,6 +397,18 @@ public class MapGenerator : MonoBehaviour
         Debug.Log($"[Room] Deleted a total of {deletedRoomsCount} rooms");
     }
 
+
+    public Room FindStartRoom()
+    {
+        Dictionary<Room, int> roomPerSize = new Dictionary<Room, int>();
+        var allRooms = allRoomList;
+
+        var startRoom = allRoomList.OrderBy(s => s.cells.Count)
+            .ToList()
+            .FirstOrDefault();
+        Debug.Log($"The biggest room is {startRoom.roomName} and has {startRoom.cells.Count} cells");
+        return startRoom;
+    }
     #endregion
 
     #region ----- Corridors -----
@@ -588,10 +627,18 @@ public class MapGenerator : MonoBehaviour
         corridor.corridorCells.Add(corridor.rightBottomCell);
         corridor.corridorCells.Add(corridor.rightTopCell);
 
-        corridor.leftTopCell.type = GridCell.CellType.floor;
+        foreach (var cell in corridor.corridorCells)
+        {
+            cell.type = GridCell.CellType.floor;
+            cell.corridorOwner = corridor;
+        }
+
+        /*corridor.leftTopCell.type = GridCell.CellType.floor;
         corridor.leftBottomCell.type = GridCell.CellType.floor;
         corridor.rightTopCell.type = GridCell.CellType.floor;
-        corridor.rightBottomCell.type = GridCell.CellType.floor;
+        corridor.rightBottomCell.type = GridCell.CellType.floor;*/
+
+
 
         foreach (var cell in corridor.corridorCells)
         {
@@ -806,8 +853,6 @@ public class MapGenerator : MonoBehaviour
             TryCreateCorridorForRoom(room, 3);
         }
     }
-
-
     #endregion
 
     #region ----- Doors -----
@@ -818,13 +863,50 @@ public class MapGenerator : MonoBehaviour
         foreach (var corridor in corridors)
         {
             GameObject newDoor = Instantiate(doorPrefab);
+            newDoor.transform.SetParent(doorsKid.transform);
             var newDoorScript = newDoor.GetComponent<DoorScript>();
             newDoorScript.mapGenerator = this;
             newDoorScript.belongedCorridor = corridor;
-
+            newDoorScript.orientation = corridor.orientation;
+            newDoorScript.DoorSetup();
         }
     }
 
+    #endregion
+
+    #region ----- Spawners -----
+    public void CreateSpawners()
+    {
+        foreach (var room in allRoomList)
+        {
+            List<GridCell> roomFloor = room.cells
+            .Where(x => x.type == GridCell.CellType.floor)
+            .ToList();
+            RectInt floorBounds = room.GetRoomBounds(roomFloor);
+
+            List<GridCell> cellsUnderWall = roomFloor
+                .Where(y => (GetCellNeighbors(y).Any(x => x.Value.type != GridCell.CellType.floor)) && y.corridorOwner == null)
+                .ToList();
+
+            if (cellsUnderWall == null || cellsUnderWall.Count <= 0)
+            {
+                Debug.Log($"[MapGenerator] - cellsUnderWall is screwed, cellsUnderWall: {cellsUnderWall.Count}, roomFloor: {roomFloor.Count}");
+            }
+
+            int SpawnersToCreate = (int)Mathf.Round(roomFloor.Count / 100);
+
+            for (int x = 0; x < SpawnersToCreate; x++)
+            {
+                GridCell spawnCell = cellsUnderWall[Random.Range(0, cellsUnderWall.Count-1)];
+                GameObject spawner = Instantiate(spawnerPrefab);
+                spawner.transform.position = spawnCell.transform.position;
+                spawner.transform.SetParent(spawnersKid.transform);
+                room.spawners.Add(spawner);
+                spawnerList.Add(spawner.GetComponent<SpawnerScript>());
+
+            }
+        }
+    }
     #endregion
 
     #region --- Debugging and Visualization ---

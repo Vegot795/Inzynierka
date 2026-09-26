@@ -7,6 +7,6 @@ public class EnemyController : CharacterBase
     {
 
         Destroy(gameObject);
-        killer.GetComponent<ScoreSystem>()?.AddScore(scoreValue);
+        killer.GetComponent<PlayerInventory>()?.AddScore(scoreValue);
     }
 }
