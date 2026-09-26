@@ -27,15 +27,16 @@ public class MapGenerator : MonoBehaviour
     public List<Corridor> corridorList = new List<Corridor>();
     private List<GridCell> cellsList = new List<GridCell>();
 
-    [SerializeField] private EnvironmentData[] roomEnvironment;
+    [SerializeField] public EnvironmentData[] roomEnvironment;
 
     private EnvironmentData[] notUsedRoomEnvironments;
     private List<Room> roomList;
 
-    private GridCell[,] grid;
+    public GridCell[,] grid;
     private readonly List<GridCell> emptyCells = new List<GridCell>();
     private List<Corridor> createdCorridors = new List<Corridor>();
 
+    public GridCell[,] Grid => grid;
 
     public enum Directions
     {
@@ -65,7 +66,7 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    public void Start()
+    public virtual void Start()
     {
         if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
         {
@@ -105,7 +106,7 @@ public class MapGenerator : MonoBehaviour
 
     #region ----- Map Generating -----
 
-    public void GenerateGrid(int width, int height)
+    public virtual void GenerateGrid(int width, int height)
     {
         mapWidth = width;
         mapHeight = height;
