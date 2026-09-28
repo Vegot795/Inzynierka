@@ -4,6 +4,7 @@ using static UnityEditor.FilePathAttribute;
 
 public class SpawnerScript : MonoBehaviour
 {
+    public GameControllerScript GCS;
     public bool canSpawnEnemies = true;
     public bool isUnlocked = false;
     public int rotation;
@@ -16,6 +17,7 @@ public class SpawnerScript : MonoBehaviour
     public void Start()
     {
         rotation = GetRotation();
+        GCS = GameControllerScript.GCS;
     }
 
     public int GetRotation()
@@ -45,9 +47,12 @@ public class SpawnerScript : MonoBehaviour
 
     public IEnumerator SpawnEnemiesInSpawner(GameObject enemyPrefab, float timeBetweenSpawns)
     {
+        Debug.Log("[Spawner] - function called");
         canSpawnEnemies = false;
         var enemy = Instantiate(enemyPrefab);
-        enemy.transform.position = transform.position;
+        GCS.enemiesSpawned.Add(enemy.GetComponent<EnemyClass>());
+        GCS.enemiesSpawnedDuringRound++;
+        enemy.transform.position = this.transform.position;
         enemy.transform.rotation = Quaternion.Euler(0, 0, rotation);
         yield return new WaitForSeconds(timeBetweenSpawns);
         canSpawnEnemies = true;

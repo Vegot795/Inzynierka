@@ -15,7 +15,7 @@ public partial class SetNewTargetLocationAction : Action
     {
         if (Agent == null || Agent.Value == null)
         {
-            Debug.LogError("SetNewTargetLocationAction: Agent is not assigned or is null.");
+            //Debug.LogError("SetNewTargetLocationAction: Agent is not assigned or is null.");
             return Status.Failure;
         }
 
@@ -23,13 +23,13 @@ public partial class SetNewTargetLocationAction : Action
 
         if (enemy == null)
         {
-            Debug.LogError("SetNewTargetLocationAction: EnemyClass component is missing on Agent.");
+            //Debug.LogError("SetNewTargetLocationAction: EnemyClass component is missing on Agent.");
             return Status.Failure;
         }
 
         if (enemy.lastSpottedPosition == null)
         {
-            Debug.LogError("SetNewTargetLocationAction: lastSpottedPosition is null.");
+            //Debug.LogError("SetNewTargetLocationAction: lastSpottedPosition is null.");
             return Status.Failure;
         }
 
@@ -45,14 +45,14 @@ public partial class SetNewTargetLocationAction : Action
 
         if (enemy == null)
         {
-            Debug.LogError("SetNewTargetLocationAction: EnemyClass component is missing on Agent.");
+            //Debug.LogError("SetNewTargetLocationAction: EnemyClass component is missing on Agent.");
             return Status.Failure;
         }
 
         if (enemy.targetLocation == null)
         {
             enemy.lastSpottedPosition = null;
-            Debug.LogError("SetNewTargetLocationAction: targetLocation is null.");
+            //Debug.LogError("SetNewTargetLocationAction: targetLocation is null.");
             return Status.Success;
         }
         else

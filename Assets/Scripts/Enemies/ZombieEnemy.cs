@@ -34,13 +34,13 @@ public class ZombieEnemy : EnemyClass
     public void OnTriggerEnter2D(Collider2D collision)
     {
         CharacterBase character = collision.gameObject.GetComponent<CharacterBase>();
-        Debug.Log("Zombie collided with: " + collision.gameObject.name);
+        //Debug.Log("Zombie collided with: " + collision.gameObject.name);
 
         if (character is PC_Controller)
         {
-            Debug.Log("Zombie is attacking: " + character.gameObject.name);
+            //Debug.Log("Zombie is attacking: " + character.gameObject.name);
             Attack(character);
-            Debug.Log($"{character.name} has been attacked, current HP: {character.CurrentHp}");
+            //Debug.Log($"{character.name} has been attacked, current HP: {character.CurrentHp}");
         }
     }
 

@@ -12,7 +12,7 @@ public partial class IsCalledBySkeletonCondition : Condition
     {
         if (Agent == null || Agent.Value == null)
         {
-            Debug.Log("Zombie - IsCalledBySkeleton - Agent is null");
+            //Debug.Log("Zombie - IsCalledBySkeleton - Agent is null");
         }
         EnemyClass self = Agent.Value.GetComponent<EnemyClass>();
 
@@ -29,7 +29,7 @@ public partial class IsCalledBySkeletonCondition : Condition
         }
         else
         {
-            Debug.Log("Zombie - IsCalledBySkeleton - Agent is not a ZombieEnemy");
+            //Debug.Log("Zombie - IsCalledBySkeleton - Agent is not a ZombieEnemy");
             return false;
         }
     }

@@ -14,7 +14,7 @@ public partial class CheckIfAgentIsInDistanceZoneCondition : Condition
     {
         if (Agent == null || Agent.Value == null || Target == null || Target.Value == null)
         {
-            Debug.LogError("Not all blackboard values are set");
+            //Debug.LogError("Not all blackboard values are set");
             return false;
         }
         SkeletEnemy skelet = Agent.Value.GetComponent<SkeletEnemy>();

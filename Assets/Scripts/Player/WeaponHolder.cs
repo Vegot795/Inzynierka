@@ -13,7 +13,7 @@ public class WeaponHolder : MonoBehaviour
         UnequipWeapon();
         if (data.prefab == null)
         {
-            Debug.LogWarning($"[WeaponHolder] {data.weaponName} prefab nieprzypisany.");
+            //Debug.LogWarning($"[WeaponHolder] {data.weaponName} prefab nieprzypisany.");
             return;
         }
 

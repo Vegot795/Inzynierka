@@ -30,7 +30,7 @@ public class PickupOutline : MonoBehaviour
 
         if (mainSr == null)
         {
-            Debug.LogWarning($"[PickupOutline] No SpriteRenderer found on {gameObject.name}");
+            //Debug.LogWarning($"[PickupOutline] No SpriteRenderer found on {gameObject.name}");
             return;
         }
 

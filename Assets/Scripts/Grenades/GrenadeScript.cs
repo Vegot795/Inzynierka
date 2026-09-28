@@ -35,7 +35,7 @@ public class GrenadeScript : MonoBehaviour
         animator = GetComponent<Animator>();
 
 
-        Debug.Log($"Grenade initialized with target position: {targetPosition}, damage: {damage}, explosion radius: {explosionRadius}, move speed: {moveSpeed}");
+        //Debug.Log($"Grenade initialized with target position: {targetPosition}, damage: {damage}, explosion radius: {explosionRadius}, move speed: {moveSpeed}");
     }
     private void Update()
     {

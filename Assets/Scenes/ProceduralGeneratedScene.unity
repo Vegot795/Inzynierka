@@ -228,6 +228,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+      propertyPath: orthographic size
+      value: 4.6953125
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -318,9 +322,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1585467087895518601, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_TagString
+      value: WavesDisplay
+      objectReference: {fileID: 0}
+    - target: {fileID: 3083613972087751036, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_margin.z
+      value: -284.5007
+      objectReference: {fileID: 0}
     - target: {fileID: 3247313071389218337, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831262025389766723, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6869295613756253760, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_Pivot.x
@@ -661,6 +677,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1941024792}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: MaxEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: WaveNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: startScore
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: PlayerPrefab
       value: 
       objectReference: {fileID: 3605315496584586624, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
@@ -677,9 +705,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1608640502}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: canSpawnEnemies
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: CinemachineCamera
       value: 
       objectReference: {fileID: 1385992371}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: AddMaxEnemiesPerWave
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

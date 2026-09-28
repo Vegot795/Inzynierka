@@ -8,7 +8,7 @@ public class RiffleScript : WeaponClass
 
     public override void Initialize(WeaponData data)
     {
-        Debug.Log($"Initializing Riffle with data: {data.weaponName}, Max Ammo: {data.maxAmmoCapacity}");
+        //Debug.Log($"Initializing Riffle with data: {data.weaponName}, Max Ammo: {data.maxAmmoCapacity}");
         weaponData = data;
         
         maxAmmo = weaponData.maxAmmoCapacity;

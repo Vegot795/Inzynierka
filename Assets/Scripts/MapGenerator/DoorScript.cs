@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,22 +8,42 @@ using static MapGenerator;
 public class DoorScript : PickupBase
 {
     public int price;
-    public bool isLocked = true;
-    private bool openingEnded = false;
+    public bool isUnlocked = false;
+    public bool openingEnded = false;
     public Room[] connectsRooms;
+    public GameControllerScript GCS;
     public MapGenerator mapGenerator;
     public MapGenerator.Corridor belongedCorridor;
+    public List<Room> RoomsAttached = new List<Room>();
     public MapGenerator.Corridor.Orientation orientation;
     public Collider2D col;
     public GameObject RightWing;
     public GameObject LeftWing;
     private Rigidbody2D rrb;
     private Rigidbody2D lrb;
-    [SerializeField] private Vector3 moveVector = new Vector3(1.5f , 0, 0);
-    public float moveSpeed = 2f;
+    [SerializeField] private Vector3 moveVector = new Vector3(1.4f , 0, 0);
+    private Vector3 rrbTarget;
+    private Vector3 lrbTarget;
+    public float moveSpeed = 0.2f;
     public override void Awake()
     {
-        
+        GCS = GameControllerScript.GCS;
+    }
+
+    private void Update()
+    {
+        if (isUnlocked && !openingEnded && RoomsAttached.Any(x => x.isUnlocked))
+        {
+            RightWing.transform.localPosition = Vector2.MoveTowards(RightWing.transform.localPosition, rrbTarget, moveSpeed * Time.deltaTime);
+            LeftWing.transform.localPosition = Vector2.MoveTowards(LeftWing.transform.localPosition, lrbTarget, moveSpeed * Time.deltaTime);
+
+            if (RightWing.transform.localPosition == rrbTarget &&
+               LeftWing.transform.localPosition == lrbTarget)
+            {
+                openingEnded = true;
+                //Debug.Log($"Doors {this.name} has been opened");
+            }
+        }
     }
 
     public void DoorSetup()
@@ -46,17 +67,30 @@ public class DoorScript : PickupBase
 
     public override void OnPickedUp(PlayerInventory inventory)
     {
-        Debug.Log($"[DoorScript] - beggins to open {this.name} the door");
-        inventory.RemoveScore(price);
+        //Debug.Log($"[DoorScript] - beggins to open {this.name} the door");
+        inventory.RemoveScore(GCS.doorPrice);
+        UnlockDoor();
+        
+    }
 
-        rrb.MovePosition(Vector3.MoveTowards(transform.position, transform.position + moveVector, moveSpeed * Time.deltaTime));
-        lrb.MovePosition(Vector3.MoveTowards(transform.position, transform.position - moveVector, moveSpeed * Time.deltaTime));
+    public void UnlockDoor()
+    {
 
-        if(rrb.transform.position == new Vector3(gameObject.transform.position.x - 1, 0,0) &&
-           lrb.transform.position == new Vector3(gameObject.transform.position.x - 1, 0,0))
+        if (!isUnlocked) 
         {
-            openingEnded = true;
-            Debug.Log($"Doors {this.name} has been opened");
-        }
+            isUnlocked = true;
+
+            rrbTarget = RightWing.transform.localPosition + moveVector;
+            lrbTarget = LeftWing.transform.localPosition - moveVector;
+
+            Debug.Log($"RightWing position: {RightWing.transform.position}, localPosition: {RightWing.transform.localPosition} Position to go: {rrbTarget}");
+            Debug.Log($"RightWing position: {RightWing.transform.position}, localPosition: {RightWing.transform.localPosition}Position to go: {lrbTarget}");
+
+            Room roomToOpen = RoomsAttached
+                .Where(x => x.isUnlocked == false)
+                .First();
+            roomToOpen.UnlockRoom();
+            
+        } 
     }
 }

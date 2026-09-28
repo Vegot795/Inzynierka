@@ -87,7 +87,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (weaponHolder == null)
             {
-                Debug.LogWarning("[Inventory] WeaponHolder nieprzypisany - nie mozna wyposazyc broni startowej.");
+                //Debug.LogWarning("[Inventory] WeaponHolder nieprzypisany - nie mozna wyposazyc broni startowej.");
             }
             else
             {
@@ -98,7 +98,7 @@ public class PlayerInventory : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[Inventory] Bron startowa nieprzypisana na prefabie gracza.");
+            //Debug.LogWarning("[Inventory] Bron startowa nieprzypisana na prefabie gracza.");
         }
 
         if (stastingGrenade != null)
@@ -133,7 +133,7 @@ public class PlayerInventory : MonoBehaviour
         SetWeaponScriptReferences(currentWeapon);
         Destroy(pickup.gameObject);
 
-        Debug.Log($"[Inventory] Equipped weapon: {currentWeapon.weaponName}");
+        //Debug.Log($"[Inventory] Equipped weapon: {currentWeapon.weaponName}");
     }
 
     public void PickupGrenade(GrenadePickup pickup)
@@ -145,7 +145,7 @@ public class PlayerInventory : MonoBehaviour
         currentGrenade = pickup.grenadeData;
         Destroy(pickup.gameObject);
 
-        Debug.Log($"[Inventory] Picked up grenade: {currentGrenade.grenadeName}");
+        //Debug.Log($"[Inventory] Picked up grenade: {currentGrenade.grenadeName}");
     }
 
     private void DropWeapon()
@@ -193,7 +193,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadePressed(InputAction.CallbackContext context)
     {
-        //Debug.Log("Grenade GameObject pressed");
+        ////Debug.Log("Grenade GameObject pressed");
         OnGrenadeHoldStart();
         indicator.ShowIndicator();
 
@@ -201,7 +201,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadeReleased(InputAction.CallbackContext context)
     {
-        //Debug.Log("Grenade GameObject released");
+        ////Debug.Log("Grenade GameObject released");
         OnGrenadeHoldEnd();
         indicator.HideIndicator();
     }
@@ -214,7 +214,7 @@ public class PlayerInventory : MonoBehaviour
         Vector2 targetPos = GetClampedGrenadeTarget();
         
         
-        Debug.Log($"[Inventory] Started aiming grenade");
+        //Debug.Log($"[Inventory] Started aiming grenade");
     }
     public void OnGrenadeHoldEnd()
     {

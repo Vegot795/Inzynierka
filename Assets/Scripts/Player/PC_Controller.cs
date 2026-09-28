@@ -98,7 +98,7 @@ public class PC_Controller : CharacterBase
 
     protected override void Die(CharacterBase killer)
     {
-        Debug.Log("[Player] Player died! Game Over!");
+        //Debug.Log("[Player] Player died! Game Over!");
 
         base.Die(killer);
     }

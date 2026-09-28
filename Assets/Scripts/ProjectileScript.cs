@@ -21,7 +21,7 @@ public class ProjectileScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"[Projectile] OnTriggerEnter2D called. Hit: {collision.gameObject.name}");
+        //Debug.Log($"[Projectile] OnTriggerEnter2D called. Hit: {collision.gameObject.name}");
         CharacterBase character = collision.GetComponent<CharacterBase>();
 
         if (shooter != null && collision.gameObject == shooter)
@@ -31,7 +31,7 @@ public class ProjectileScript : MonoBehaviour
 
         if (shooter != null && collision.gameObject != shooter)
         {
-            Debug.Log($"[Projectile] Hit enemy: {collision.gameObject.name}");
+            //Debug.Log($"[Projectile] Hit enemy: {collision.gameObject.name}");
             if (character != null)
             {
                 character.TakeDamage(damage, shooter);
@@ -42,7 +42,7 @@ public class ProjectileScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.LogWarning($"[Projectile] OnCollisionEnter2D called (should be trigger!). Hit: {collision.gameObject.name}");
+        //Debug.LogWarning($"[Projectile] OnCollisionEnter2D called (should be trigger!). Hit: {collision.gameObject.name}");
     }
 
     private void Update()

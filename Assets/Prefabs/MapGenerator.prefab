@@ -103,6 +103,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8818995410916945753}
   - component: {fileID: 7311619006494670757}
+  - component: {fileID: 2136667599410248270}
+  - component: {fileID: 2631076048845903322}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: Untagged
@@ -161,3 +163,29 @@ MonoBehaviour:
   roomEnvironment:
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
   - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
+--- !u!114 &2136667599410248270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930169104597275817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99413c313df0abb4fa875f1670e61e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapGenerator: {fileID: 7311619006494670757}
+--- !u!114 &2631076048845903322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930169104597275817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330eae4fd3aba164da3f254eebd65e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothPath: 1

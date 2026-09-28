@@ -33,7 +33,7 @@ public class FoV : MonoBehaviour
     private void Start()
     {
         parent = GetComponentInParent<CharacterBase>();
-        SetOwnerType(parent);
+        SetOwnerType(parent.GetComponent<CharacterBase>().characterType);
         if (ownerType == ownerTypes.enemy)
         {
             this.viewDistance = parent.GetComponent<EnemyClass>().viewDistance;
@@ -146,14 +146,14 @@ public class FoV : MonoBehaviour
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
     }
 
-    public void SetOwnerType(CharacterBase ownerScript)
+    public void SetOwnerType(CharacterBase.CharacterType ownerScript)
     {
-        if (ownerScript is EnemyClass)
+        if (ownerScript == CharacterBase.CharacterType.Enemy)
         {
             ownerType = ownerTypes.enemy;
             sightBlockerMask = obstacleMask | LayerMask.GetMask("Player");
         }
-        else if (ownerScript is PC_Controller)
+        else if (ownerScript == CharacterBase.CharacterType.Player)
         {
             ownerType = ownerTypes.player;
             sightBlockerMask = obstacleMask | LayerMask.GetMask("Enemy");

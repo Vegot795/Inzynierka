@@ -82,26 +82,25 @@ public class MapGenerator : MonoBehaviour
 
         if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
         {
-            Debug.LogError("[MapGenerator] Missing room environments.");
+            //Debug.LogError("[MapGenerator] Missing room environments.");
             return;
         }
 
         if (gridCellPref == null)
         {
-            Debug.LogError("[MapGenerator] Missing gridCellPref.");
+            //Debug.LogError("[MapGenerator] Missing gridCellPref.");
             return;
         }
 
         GC = GameObject.Find("GameController").GetComponent<GameControllerScript>();
         if (GC == null)
         {
-            Debug.LogWarning($"[MapGenerator] - GC is missing!!!");
+            //Debug.LogWarning($"[MapGenerator] - GC is missing!!!");
         }
         roomScript = new Room("Room_Manager", new List<GridCell>(), null);
         roomScript.mapGenerator = this;
         notUsedRoomEnvironments = roomEnvironment;
         doorScript = doorPrefab.GetComponent<DoorScript>();
-        GC.allSpawners = spawnerList;
     }
 
     public virtual void Awake()
@@ -151,7 +150,7 @@ public class MapGenerator : MonoBehaviour
 
                 if (newCell == null)
                 {
-                    Debug.LogError("[MapGenerator] gridCellPref does not contain GridCell component.");
+                    //Debug.LogError("[MapGenerator] gridCellPref does not contain GridCell component.");
                     continue;
                 }
 
@@ -176,14 +175,14 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        Debug.Log($"Grid generated with dimensions: {width}x{height}. Cell count: {emptyCells.Count}");
+        //Debug.Log($"Grid generated with dimensions: {width}x{height}. Cell count: {emptyCells.Count}");
 
         startRoom = roomScript.CreateNewRoom(emptyCells);
 
         if (startRoom != null)
         {
             roomList.Add(startRoom);
-            Debug.Log($"startRoom created: {startRoom.roomName}");
+            //Debug.Log($"startRoom created: {startRoom.roomName}");
         }
     }
     private void GiveCollidersToWalls()
@@ -261,7 +260,7 @@ public class MapGenerator : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"Room separation failed for {room.roomName}. Keeping original room.");
+                    //Debug.LogWarning($"Room separation failed for {room.roomName}. Keeping original room.");
                     nextRoomList.Add(room);
                 }
             }
@@ -305,7 +304,7 @@ public class MapGenerator : MonoBehaviour
                     cell.environmentData = selectedStyle;
                 }
 
-                //Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
+                ////Debug.Log($"Room {room.roomName} environment set to: {selectedStyle.name}");
                 Color randomColor = GetRandomColor();
                 foreach (var cell in room.cells)
                 {
@@ -321,7 +320,7 @@ public class MapGenerator : MonoBehaviour
     {
         if (notUsedRoomEnvironments.Length == 0)
         {
-            Debug.LogWarning("[MapGenerator] No more unused room environments available.");
+            //Debug.LogWarning("[MapGenerator] No more unused room environments available.");
             return null;
         }
         int randomIndex = Random.Range(0, notUsedRoomEnvironments.Length);
@@ -354,9 +353,9 @@ public class MapGenerator : MonoBehaviour
         foreach (int size in roomSizes)
         {
             roomsBySize[size] = allRooms.Where(s => s.Value.Count == size).Select(s => s.Key).ToList();
-            Debug.Log("[Room] Found " + roomsBySize[size].Count + " rooms of size " + size);
+            ////Debug.Log("[Room] Found " + roomsBySize[size].Count + " rooms of size " + size);
         }
-        Debug.Log("[Room] Grouped up existing rooms by size");
+        //Debug.Log("[Room] Grouped up existing rooms by size");
         return roomsBySize;
     }
 
@@ -365,7 +364,7 @@ public class MapGenerator : MonoBehaviour
         var allRooms = GroupUpExistingRooms();
         List<int> roomKeys = allRooms.Keys.ToList();
         roomKeys = roomKeys.OrderBy(s => s).ToList();
-        Debug.Log("[Room] Room sizes in ascending order: " + string.Join(", ", roomKeys));
+        //Debug.Log("[Room] Room sizes in ascending order: " + string.Join(", ", roomKeys));
         int deletedRoomsCount = 0;
         foreach (var roomGroup in allRooms)
         {
@@ -374,7 +373,7 @@ public class MapGenerator : MonoBehaviour
                 if (roomGroup.Value.Count >= 5)
                 {
                     int roomsToDeleteCount = roomGroup.Value.Count / 2;
-                    Debug.Log("[Room] Deleting " + roomsToDeleteCount + " rooms of size " + roomGroup.Key);
+                    //Debug.Log("[Room] Deleting " + roomsToDeleteCount + " rooms of size " + roomGroup.Key);
                     for (int i = 0; i < roomsToDeleteCount; i++)
                     {
                         deletedRoomsCount++;
@@ -389,12 +388,12 @@ public class MapGenerator : MonoBehaviour
                             }
                         }
                         allRoomList.Remove(roomToDelete);
-                        Debug.Log("[Room] Deleted room: " + roomToDelete.roomName);
+                        //Debug.Log("[Room] Deleted room: " + roomToDelete.roomName);
                     }
                 }
             }
         }
-        Debug.Log($"[Room] Deleted a total of {deletedRoomsCount} rooms");
+        //Debug.Log($"[Room] Deleted a total of {deletedRoomsCount} rooms");
     }
 
 
@@ -406,7 +405,7 @@ public class MapGenerator : MonoBehaviour
         var startRoom = allRoomList.OrderBy(s => s.cells.Count)
             .ToList()
             .FirstOrDefault();
-        Debug.Log($"The biggest room is {startRoom.roomName} and has {startRoom.cells.Count} cells");
+        //Debug.Log($"The biggest room is {startRoom.roomName} and has {startRoom.cells.Count} cells");
         return startRoom;
     }
     #endregion
@@ -487,7 +486,7 @@ public class MapGenerator : MonoBehaviour
 
         if (direction == null)
         {
-            Debug.LogWarning("Rooms are not adjacent.");
+            //Debug.LogWarning("Rooms are not adjacent.");
             return false;
         }
 
@@ -544,7 +543,7 @@ public class MapGenerator : MonoBehaviour
                 }
                 break;
             default:
-                Debug.LogWarning("Unexpected room adjacency.");
+                //Debug.LogWarning("Unexpected room adjacency.");
                 return false;
         }
 
@@ -569,7 +568,7 @@ public class MapGenerator : MonoBehaviour
 
         if (room1PossibbleCorridorCells.Count == 0)
         {
-            Debug.LogWarning("No valid corridor cells found.");
+            //Debug.LogWarning("No valid corridor cells found.");
             return false;
         }
 
@@ -618,7 +617,7 @@ public class MapGenerator : MonoBehaviour
             corridor.rightTopCell == null ||
             corridor.rightBottomCell == null)
         {
-            Debug.LogWarning("Corridor could not be created because one or more corridor cells were missing.");
+            //Debug.LogWarning("Corridor could not be created because one or more corridor cells were missing.");
             return false;
         }
 
@@ -642,7 +641,7 @@ public class MapGenerator : MonoBehaviour
 
         foreach (var cell in corridor.corridorCells)
         {
-            //Debug.Log($"[Corridor] Corridor cell at ({cell.x}, {cell.y}) of type {cell.type}");
+            ////Debug.Log($"[Corridor] Corridor cell at ({cell.x}, {cell.y}) of type {cell.type}");
             var cellNeighbors = GetCellNeighbors(cell);
             foreach (var kvp in cellNeighbors)
             {
@@ -651,7 +650,7 @@ public class MapGenerator : MonoBehaviour
 
                 if(neighbor == null)
                 {
-                    Debug.Log("[Cell] missing neighbor for cell at (" + cell.x + ", " + cell.y + ") in direction " + cellDirection);
+                    //Debug.Log("[Cell] missing neighbor for cell at (" + cell.x + ", " + cell.y + ") in direction " + cellDirection);
                 }
                 
             }
@@ -695,7 +694,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     leftTopWall.type = GridCell.CellType.wallTop;
                 }
-                Debug.Log($"[CORRIDOR] - {leftTopWall.type} created at {leftTopWall.x}, {leftTopWall.y}");
+                ////Debug.Log($"[CORRIDOR] - {leftTopWall.type} created at {leftTopWall.x}, {leftTopWall.y}");
                 //RightTop
                 if (corridor.room1.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightTopWall.x && c.y == rightTopWall.y + 1)) ||
                     corridor.room2.cells.Contains(cellsList.FirstOrDefault(c => c.x == rightTopWall.x && c.y == rightTopWall.y + 1)))
@@ -792,7 +791,7 @@ public class MapGenerator : MonoBehaviour
         {
             Queue<Room> roomsToCheck = new Queue<Room>();
             roomsToCheck.Enqueue(randomRoom);
-            Debug.Log("[RoomChecker] is about to start");
+            //Debug.Log("[RoomChecker] is about to start");
             CheckedRooms.Clear();
             while (roomsToCheck.Count != 0)
             {
@@ -812,37 +811,37 @@ public class MapGenerator : MonoBehaviour
 
                     if (!CheckedRooms.Contains(roomToQueue))
                     {
-                        Debug.Log($"[RoomChecker] - {roomToQueue.roomName} will be added to the queue ");
+                        ////Debug.Log($"[RoomChecker] - {roomToQueue.roomName} will be added to the queue ");
                         roomsToCheck.Enqueue(roomToQueue);
                     }
                 }
                 CheckedRooms.Add(currentRoom);
                 var finishedRoom = roomsToCheck.Dequeue();
-                Debug.Log($"[RoomChecker] - Dequeued {finishedRoom.roomName}");
+                ////Debug.Log($"[RoomChecker] - Dequeued {finishedRoom.roomName}");
             }
-            Debug.Log($"[RoomChecker] - Queue Finished, checked {CheckedRooms.Count} out of {allRoomList.Count} rooms");
+            //Debug.Log($"[RoomChecker] - Queue Finished, checked {CheckedRooms.Count} out of {allRoomList.Count} rooms");
 
             List<Room> roomsToConnectSomehow = new List<Room>();
             roomsToConnectSomehow = allRoomList.Except(CheckedRooms).ToList();
-            Debug.Log($"[RoomChecker] - Rooms to connect somehow: {roomsToConnectSomehow.Count}");
+            ////Debug.Log($"[RoomChecker] - Rooms to connect somehow: {roomsToConnectSomehow.Count}");
 
             Room newRoom = roomsToConnectSomehow
                 .Where(x => x.adjectedRooms.Values.Any(y => CheckedRooms.Contains(y)))
                 .FirstOrDefault();
             if (newRoom == null)
             {
-                Debug.LogWarning($"[RoomChecker] - No new room found to connect, but there are still {roomsToConnectSomehow.Count} rooms left to connect. This might indicate a problem with the room adjacency.");
+                ////Debug.LogWarning($"[RoomChecker] - No new room found to connect, but there are still {roomsToConnectSomehow.Count} rooms left to connect. This might indicate a problem with the room adjacency.");
                 break;
             }
             Room newRoomGoodNeighbour = newRoom.adjectedRooms.Values.FirstOrDefault(x => CheckedRooms.Contains(x));
             CreateCorridor(newRoom, newRoomGoodNeighbour);
             if (newRoomGoodNeighbour == null)
             {
-                Debug.LogWarning($"[RoomChecker] - No good neighbour found for {newRoom.roomName}. This might indicate a problem with the room adjacency.");
+                ////Debug.LogWarning($"[RoomChecker] - No good neighbour found for {newRoom.roomName}. This might indicate a problem with the room adjacency.");
                 break;
             }
         }
-        Debug.Log($"[RoomChecker] - All rooms has been connected onto one building");
+        ////Debug.Log($"[RoomChecker] - All rooms has been connected onto one building");
     }
 
     private void MakeEveryRoomHasEnoughCorridors()
@@ -869,6 +868,11 @@ public class MapGenerator : MonoBehaviour
             newDoorScript.belongedCorridor = corridor;
             newDoorScript.orientation = corridor.orientation;
             newDoorScript.DoorSetup();
+            corridor.room1.doorsAttached.Add(newDoorScript);
+            corridor.room2.doorsAttached.Add(newDoorScript);
+            newDoorScript.RoomsAttached.Add(corridor.room1);
+            newDoorScript.RoomsAttached.Add(corridor.room2);
+
         }
     }
 
@@ -890,7 +894,7 @@ public class MapGenerator : MonoBehaviour
 
             if (cellsUnderWall == null || cellsUnderWall.Count <= 0)
             {
-                Debug.Log($"[MapGenerator] - cellsUnderWall is screwed, cellsUnderWall: {cellsUnderWall.Count}, roomFloor: {roomFloor.Count}");
+                //Debug.Log($"[MapGenerator] - cellsUnderWall is screwed, cellsUnderWall: {cellsUnderWall.Count}, roomFloor: {roomFloor.Count}");
             }
 
             int SpawnersToCreate = (int)Mathf.Round(roomFloor.Count / 100);

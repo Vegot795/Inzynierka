@@ -13,7 +13,7 @@ public partial class CanCallZombiesCondition : Condition
     {
         if (Agent == null || Agent.Value == null) 
         { 
-            Debug.LogError("Agent is null or not assigned in CanCallZombiesCondition.");
+            //Debug.LogError("Agent is null or not assigned in CanCallZombiesCondition.");
             return false; 
         }
 

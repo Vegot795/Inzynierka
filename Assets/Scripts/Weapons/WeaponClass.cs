@@ -41,7 +41,7 @@ public class WeaponClass : MonoBehaviour
     public virtual IEnumerator DelayReload(float time)
     {
         isReloading = true;
-        Debug.Log($"[RiffleScript] Starting reload for {time} seconds...");
+        //Debug.Log($"[RiffleScript] Starting reload for {time} seconds...");
         yield return new WaitForSeconds(time);
         Reload();
         isReloading = false;
@@ -50,6 +50,6 @@ public class WeaponClass : MonoBehaviour
     public virtual void Reload()
     {
         currentAmmo = maxAmmo;
-        Debug.Log($"[RiffleScript] Reloaded. Current ammo: {currentAmmo}");
+        //Debug.Log($"[RiffleScript] Reloaded. Current ammo: {currentAmmo}");
     }
 }

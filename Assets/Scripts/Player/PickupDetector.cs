@@ -8,6 +8,7 @@ public class PickupDetector : MonoBehaviour
 {
     private PlayerInventory inventory;
     private Camera mainCamera;
+    private GameControllerScript GCS;
 
     private readonly List<PickupBase> nearbyPickups = new();
 
@@ -17,6 +18,7 @@ public class PickupDetector : MonoBehaviour
     {
         inventory = GetComponent<PlayerInventory>();
         mainCamera = Camera.main;
+        GCS = GameControllerScript.GCS;
     }
 
     private void Update()
@@ -34,9 +36,10 @@ public class PickupDetector : MonoBehaviour
         if (hoveredPickup is DoorScript)
         {
             DoorScript ds = (DoorScript)hoveredPickup;
-            if (inventory.currentScorePoints >= ds.price)
+            if (inventory.currentScorePoints >= GCS.doorPrice)
             {
                 ds.OnPickedUp(inventory);
+                GCS.doorPrice += GCS.doorPricePerUnlockedDoors;
             }
         }
         else

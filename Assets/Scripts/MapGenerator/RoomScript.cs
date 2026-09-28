@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,12 +16,14 @@ public class Room
     public RectInt bounds;
     public EnvironmentData environmentData;
     public Room parentRoom;
+    public bool isUnlocked = false;
 
     [Header("Lists")]
     public List<MapGenerator.Corridor> OwnedCorridors = new List<MapGenerator.Corridor>();
     public List<GridCell> cells = new List<GridCell>();
     public List<Room> createdRooms = new List<Room>();
     public List<GameObject> spawners = new List<GameObject>();
+    public List<DoorScript> doorsAttached = new List<DoorScript>();
 
     public Room(string roomName, List<GridCell> cells, EnvironmentData environmentData)
     {
@@ -42,6 +45,8 @@ public class Room
     }
 
     public Dictionary<RoomsAdjected, Room> adjectedRooms = new Dictionary<RoomsAdjected, Room>();
+
+    #region ------- Room Creation ------
     public Room CreateNewRoom(List<GridCell> cells)
     {
         int newRoomCount = createdRooms.Count + 1;
@@ -57,7 +62,7 @@ public class Room
 
         createdRooms.Add(newRoom);
 
-        //Debug.Log("Created new room: " + newRoomName + " with bounds: " + newRoom.bounds);
+        ////Debug.Log("Created new room: " + newRoomName + " with bounds: " + newRoom.bounds);
 
         return newRoom;
     }
@@ -66,7 +71,7 @@ public class Room
     {
         if (room == null || room.cells == null || room.cells.Count <= 1)
         {
-            Debug.LogWarning("[Room] Cannot separate null or too-small room.");
+            //Debug.LogWarning("[Room] Cannot separate null or too-small room.");
             return (null, null);
         }
 
@@ -129,7 +134,7 @@ public class Room
         }
         else
         {
-            Debug.LogWarning("[Room] Room is too small to separate.");
+            //Debug.LogWarning("[Room] Room is too small to separate.");
             return (null, null);
         }
     }
@@ -146,8 +151,17 @@ public class Room
         foreach (GridCell cell in room.cells)
         {
             cell.environmentData = environmentData;
+            if (cell.type == GridCell.CellType.floor)
+            {
+                cell.GetComponent<SpriteRenderer>().sortingLayerName = "Ground";
+            }
+            else
+            {
+                cell.GetComponent<SpriteRenderer>().sortingLayerName = "Walls";
+            }
         }
 
+        
         SetCellSpritesFromEnvironment(room, environmentData);
     }
 
@@ -350,7 +364,7 @@ public class Room
             allRooms.Add(room, room.cells);
         }
 
-        Debug.Log($"[Room] Found {allRooms.Count} rooms to check.");
+        //Debug.Log($"[Room] Found {allRooms.Count} rooms to check.");
 
         if (allRooms.Count <= 1)
         {
@@ -369,13 +383,13 @@ public class Room
 
         roomSizes = roomSizes.OrderBy(i => i).ToList();
         var roomSizeLowerLimit = roomSizes[2];
-        Debug.Log("[CELL COUNT] Unique room sizes: " + string.Join(", ", roomSizes));
-        Debug.Log("[CELL COUNT] Room size lower limit for connection: " + roomSizeLowerLimit);
+        ////Debug.Log("[CELL COUNT] Unique room sizes: " + string.Join(", ", roomSizes));
+        ////Debug.Log("[CELL COUNT] Room size lower limit for connection: " + roomSizeLowerLimit);
 
         int smallestRoomCellCount = allRooms.First().Value.Count;
         List<Room> smallestRoomsList = new List<Room>();
 
-        Debug.Log($"[Room] Smallest room has {smallestRoomCellCount} cells.");
+        //Debug.Log($"[Room] Smallest room has {smallestRoomCellCount} cells.");
 
         foreach (var sRoom in allRooms)
         {
@@ -389,7 +403,7 @@ public class Room
             }
         }
 
-        Debug.Log($"[Room] Found {smallestRoomsList.Count} smallest rooms to connect.");
+        //Debug.Log($"[Room] Found {smallestRoomsList.Count} smallest rooms to connect.");
 
         while (smallestRoomsList.Count > 1)
         {
@@ -420,7 +434,7 @@ public class Room
             }
         }
 
-        Debug.Log($"[Room] Connected smallest bordering rooms. Total rooms now: {mapGenerator.allRoomList.Count}");
+        //Debug.Log($"[Room] Connected smallest bordering rooms. Total rooms now: {mapGenerator.allRoomList.Count}");
     }
 
     public bool AreRoomsAdjected(Room room1, Room room2)
@@ -436,13 +450,13 @@ public class Room
     {
         if (room1 == null || room2 == null)
         {
-            Debug.Log($"[Room] Cannot connect null rooms: room1 = {room1}, room2 = {room2}");
+            //Debug.Log($"[Room] Cannot connect null rooms: room1 = {room1}, room2 = {room2}");
             return;
         }
 
         if (!HasCommonBorder(room1, room2))
         {
-            Debug.LogWarning("[Room] Rooms are not adjected and cannot be connected.");
+            //Debug.LogWarning("[Room] Rooms are not adjected and cannot be connected.");
             return;
         }
 
@@ -474,5 +488,24 @@ public class Room
     {
         return room1.parentRoom != null && room1.parentRoom == room2.parentRoom;
     }
-   
+    #endregion
+    public void UnlockRoom()
+    {
+        isUnlocked = true;
+        foreach (var spawner in spawners)
+        {
+            spawner.GetComponent<SpawnerScript>().isUnlocked = true;            
+        }
+
+        foreach (var door in doorsAttached)
+        {
+            if (door.RoomsAttached.All(x => x.isUnlocked == true))
+            {
+                door.UnlockDoor();
+            }
+            
+        }
+
+    }
+
 }

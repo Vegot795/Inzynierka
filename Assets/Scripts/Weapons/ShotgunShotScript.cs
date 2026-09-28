@@ -15,7 +15,7 @@ public class ShotgunShotScript : MonoBehaviour
         if (target.CompareTag("Enemy"))
         {
             enemiesInRange.Add(target.gameObject);
-            Debug.Log($"[ShotgunScript] Enemy {target.gameObject.name} entered range. Total enemies in range: {enemiesInRange.Count}");
+            //Debug.Log($"[ShotgunScript] Enemy {target.gameObject.name} entered range. Total enemies in range: {enemiesInRange.Count}");
         }
     }
 
@@ -24,7 +24,7 @@ public class ShotgunShotScript : MonoBehaviour
         if (target.CompareTag("Enemy"))
         {
             enemiesInRange.Remove(target.gameObject);
-            Debug.Log($"[ShotgunScript] Enemy {target.gameObject.name} exited range. Total enemies in range: {enemiesInRange.Count}");
+            //Debug.Log($"[ShotgunScript] Enemy {target.gameObject.name} exited range. Total enemies in range: {enemiesInRange.Count}");
         }
     }
 }

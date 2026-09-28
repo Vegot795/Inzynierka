@@ -59,7 +59,7 @@ public class TestMapGenerator : MapGenerator
                 startingWeapon = shotgunPrefab.GetComponent<WeaponPickup>();
                 break;
             default:
-                Debug.LogWarning("Unknown weapon type: " + weapon);
+                //Debug.LogWarning("Unknown weapon type: " + weapon);
                 break;
         }
 
@@ -109,7 +109,7 @@ public class TestMapGenerator : MapGenerator
 
                 if (newCell == null)
                 {
-                    Debug.LogError("[MapGenerator] gridCellPref does not contain GridCell component.");
+                    //Debug.LogError("[MapGenerator] gridCellPref does not contain GridCell component.");
                     continue;
                 }
 
@@ -133,7 +133,7 @@ public class TestMapGenerator : MapGenerator
             }
         }         
 
-        Debug.Log($"Grid generated with dimensions: {width}x{height}. Cell count: {emptyCells.Count}");
+        //Debug.Log($"Grid generated with dimensions: {width}x{height}. Cell count: {emptyCells.Count}");
     }
 
     public void SpawnTestingEnemy(Vector3 targetPosition, float targetDistance, int targetCount)
@@ -141,14 +141,14 @@ public class TestMapGenerator : MapGenerator
 
         if (enemyPrefabs == null)
         {
-            Debug.LogError("[TestMapGenerator] enemyPrefab is not assigned in the Inspector.");
+            //Debug.LogError("[TestMapGenerator] enemyPrefab is not assigned in the Inspector.");
             return;
         }
 
         Pathfinding sharedPathfinder = GetComponent<Pathfinding>();
         if (sharedPathfinder == null)
         {
-            Debug.LogError("[TestMapGenerator] No Pathfinding component on the generator object.", this);
+            //Debug.LogError("[TestMapGenerator] No Pathfinding component on the generator object.", this);
             return;
         }
 
@@ -168,10 +168,10 @@ public class TestMapGenerator : MapGenerator
             }
             catch (System.Exception ex)
             {
-                Debug.LogError($"[TestMapGenerator] Failed to spawn enemy {i + 1}/{targetCount}: {ex.Message}");
+                //Debug.LogError($"[TestMapGenerator] Failed to spawn enemy {i + 1}/{targetCount}: {ex.Message}");
             }
         }
-        Debug.Log($"Spawned {enemyList.Count} testing enemies around position {targetPosition} within distance {targetDistance}.");
+        //Debug.Log($"Spawned {enemyList.Count} testing enemies around position {targetPosition} within distance {targetDistance}.");
     }
 
 }

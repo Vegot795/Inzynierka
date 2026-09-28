@@ -18,7 +18,7 @@ public partial class IsPlayerInFieldOfViewCondition : Condition
         }
 
         EnemyClass enemy = Agent.Value.GetComponent<EnemyClass>();
-        //Debug.Log($"Enemy: {enemy}, TargetCharacter: {enemy?.targetCharacter}");
+        ////Debug.Log($"Enemy: {enemy}, TargetCharacter: {enemy?.targetCharacter}");
         if (enemy == null || enemy.targetCharacter == null)
         {
             return false;

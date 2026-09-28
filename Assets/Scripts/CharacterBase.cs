@@ -3,12 +3,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum CharacterType
-{
-    Player,
-    Enemy,
-    Neutral
-}
+
 
 public class CharacterBase : MonoBehaviour
 {
@@ -29,7 +24,12 @@ public class CharacterBase : MonoBehaviour
     private List<CharacterBase> attackers = new List<CharacterBase>();
     private CharacterBase lastAttacker;
     private float timeToResetAttackers = 30f;
-
+    public enum CharacterType
+    {
+        Player,
+        Enemy,
+        Neutral
+    }
 
     private void Update()
     {

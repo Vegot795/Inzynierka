@@ -24,6 +24,7 @@ public class EnemyClass : CharacterBase
     public int pathIndex;
     public float repathTimer;
     public Rigidbody2D rb;
+    private GameControllerScript GCS;
 
     public Pathfinding Pathfinder
     {
@@ -38,6 +39,7 @@ public class EnemyClass : CharacterBase
 
     public override void Awake()
     {
+        GCS = GameControllerScript.GCS;
         pathfinder = Pathfinding.Instance;
         base.characterType = CharacterType.Enemy;
         gameObject.layer = LayerMask.NameToLayer("Enemy");
@@ -66,6 +68,8 @@ public class EnemyClass : CharacterBase
 
         Destroy(gameObject);
         killer.GetComponent<PlayerInventory>()?.AddScore(scoreValue);
+        GCS.EnemyKilled(this);
+
     }
 
     void RequestNewPath()
@@ -74,13 +78,13 @@ public class EnemyClass : CharacterBase
 
         if (pathfinder == null)
         {
-            Debug.Log("EnemyClass: Pathfinder is null.");
+            //Debug.Log("EnemyClass: Pathfinder is null.");
             return;
         }
 
         if (targetLocation == null)
         {
-            Debug.Log("Target location is null. Cannot find path.");
+            //Debug.Log("Target location is null. Cannot find path.");
             currentPath = null;
             return;
         }
@@ -93,22 +97,22 @@ public class EnemyClass : CharacterBase
     {
         if (pathfinder == null)
         {
-            Debug.Log($"[EnemyClass] - Pathfinder is null.");
+            //Debug.Log($"[EnemyClass] - Pathfinder is null.");
             return null;
         }
 
         var centralPoint = transform.position;
-        Debug.Log($"[EnemyClass] - Central Point: {centralPoint}");
+        //Debug.Log($"[EnemyClass] - Central Point: {centralPoint}");
 
         for (int i = 0; i < attempts; i++)
         {
             Vector3 randomPosition = new Vector3(centralPoint.x + Random.Range(-viewDistance, viewDistance), centralPoint.y + Random.Range(-viewDistance, viewDistance), 0);
-            //Debug.Log($"[EnemyClass] - Random Position: {randomPosition}");
+            ////Debug.Log($"[EnemyClass] - Random Position: {randomPosition}");
             Node cell = pathfinder.CellFromWorldPoint(randomPosition);
-            //Debug.Log($"[EnemyClass] - Cell: {cell?.worldPosition}, Walkable: {cell?.walkable}");
+            ////Debug.Log($"[EnemyClass] - Cell: {cell?.worldPosition}, Walkable: {cell?.walkable}");
             if (!cell.walkable || cell == null || Vector3.Distance(centralPoint, randomPosition) < minDistance)
             {
-                Debug.Log($"[EnemyClass] - Cell is not walkable or too close to the central point. Attempt {i + 1} of {attempts}.");
+                //Debug.Log($"[EnemyClass] - Cell is not walkable or too close to the central point. Attempt {i + 1} of {attempts}.");
                 continue;
             }
             return cell.worldPosition;
@@ -127,7 +131,7 @@ public class EnemyClass : CharacterBase
 
         if(currentPath == null)
         {
-            Debug.Log($"[EnemyClass] - Current path is null. Cannot walk.");
+            //Debug.Log($"[EnemyClass] - Current path is null. Cannot walk.");
             targetLocation = null;
             return;
         }
@@ -155,13 +159,13 @@ public class EnemyClass : CharacterBase
     {
         if (targetLocation != null)
         {
-            Debug.Log($"[EnemyClass] - Already moving towards a target. Current target: {targetLocation}");
+            //Debug.Log($"[EnemyClass] - Already moving towards a target. Current target: {targetLocation}");
             return; 
         }
 
         targetLocation = targetCell;
         repathTimer = 0f;
-        Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
+        //Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
 
         if (Mathf.Approximately(Vector3.Distance(transform.position, targetLocation.Value), 0f))
         {
@@ -178,7 +182,7 @@ public class EnemyClass : CharacterBase
         }
         else
         {
-            Debug.Log($"[EnemyClass] - No valid cell found to get in range of target at {targetPosition}");
+            //Debug.Log($"[EnemyClass] - No valid cell found to get in range of target at {targetPosition}");
         }
     }
 

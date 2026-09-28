@@ -13,7 +13,7 @@ public class FragGrenade : GrenadeScript
         foreach (Collider2D hitCollider in hitColliders)
         {
             hitCollider.GetComponent<CharacterBase>()?.TakeDamage(damage, playerController);
-            //Debug.Log($"Object {hitCollider.name} is within explosion radius and takes {damage} damage.");
+            ////Debug.Log($"Object {hitCollider.name} is within explosion radius and takes {damage} damage.");
         }
 
         hasExploded = true;

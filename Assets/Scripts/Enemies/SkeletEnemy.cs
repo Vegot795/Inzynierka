@@ -81,7 +81,7 @@ public class SkeletEnemy : EnemyClass
     {
         if(base.pathfinder == null || base.targetCharacter == null)
         {
-            Debug.Log("Finding cell to attack player...");
+            //Debug.Log("Finding cell to attack player...");
             return null;
         }
 

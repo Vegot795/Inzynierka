@@ -30,7 +30,7 @@ public class KasketGrenade : GrenadeScript
                 GameObject miniGrenade = Instantiate(miniGrenadePrefab, transform.position, Quaternion.identity);
                 if (miniGrenade == null)
                 {
-                    Debug.LogWarning($"Failed to instantiate mini grenade.");
+                    //Debug.LogWarning($"Failed to instantiate mini grenade.");
                 }
                 miniGrenade.AddComponent<GrenadeScript>();
                 kasketObjects.Add(miniGrenade);
@@ -45,7 +45,7 @@ public class KasketGrenade : GrenadeScript
             if (character != null)
             {
                 hitCollider.GetComponent<CharacterBase>()?.TakeDamage(damage, playerController);
-                // Debug.Log($"Object {hitCollider.name} is within stun radius and is stunned.");
+                // //Debug.Log($"Object {hitCollider.name} is within stun radius and is stunned.");
             }
         }
 

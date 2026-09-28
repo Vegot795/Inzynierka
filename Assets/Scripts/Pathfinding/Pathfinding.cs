@@ -18,7 +18,7 @@ public class Pathfinding : MonoBehaviour
     {
         if (gridAdapter == null)
         {
-            Debug.LogError("[Pathfinding] No active GridAdapter found in the scene.", this);
+            //Debug.LogError("[Pathfinding] No active GridAdapter found in the scene.", this);
             return null;
         }
 
@@ -26,7 +26,7 @@ public class Pathfinding : MonoBehaviour
         Node targetNode = gridAdapter.NodeCordInWorld(targetWorldPos);
         if (startNode == null || targetNode == null)
         {
-            Debug.LogWarning("Start or target node is null.");
+            //Debug.LogWarning("Start or target node is null.");
             return new List<Vector3>();
         }
 
