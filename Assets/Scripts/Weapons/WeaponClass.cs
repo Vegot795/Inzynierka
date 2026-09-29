@@ -5,12 +5,19 @@ public class WeaponClass : MonoBehaviour
 {
     [Header("Projectile Settings")]
     public float projectileSpeed = 20f;
-    public float damage = 10f;
-    public float fireRate = 0.5f;
-    public int maxAmmo;
+    public float baseDamage = 10f;
+    public float damageModif = 1;
+    public float currentDamage;
+    public float baseFireRate = 0.5f;
+    public float fireRateModif = 1;
+    public float currentFireRate;
+    public int baseMaxAmmo;
+    public float maxAmmoModif = 1;
     public int currentAmmo;
-    public float reloadTime = 3f;
-    public float range = 5f;
+    public int currentMaxAmmo;
+    public float baseReloadTime = 3f;
+    public float reloadTimeModif = 1f;
+    public float currentReloadTime;
     public float shotDisplayTime = 0.1f;
     public bool isReloading = false;
     public float lastFireTime = 0f;
@@ -22,20 +29,15 @@ public class WeaponClass : MonoBehaviour
     public CharacterBase playerController;
 
 
-    public virtual void Initialize(WeaponData data)
-    {
+    public virtual void Initialize(WeaponData data) { }
 
-    }
+    public virtual void Shoot(Vector2 direction) { }
 
-    public virtual void Shoot(Vector2 direction)
-    {
-        return;
-    }
     public bool CanShoot()
     {
         return currentAmmo > 0
             && !isReloading
-            && Time.time >= lastFireTime + fireRate;
+            && Time.time >= lastFireTime + currentFireRate;
     }
 
     public virtual IEnumerator DelayReload(float time)
@@ -49,7 +51,19 @@ public class WeaponClass : MonoBehaviour
 
     public virtual void Reload()
     {
-        currentAmmo = maxAmmo;
+        currentAmmo = currentMaxAmmo;
+
+        
         //Debug.Log($"[RiffleScript] Reloaded. Current ammo: {currentAmmo}");
+    }
+
+    public void OnMagBoofStatusChange()
+    {
+        currentMaxAmmo = (int)(baseMaxAmmo * maxAmmoModif);
+    }
+
+    public void OnDamageBoofStatusChange()
+    {
+        currentDamage = baseDamage * damageModif;
     }
 }

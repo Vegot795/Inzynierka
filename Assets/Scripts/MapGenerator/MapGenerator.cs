@@ -404,7 +404,7 @@ public class MapGenerator : MonoBehaviour
 
         var startRoom = allRoomList.OrderBy(s => s.cells.Count)
             .ToList()
-            .FirstOrDefault();
+            .Last(); //Sorting from smallest to biggest I quess
         //Debug.Log($"The biggest room is {startRoom.roomName} and has {startRoom.cells.Count} cells");
         return startRoom;
     }

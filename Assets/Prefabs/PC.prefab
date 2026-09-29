@@ -151,7 +151,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -333397685
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f2c06f20c72014b44a05fdc140ae4cd0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -234,9 +234,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 0
-  MaxHp: 10000
+  BaseMaxHp: 10000
+  currentMaxHp: 0
   CurrentHp: 10000
-  MoveSpeed: 0
+  healthModif: 1
+  damageModif: 1
+  moveSpeedModif: 1
+  currentMoveSpeed: 0
+  baseMoveSpeed: 0
   isStunned: 0
   isSlowed: 0
   isFlashed: 0
@@ -274,6 +279,7 @@ MonoBehaviour:
   weaponHolder: {fileID: 6029813842461787600}
   dropDistance: 0.8
   grenadeThrowRange: 10
+  currentScorePoints: 0
   startingWeapon: {fileID: 11400000, guid: f76d937865b732b44a3d6ca7d68c30bf, type: 2}
   stastingGrenade: {fileID: 11400000, guid: 1496c24e862882c40a11552bbc81d6c9, type: 2}
   weaponClass: {fileID: 0}
@@ -335,4 +341,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9800e92d53c4f6e4d954e480bdd49806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScorePoints: 0

@@ -16,17 +16,18 @@ public class ShotgunScript : WeaponClass
     {
         weaponData = data;
 
-        maxAmmo = weaponData.maxAmmoCapacity;
-        reloadTime = weaponData.reloadTime;
-        damage = weaponData.damage;
+        currentMaxAmmo = weaponData.maxAmmoCapacity;
+        currentReloadTime = weaponData.reloadTime;
+        currentDamage = weaponData.damage;
         projectileSpeed = weaponData.projectileSpeed;
-        fireRate = weaponData.fireRate;
+        currentFireRate = weaponData.fireRate;
         projectilePrefab = weaponData.projectilePrefab;
 
-        currentAmmo = maxAmmo;
         muzzleSR = muzzle.GetComponent<SpriteRenderer>();
         muzzleSR.enabled = false;
         playerController = GetComponentInParent<CharacterBase>();
+        Reload();
+        base.lastFireTime = -currentFireRate;
 
     }
     public override void Shoot(Vector2 direction)
@@ -43,7 +44,7 @@ public class ShotgunScript : WeaponClass
         {
             foreach (GameObject enemy in enemiesInRange)
             {
-                enemy.GetComponent<CharacterBase>().TakeDamage(damage, playerController);
+                enemy.GetComponent<CharacterBase>().TakeDamage(currentDamage, playerController);
             }
         }
         base.currentAmmo--;
@@ -51,7 +52,7 @@ public class ShotgunScript : WeaponClass
 
         if (currentAmmo == 0)
         {
-            StartCoroutine(DelayReload(reloadTime));
+            StartCoroutine(DelayReload(currentReloadTime));
         }
 
     }

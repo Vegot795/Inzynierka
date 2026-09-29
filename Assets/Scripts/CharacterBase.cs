@@ -9,9 +9,15 @@ public class CharacterBase : MonoBehaviour
 {
     [Header("Character Stats")]
     public CharacterType characterType;
-    public float MaxHp;
+    public float BaseMaxHp;
+    public float currentMaxHp;
     public float CurrentHp;
-    public float MoveSpeed;
+    public float healthModif = 1;
+    public float damageModif = 1;
+    public float moveSpeedModif = 1;
+    public float currentMoveSpeed;
+    public float baseMoveSpeed;
+
 
     [Header("Character status")]
     public bool isStunned;
@@ -39,7 +45,7 @@ public class CharacterBase : MonoBehaviour
     public virtual void Awake()
     {
         col = GetComponent<CircleCollider2D>();
-        CurrentHp = MaxHp;
+        CurrentHp = BaseMaxHp * healthModif;
         DetermineCharacterType();
     }
 

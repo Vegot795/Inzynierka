@@ -45,7 +45,7 @@ public class EnemyClass : CharacterBase
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         rb = GetComponent<Rigidbody2D>();
         fov = GetComponentInChildren<FoV>(true);
-        CurrentHp = MaxHp;
+        CurrentHp = BaseMaxHp * healthModif;
     }
     void Update()
     {
@@ -144,7 +144,7 @@ public class EnemyClass : CharacterBase
         }
 
         Vector3 destination = currentPath[pathIndex];
-        rb.MovePositionAndRotation(Vector3.MoveTowards(transform.position, destination, MoveSpeed * Time.deltaTime), Quaternion.LookRotation(Vector3.forward, destination - transform.position));
+        rb.MovePositionAndRotation(Vector3.MoveTowards(transform.position, destination, currentMoveSpeed * moveSpeedModif * Time.deltaTime), Quaternion.LookRotation(Vector3.forward, destination - transform.position));
 
         if (Vector3.Distance(transform.position, destination) < 0.05f)
         {

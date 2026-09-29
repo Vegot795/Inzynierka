@@ -194,7 +194,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -333397685
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1291929033074094353, guid: b47d5b2a0c8192644933ba18268d1449, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -258,15 +258,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
-  MaxHp: 0
+  BaseMaxHp: 30
+  currentMaxHp: 30
   CurrentHp: 0
-  MoveSpeed: 10
+  healthModif: 1
+  damageModif: 1
+  moveSpeedModif: 1
+  currentMoveSpeed: 8
+  baseMoveSpeed: 1
   isStunned: 0
   isSlowed: 0
   isFlashed: 0
   col: {fileID: 0}
   canAttack: 1
-  Damage: 0
+  Damage: 8
   attackCooldown: 1
   scoreValue: 0
   viewDistance: 6
@@ -289,8 +294,8 @@ MonoBehaviour:
   skeletProjectilePrefab: {fileID: 0}
   projectileSpeed: 0
   CallRangeObject: {fileID: 0}
-  WallSpotObject: {fileID: 0}
   WallSpots: {fileID: 0}
+  WallSpotsList: []
   playerTargetLocation: {x: 0, y: 0, z: 0}
   zombiesCalled: []
   isBeingProtected: 0

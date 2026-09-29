@@ -38,9 +38,9 @@ public class GameControllerScript : MonoBehaviour
     public int doorPricePerUnlockedDoors = 50;
     public int startScore = 0;
     public bool readyToSpawn = true;
-    public int zombiesSpawned;
-    public int skeletsSpawned;
-    public float enemyRatio;
+    public int? zombiesSpawned;
+    public int? skeletsSpawned;
+    public float? enemyRatio;
 
     [Header("Lists")]
     public List<EnemyClass> enemiesSpawned = new List<EnemyClass>();
@@ -152,7 +152,24 @@ public class GameControllerScript : MonoBehaviour
 
         zombiesSpawned = enemiesSpawned.Where(x => x.GetComponent<ZombieEnemy>()).Count();
         skeletsSpawned = enemiesSpawned.Where(x => x.GetComponent<SkeletEnemy>()).Count();
-        enemyRatio = zombiesSpawned / skeletsSpawned;
+        
+        if (zombiesSpawned > 0 && skeletsSpawned > 0)
+        {
+            enemyRatio = zombiesSpawned / skeletsSpawned;
+        }
+        else if (zombiesSpawned > 0)
+        {
+            enemyRatio = zombiesSpawned;
+        }
+        else if(skeletsSpawned > 0)
+        {
+            enemyRatio = skeletsSpawned;
+        }
+        else
+        {
+            enemyRatio = 0;
+        }
+        
 
 
         if ((enemySpawnChance == 0 || enemyRatio >= 10) && WaveNumber >= 4)
@@ -195,13 +212,13 @@ public class GameControllerScript : MonoBehaviour
         var zombie = ZombiePrefab.GetComponent<EnemyClass>();
         var skelet = SkeletPrefab.GetComponent<EnemyClass>();
 
-        zombie.MaxHp += 5;
+        zombie.currentMaxHp += 2;
         zombie.Damage += 2;
-        zombie.MoveSpeed += 2;
+        zombie.currentMoveSpeed += 0.2f;
 
-        skelet.MaxHp += 5;
+        skelet.currentMaxHp += 3;
         skelet.Damage += 2;
-        skelet.MoveSpeed += 2;
+        skelet.currentMoveSpeed += 0.2f;
 
         MaxEnemies += AddMaxEnemiesPerWave;
     }

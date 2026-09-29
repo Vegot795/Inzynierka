@@ -3,12 +3,13 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    public static UIController UIC;
     public GameObject PC;
     public TextMeshProUGUI ammoText;
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI wavesText;
-    public GameObject BuffsList;
+    public GameObject BoofsList;
     public WeaponClass riffle;
     public CharacterBase character;
     public PlayerInventory inventory;
@@ -16,12 +17,16 @@ public class UIController : MonoBehaviour
 
 	private void Start()
     {
+        if (UIC == null)
+        {
+            UIC = this;
+        }
         PC = GameObject.FindGameObjectWithTag("Player");
         ammoText = GameObject.FindGameObjectWithTag("AmmoDisplay").GetComponent<TextMeshProUGUI>();
         hpText = GameObject.FindGameObjectWithTag("hpDisplay").GetComponent<TextMeshProUGUI>();
         scoreText = GameObject.FindGameObjectWithTag("ScoreDisplay").GetComponent<TextMeshProUGUI>();
         wavesText = GameObject.FindGameObjectWithTag("WavesDisplay").GetComponent<TextMeshProUGUI>();
-        BuffsList = GameObject.FindGameObjectWithTag("BuffsList");
+        BoofsList = GameObject.FindGameObjectWithTag("BuffsList");
 
 
         riffle = PC.GetComponentInChildren<WeaponClass>();
@@ -46,7 +51,7 @@ public class UIController : MonoBehaviour
        {
            if (riffle != null)
            {
-               ammoText.text = "Ammo: " + riffle.currentAmmo + "/" + riffle.maxAmmo;
+               ammoText.text = "Ammo: " + riffle.currentAmmo + "/" + riffle.currentMaxAmmo;
            }
        }
    }
@@ -57,7 +62,7 @@ public class UIController : MonoBehaviour
         {
             if (character != null)
             {
-                hpText.text = "HP: " + character.CurrentHp + "/" + character.MaxHp;
+                hpText.text = "HP: " + character.CurrentHp + "/" + character.currentMaxHp;
             }
         }
     }

@@ -7,7 +7,6 @@ public class PC_Controller : CharacterBase
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
     public Vector2 mousePos;
-
     private bool canMove = true;
 
     Vector2 movementInput;
@@ -21,7 +20,7 @@ public class PC_Controller : CharacterBase
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        MoveSpeed = 10f;
+        baseMoveSpeed = 10f;
         gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
@@ -62,10 +61,10 @@ public class PC_Controller : CharacterBase
                     movementInput,
                     movementFilter,
                     castCollisions,
-                    MoveSpeed * Time.deltaTime + collisionOffset);
+                    (baseMoveSpeed * moveSpeedModif)* Time.deltaTime + collisionOffset);
                 if (count == 0)
                 {
-                    rb.MovePosition(rb.position + movementInput * MoveSpeed * Time.deltaTime);
+                    rb.MovePosition(rb.position + movementInput * (baseMoveSpeed * moveSpeedModif) * Time.deltaTime);
                     return true;
                 }
                 else
