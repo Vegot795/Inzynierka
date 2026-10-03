@@ -26,7 +26,7 @@ public class MapGenerator : MonoBehaviour
     private List<Room> roomList;
 
     protected GridCell[,] grid;
-    private readonly List<GridCell> emptyCells = new List<GridCell>();
+    public readonly List<GridCell> emptyCells = new List<GridCell>();
 
     // Dostep do siatki dla systemu szukania sciezki (GridAdapter).
     public GridCell[,] Grid => grid;

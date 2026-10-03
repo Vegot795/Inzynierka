@@ -22,9 +22,27 @@ public partial class SetCharacterAsTargetAction : Action
             return Status.Failure;
         }
 
+        
+
+        return Status.Running;
+    }
+
+    protected override Status OnUpdate()
+    {
+        EnemyClass enemy = GameObject.GetComponent<EnemyClass>();
+        FoV fov = GameObject.GetComponentInChildren<FoV>(true);
+
         enemy.targetLocation = enemy.targetCharacter.position;
         enemy.lastSpottedPosition = enemy.targetCharacter.position;
-
-        return Status.Success;
+        
+        var distanceToTarget = Vector3.Distance(enemy.transform.position, enemy.targetCharacter.position);
+        if (distanceToTarget < 0.05f)
+        {
+            return Status.Success;
+        }
+        else
+        {
+            return Status.Running;
+        }
     }
 }

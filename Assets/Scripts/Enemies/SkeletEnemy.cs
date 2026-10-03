@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.AppUI.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -185,5 +187,16 @@ public class SkeletEnemy : EnemyClass
         return shieldSpots;
     }
 
-    
+    public GridCell GetCellBetweenThisAndTarget()
+    {
+        var mapGenerator = fov.parent.GetComponent<MapGenerator>();
+
+
+        List<GridCell> availableCells = mapGenerator.emptyCells.Where(cell => Vector3.Distance(cell.transform.position, targetCharacter.transform.position) <= viewDistance &&
+                                                                              Vector3.Distance(cell.transform.position, targetCharacter.transform.position) >= viewDistance / 2)
+                                                                .OrderBy(cell => Vector3.Distance(cell.transform.position, targetCharacter.transform.position))
+                                                                .ToList();
+
+        return availableCells.First();
+    }
 }
