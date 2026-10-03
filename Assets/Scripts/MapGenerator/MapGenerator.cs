@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 public class MapGenerator : MonoBehaviour
 {
     [Header("Scripts")]
-    public static MapGenerator Instance { get; private set; }
+    public static MapGenerator Instance { get; protected set; }
     public DoorScript doorScript;
     public Room roomScript;
 
@@ -25,7 +25,7 @@ public class MapGenerator : MonoBehaviour
     public Room startRoom;
     public List<Room> allRoomList = new List<Room>();
     public List<Corridor> corridorList = new List<Corridor>();
-    private List<GridCell> cellsList = new List<GridCell>();
+    public readonly List<GridCell> cellsList = new List<GridCell>();
 
     [SerializeField] public EnvironmentData[] roomEnvironment;
 
@@ -81,7 +81,7 @@ public class MapGenerator : MonoBehaviour
             Debug.LogError("[MapGenerator] Missing gridCellPref.");
             return;
         }
-
+        Instance = this;
         roomScript = new Room("Room_Manager", new List<GridCell>(), null);
         roomScript.mapGenerator = this;
         roomList = new List<Room>();

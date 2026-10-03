@@ -447,13 +447,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f7e3bf02f3c4f54abd51e464da45400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorScript: {fileID: 0}
+  gridCellPref: {fileID: 2067434155583067138, guid: 4dd03261db878af4794c0a6e7f5d1c61, type: 3}
+  doorPrefab: {fileID: 0}
   iterations: 4
   roomCount: 0
   corridorCount: 0
+  smallRoomCellLimit: 100
   mapWidth: 0
   mapHeight: 0
   gridMap: {fileID: 590755294}
-  gridCellPref: {fileID: 2067434155583067138, guid: 4dd03261db878af4794c0a6e7f5d1c61, type: 3}
   roomEnvironment:
   - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
@@ -472,9 +475,6 @@ MonoBehaviour:
   PC: {fileID: 0}
   enemyPrefabs:
   - {fileID: 2814517985326584477, guid: 9408248746e909b48a5928e2131d0d71, type: 3}
-  - {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
-  - {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
-  - {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
   enemyList: []
 --- !u!4 &1710069178
 Transform:

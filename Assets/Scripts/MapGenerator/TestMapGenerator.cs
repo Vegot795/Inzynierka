@@ -37,6 +37,7 @@ public class TestMapGenerator : MapGenerator
 
     public override void Start()
     {
+        Instance = this;
         GenerateGrid(width, height);
         SpawnPlayer();
         if (spawnTestingEnemy)
@@ -106,7 +107,7 @@ public class TestMapGenerator : MapGenerator
                 newCellObject.transform.SetParent(transform);
 
                 GridCell newCell = newCellObject.GetComponent<GridCell>();
-
+                cellsList.Add(newCell);
                 if (newCell == null)
                 {
                     Debug.LogError("[MapGenerator] gridCellPref does not contain GridCell component.");

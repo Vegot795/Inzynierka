@@ -22,6 +22,7 @@ public class SkeletEnemy : EnemyClass
     public List<GameObject> WallSpotsList = new List<GameObject>();
     public Vector3 playerTargetLocation;
     public List<ZombieEnemy> zombiesCalled;
+    private MapGenerator MG;
 
     public bool isBeingProtected = false;
 
@@ -29,6 +30,12 @@ public class SkeletEnemy : EnemyClass
     public override void Awake()
     {
         base.Awake();
+        MG = pathfinder.GetComponent<MapGenerator>();
+        if(MG == null)
+        {
+            Debug.Log("[SkeletEnemy] - MG is missing");
+        }
+
 
         if (CallRangeObject == null)
         {
@@ -189,14 +196,16 @@ public class SkeletEnemy : EnemyClass
 
     public GridCell GetCellBetweenThisAndTarget()
     {
-        var mapGenerator = fov.parent.GetComponent<MapGenerator>();
 
+        List<GridCell> availableCells = MG.cellsList
+            .Where(cell => (Vector3.Distance(cell.transform.position, targetCharacter.transform.position) <= viewDistance &&
+                           Vector3.Distance(cell.transform.position, targetCharacter.transform.position) >= viewDistance / 2) &&
+                           cell.type == GridCell.CellType.floor)
+            .OrderBy(cell => Vector3.Distance(cell.transform.position, gameObject.transform.position))
+            .ToList();
 
-        List<GridCell> availableCells = mapGenerator.emptyCells.Where(cell => Vector3.Distance(cell.transform.position, targetCharacter.transform.position) <= viewDistance &&
-                                                                              Vector3.Distance(cell.transform.position, targetCharacter.transform.position) >= viewDistance / 2)
-                                                                .OrderBy(cell => Vector3.Distance(cell.transform.position, targetCharacter.transform.position))
-                                                                .ToList();
-
-        return availableCells.First();
+        Debug.Log($"[SkeletEnemy] - Cells to return: {availableCells.Count}");
+        var cellToReturn = availableCells.First();
+        return cellToReturn;
     }
 }
