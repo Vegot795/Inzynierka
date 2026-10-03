@@ -163,12 +163,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c529fba4c96083743ab3f6fafeecb40a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iterations: 4
-  roomCount: 0
-  mapWidth: 40
-  mapHeight: 30
-  gridMap: {fileID: 710103483}
+  doorScript: {fileID: 0}
   gridCellPref: {fileID: 1554538527}
+  doorPrefab: {fileID: 0}
+  iterations: 6
+  roomCount: 0
+  corridorCount: 0
+  smallRoomCellLimit: 100
+  mapWidth: 100
+  mapHeight: 100
+  gridMap: {fileID: 710103483}
   roomEnvironment:
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
   - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
@@ -228,6 +232,7 @@ GameObject:
   - component: {fileID: 1272511395}
   - component: {fileID: 1272511394}
   - component: {fileID: 1272511393}
+  - component: {fileID: 1272511396}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -309,6 +314,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1272511396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272511392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &1554538527 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2067434155583067138, guid: 4dd03261db878af4794c0a6e7f5d1c61, type: 3}
@@ -437,6 +486,63 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &5000756433646213867
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1784765971862958678, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_Name
+      value: DoorPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 51.34169
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 36.73605
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611523189782558382, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
 --- !u!1001 &8656030665580160530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -502,3 +608,4 @@ SceneRoots:
   - {fileID: 710103484}
   - {fileID: 278864517}
   - {fileID: 8656030665580160530}
+  - {fileID: 5000756433646213867}
