@@ -9,6 +9,13 @@ public class SpawnerScript : MonoBehaviour
     public bool isUnlocked = false;
     public int rotation;
     public Direction direction;
+    public bool canOpen = false;
+    public bool canClose = false;
+    public GameObject rightWing;
+    public GameObject leftWing;
+    public Rigidbody2D RWrb;
+    public Rigidbody2D LWrb;
+    public Vector3 doorRotation = new Vector3(0, 0, 90f);
     public enum Direction
     {
         facingTop, facingRight, facingBottom, facingLeft
@@ -18,6 +25,21 @@ public class SpawnerScript : MonoBehaviour
     {
         rotation = GetRotation();
         GCS = GameControllerScript.GCS;
+        RWrb = rightWing.GetComponent<Rigidbody2D>();
+        LWrb = leftWing.GetComponent<Rigidbody2D>();
+    }
+
+    public void Update()
+    {
+        if (canOpen)
+        {
+            OpenSpawnerDoors();
+        }
+
+        if (canClose)
+        {
+            CloseSpawnerDoors();
+        }
     }
 
     public int GetRotation()
@@ -56,5 +78,16 @@ public class SpawnerScript : MonoBehaviour
         enemy.transform.rotation = Quaternion.Euler(0, 0, rotation);
         yield return new WaitForSeconds(timeBetweenSpawns);
         canSpawnEnemies = true;
+    }
+
+    public void OpenSpawnerDoors()
+    {
+        RWrb.MoveRotation(doorRotation.z);
+        LWrb.MoveRotation(-doorRotation.z);
+    }
+
+    public void CloseSpawnerDoors()
+    {
+
     }
 }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e3e70af3cb00a47a30c926539747ca, type: 3}
+  m_Name: StoneStyle
+  m_EditorClassIdentifier: 
+  type: 0
+  WallLeft: {fileID: 275593988, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  WallRight: {fileID: -146406938, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  WallTop: {fileID: 1310497051, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  WallBottom: {fileID: -1772001407, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  WallTopRight: {fileID: 1001165561, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  WallBottomRight: {fileID: 975415885, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  WallTopLeft: {fileID: 3275911576998528778, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  WallBottomLeft: {fileID: 1769644259, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  Floor: {fileID: -2043065439, guid: ea9bb258d0210954bae3380f687a7ed8, type: 3}
+  CorridorLeftTop: {fileID: -1556063055, guid: 8d1bdf9cfde91e844b7ffa1d5eb23417, type: 3}
+  CorridorLeftBottom: {fileID: 1941907226, guid: 8d1bdf9cfde91e844b7ffa1d5eb23417, type: 3}
+  CorridorRightTop: {fileID: 651168659, guid: 8d1bdf9cfde91e844b7ffa1d5eb23417, type: 3}
+  CorridorRightBottom: {fileID: -205695428810046848, guid: 8d1bdf9cfde91e844b7ffa1d5eb23417, type: 3}

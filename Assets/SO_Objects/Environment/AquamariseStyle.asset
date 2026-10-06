@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e3e70af3cb00a47a30c926539747ca, type: 3}
+  m_Name: AquamariseStyle
+  m_EditorClassIdentifier: 
+  type: 0
+  WallLeft: {fileID: -587141915, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  WallRight: {fileID: -2055700947, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  WallTop: {fileID: 1142264319, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  WallBottom: {fileID: -1744245395, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  WallTopRight: {fileID: 299492554, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  WallBottomRight: {fileID: 442322561, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  WallTopLeft: {fileID: -4863092817513965649, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  WallBottomLeft: {fileID: -1130198188, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  Floor: {fileID: -1238608387, guid: b30039456e4dcd940b4d6f5c1665c678, type: 3}
+  CorridorLeftTop: {fileID: -1155527910, guid: 1592659984eb5a24cb26eca9ac037ab9, type: 3}
+  CorridorLeftBottom: {fileID: -1568189361, guid: 1592659984eb5a24cb26eca9ac037ab9, type: 3}
+  CorridorRightTop: {fileID: 884646965, guid: 1592659984eb5a24cb26eca9ac037ab9, type: 3}
+  CorridorRightBottom: {fileID: -8545412507164427198, guid: 1592659984eb5a24cb26eca9ac037ab9, type: 3}

@@ -12,6 +12,7 @@ public class DoorScript : PickupBase
     public bool openingEnded = false;
     public Room[] connectsRooms;
     public GameControllerScript GCS;
+    public OverlayController OC;
     public MapGenerator mapGenerator;
     public MapGenerator.Corridor belongedCorridor;
     public List<Room> RoomsAttached = new List<Room>();
@@ -19,6 +20,7 @@ public class DoorScript : PickupBase
     public Collider2D col;
     public GameObject RightWing;
     public GameObject LeftWing;
+    public GameObject Tip;
     private Rigidbody2D rrb;
     private Rigidbody2D lrb;
     [SerializeField] private Vector3 moveVector = new Vector3(1.4f , 0, 0);
@@ -28,6 +30,7 @@ public class DoorScript : PickupBase
     public override void Awake()
     {
         GCS = GameControllerScript.GCS;
+        OC = OverlayController.OC;
     }
 
     private void Update()
@@ -54,12 +57,12 @@ public class DoorScript : PickupBase
         if (orientation == MapGenerator.Corridor.Orientation.Horizontal)
         {
             gameObject.transform.eulerAngles = new Vector3(0, 0, 90);
-            gameObject.transform.position = new Vector2(belongedCorridor.leftTopCell.transform.position.x + 0.1f, belongedCorridor.leftTopCell.transform.position.y - 0.5f);
+            gameObject.transform.position = new Vector2(belongedCorridor.leftTopCell.transform.position.x + 0.5f, belongedCorridor.leftTopCell.transform.position.y - 0.5f);
 
         }
         else
         {
-            gameObject.transform.position = new Vector2(belongedCorridor.leftTopCell.transform.position.x + 0.5f, belongedCorridor.leftTopCell.transform.position.y - 0.1f);
+            gameObject.transform.position = new Vector2(belongedCorridor.leftTopCell.transform.position.x + 0.5f, belongedCorridor.leftTopCell.transform.position.y - 0.5f);
         }
         rrb = RightWing.GetComponent<Rigidbody2D>();
         lrb = LeftWing.GetComponent<Rigidbody2D>();
@@ -92,5 +95,14 @@ public class DoorScript : PickupBase
             roomToOpen.UnlockRoom();
             
         } 
+    }
+
+    public override void OnPlayerEnter()
+    {
+        OC.MakeDoorTip(this);
+    }
+    public override void OnPlayerExit()
+    {
+        OC.DestroyDoorTip(this);
     }
 }

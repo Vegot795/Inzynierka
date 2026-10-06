@@ -5,5 +5,6 @@ public enum EnvironmentType
     wooden,
     stone,
     brick,
+    aquamarise,
     empty
 }
