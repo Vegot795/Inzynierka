@@ -660,17 +660,7 @@ public class MapGenerator : MonoBehaviour
         return true;
     }
 
-    public Dictionary<Directions, GridCell> GetCellNeighbors(GridCell cell)
-    {
-        Dictionary<Directions, GridCell> neighbors = new Dictionary<Directions, GridCell>();
 
-        neighbors.Add(Directions.Up, cellsList.FirstOrDefault(c => c.x == cell.x && c.y == cell.y + 1));
-        neighbors.Add(Directions.Down, cellsList.FirstOrDefault(c => c.x == cell.x && c.y == cell.y - 1));
-        neighbors.Add(Directions.Left, cellsList.FirstOrDefault(c => c.x == cell.x - 1 && c.y == cell.y));
-        neighbors.Add(Directions.Right, cellsList.FirstOrDefault(c => c.x == cell.x + 1 && c.y == cell.y));
-
-        return neighbors;
-    }
 
     public void CreateCorridorWalls(List<Corridor> corridors)
     {
@@ -903,11 +893,17 @@ public class MapGenerator : MonoBehaviour
             {
                 GridCell spawnCell = cellsUnderWall[Random.Range(0, cellsUnderWall.Count-1)];
                 GameObject spawner = Instantiate(spawnerPrefab);
+                SpawnerScript spawnerScript = spawner.GetComponent<SpawnerScript>();
                 spawner.transform.position = spawnCell.transform.position;
                 spawner.transform.SetParent(spawnersKid.transform);
                 room.spawners.Add(spawner);
-                spawnerList.Add(spawner.GetComponent<SpawnerScript>());
-
+                spawnerList.Add(spawnerScript);
+                var cellsAround = GetCellNeighbors(spawnCell);
+                spawner.GetComponent<SpawnerScript>().direction = cellsAround
+                    .Where(cell => cell.Value.type != GridCell.CellType.floor)
+                    .FirstOrDefault()
+                    .Key;
+                spawner.transform.rotation = Quaternion.Euler(0, 0, spawnerScript.GetRotation());
             }
         }
     }
@@ -923,7 +919,17 @@ public class MapGenerator : MonoBehaviour
 
         return new Color(randomRed / 255f, randomGreen / 255f, randomBlue / 255f);
     }
+    public Dictionary<Directions, GridCell> GetCellNeighbors(GridCell cell)
+    {
+        Dictionary<Directions, GridCell> neighbors = new Dictionary<Directions, GridCell>();
 
+        neighbors.Add(Directions.Up, cellsList.FirstOrDefault(c => c.x == cell.x && c.y == cell.y + 1));
+        neighbors.Add(Directions.Down, cellsList.FirstOrDefault(c => c.x == cell.x && c.y == cell.y - 1));
+        neighbors.Add(Directions.Left, cellsList.FirstOrDefault(c => c.x == cell.x - 1 && c.y == cell.y));
+        neighbors.Add(Directions.Right, cellsList.FirstOrDefault(c => c.x == cell.x + 1 && c.y == cell.y));
+
+        return neighbors;
+    }
 
     #endregion
 

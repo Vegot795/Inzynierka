@@ -494,7 +494,7 @@ public class Room
         isUnlocked = true;
         foreach (var spawner in spawners)
         {
-            spawner.GetComponent<SpawnerScript>().isUnlocked = true;            
+            spawner.GetComponent<SpawnerScript>().isUnlocked = true;      
         }
 
         foreach (var door in doorsAttached)

@@ -99,10 +99,16 @@ public class DoorScript : PickupBase
 
     public override void OnPlayerEnter()
     {
-        OC.MakeDoorTip(this);
+        if (!isUnlocked)
+        {
+            OC.MakeDoorTip(this);
+        }
     }
     public override void OnPlayerExit()
     {
-        OC.DestroyDoorTip(this);
+        if(Tip != null)
+        {
+            OC.DestroyDoorTip(this);
+        }
     }
 }

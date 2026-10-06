@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4050629437786336722}
   - component: {fileID: 8566136021513632173}
   - component: {fileID: 7919652634604933673}
+  - component: {fileID: 5875842040656935370}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -106,15 +107,22 @@ MonoBehaviour:
   GCS: {fileID: 0}
   canSpawnEnemies: 1
   isUnlocked: 0
+  openingEnded: 0
   rotation: 0
   direction: 0
   canOpen: 0
   canClose: 0
   rightWing: {fileID: 8703710801656273690}
   leftWing: {fileID: 7705130751927585557}
-  RWrb: {fileID: 0}
-  LWrb: {fileID: 0}
-  doorRotation: {x: 0, y: 0, z: 90}
+  RWr: 0
+  RWrb: 0
+  LWr: 0
+  LWrb: 0
+  rb: {fileID: 0}
+  animation: {fileID: 0}
+  openedDoorRotation: 120
+  doorRotationSpeed: 90
+  totalDoorRotation: 0
 --- !u!111 &7919652634604933673
 Animation:
   m_ObjectHideFlags: 0
@@ -131,6 +139,33 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!50 &5875842040656935370
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4902672215052379028}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &7705130751927585557
 GameObject:
   m_ObjectHideFlags: 0

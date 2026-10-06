@@ -7,39 +7,49 @@ public class SpawnerScript : MonoBehaviour
     public GameControllerScript GCS;
     public bool canSpawnEnemies = true;
     public bool isUnlocked = false;
-    public int rotation;
-    public Direction direction;
-    public bool canOpen = false;
-    public bool canClose = false;
+    public bool openingEnded = false;
+    public MapGenerator.Directions direction;
     public GameObject rightWing;
     public GameObject leftWing;
-    public Rigidbody2D RWrb;
-    public Rigidbody2D LWrb;
-    public Vector3 doorRotation = new Vector3(0, 0, 90f);
-    public enum Direction
-    {
-        facingTop, facingRight, facingBottom, facingLeft
-    }
+    public float RWr;
+    public float RWrb;
+    public float LWr;
+    public float LWrb;
+    public float openedDoorRotation = 120f;
+    public float doorRotationSpeed = 90;
+    public float totalDoorRotation;
 
     public void Start()
     {
-        rotation = GetRotation();
         GCS = GameControllerScript.GCS;
-        RWrb = rightWing.GetComponent<Rigidbody2D>();
-        LWrb = leftWing.GetComponent<Rigidbody2D>();
+        RWr = rightWing.transform.localEulerAngles.z;
+        RWrb = rightWing.transform.localEulerAngles.z;
+        LWr = leftWing.transform.localEulerAngles.z;
+        LWrb = leftWing.transform.localEulerAngles.z;
     }
-
-    public void Update()
+    //zmarnowałem 4 do 6 godzin sprawiając żeby drzwi obracały się jak trzeba...
+    public void FixedUpdate()
     {
-        if (canOpen)
+
+        if (totalDoorRotation <= openedDoorRotation && isUnlocked)
         {
-            OpenSpawnerDoors();
+            totalDoorRotation += doorRotationSpeed * Time.fixedDeltaTime;
+
+        }
+        if (isUnlocked && !openingEnded)
+        {
+            RWr = Mathf.Clamp(RWrb + totalDoorRotation, 0, RWrb + openedDoorRotation);
+            LWr = Mathf.Clamp(LWrb + totalDoorRotation, 0, LWrb + openedDoorRotation);
+            rightWing.transform.localEulerAngles =  new Vector3(0, 0, RWr);
+            leftWing.transform.localEulerAngles = new Vector3(0, 0, -LWr);
         }
 
-        if (canClose)
+        if (RWr >= RWrb + openedDoorRotation &&
+            LWr >= LWrb + openedDoorRotation)
         {
-            CloseSpawnerDoors();
+            openingEnded = true;
         }
+
     }
 
     public int GetRotation()
@@ -47,17 +57,17 @@ public class SpawnerScript : MonoBehaviour
         int cusRotation = 0;
         switch (direction)
         {
-            case Direction.facingTop:
-                rotation = 0;
+            case MapGenerator.Directions.Up:
+                cusRotation = 0;
                 break;
-            case Direction.facingRight:
-                rotation = 90;
+            case MapGenerator.Directions.Left:
+                cusRotation = 90;
                 break;
-            case Direction.facingBottom:
-                rotation = 180;
+            case MapGenerator.Directions.Down:
+                cusRotation = 180;
                 break;
-            case Direction.facingLeft:
-                rotation = 270;
+            case MapGenerator.Directions.Right:
+                cusRotation = 270;
                 break;
             default:
                 Debug.LogWarning("[SpawnerScript] - Quaternion is screwwwwed");
@@ -75,19 +85,8 @@ public class SpawnerScript : MonoBehaviour
         GCS.enemiesSpawned.Add(enemy.GetComponent<EnemyClass>());
         GCS.enemiesSpawnedDuringRound++;
         enemy.transform.position = this.transform.position;
-        enemy.transform.rotation = Quaternion.Euler(0, 0, rotation);
+        enemy.transform.rotation = transform.rotation;
         yield return new WaitForSeconds(timeBetweenSpawns);
         canSpawnEnemies = true;
-    }
-
-    public void OpenSpawnerDoors()
-    {
-        RWrb.MoveRotation(doorRotation.z);
-        LWrb.MoveRotation(-doorRotation.z);
-    }
-
-    public void CloseSpawnerDoors()
-    {
-
     }
 }

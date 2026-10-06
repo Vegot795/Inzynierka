@@ -28,11 +28,11 @@ public class OverlayController : MonoBehaviour
         {
             if(GCS.playerObj.transform.position.y > TC.assignedDoor.transform.position.y)
             {
-                displayPosition = new Vector3(TC.assignedDoor.transform.position.x, TC.assignedDoor.transform.position.y - 5f, TC.assignedDoor.transform.position.z);
+                displayPosition = new Vector3(TC.assignedDoor.transform.position.x, TC.assignedDoor.transform.position.y - 1f, TC.assignedDoor.transform.position.z);
             }
             else
             {
-                displayPosition = new Vector3(TC.assignedDoor.transform.position.x, TC.assignedDoor.transform.position.y + 5f, TC.assignedDoor.transform.position.z);
+                displayPosition = new Vector3(TC.assignedDoor.transform.position.x, TC.assignedDoor.transform.position.y + 1f, TC.assignedDoor.transform.position.z);
             }
         }
         else if (TC.assignedDoor.GetComponent<DoorScript>().orientation == MapGenerator.Corridor.Orientation.Horizontal)
@@ -68,7 +68,6 @@ public class OverlayController : MonoBehaviour
         GameObject tip = Instantiate(tipPrefab);
         tip.transform.SetParent(this.transform);
         TipController TC = tip.GetComponent<TipController>();
-        tip.transform.position = cam.WorldToScreenPoint(door.transform.position);
         TC.title.text = "Open";
         TC.cost.text = GCS.doorPrice.ToString();
         door.Tip = tip;
