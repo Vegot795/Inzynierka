@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TipController : MonoBehaviour
 {
-    public GameObject assignedDoor;
+    public GameObject assignedObject;
     public TextMeshProUGUI title;
     public TextMeshProUGUI cost;
 }

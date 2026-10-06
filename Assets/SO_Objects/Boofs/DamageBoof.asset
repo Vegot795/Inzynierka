@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ec7020de36da748a4bf718651955ec, type: 3}
+  m_Name: DamageBoof
+  m_EditorClassIdentifier: 
+  boofName: Damage Boof
+  boofCost: 1000
+  boofGO: {fileID: 0}
+  boofType: 5
+  boofStationSprite: {fileID: -2639906625382144178, guid: ed91bda2631447e498303de10f329d9f, type: 3}
+  damageModif: 0.2

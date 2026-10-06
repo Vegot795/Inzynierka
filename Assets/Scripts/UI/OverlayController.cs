@@ -16,7 +16,6 @@ public class OverlayController : MonoBehaviour
     {
         OC = this;
         GCS = GameControllerScript.GCS;
-
     }
 
     public Vector3 GetPositionForTip(GameObject tip)
@@ -24,26 +23,26 @@ public class OverlayController : MonoBehaviour
         TipController TC = tip.GetComponent<TipController>();
         Vector3 displayPosition = new Vector3();
 
-        if (TC.assignedDoor.GetComponent<DoorScript>().orientation == MapGenerator.Corridor.Orientation.Vertical)
+        if (TC.assignedObject.GetComponent<DoorScript>().orientation == MapGenerator.Corridor.Orientation.Vertical)
         {
-            if(GCS.playerObj.transform.position.y > TC.assignedDoor.transform.position.y)
+            if(GCS.playerObj.transform.position.y > TC.assignedObject.transform.position.y)
             {
-                displayPosition = new Vector3(TC.assignedDoor.transform.position.x, TC.assignedDoor.transform.position.y - 1f, TC.assignedDoor.transform.position.z);
+                displayPosition = new Vector3(TC.assignedObject.transform.position.x, TC.assignedObject.transform.position.y - 1f, TC.assignedObject.transform.position.z);
             }
             else
             {
-                displayPosition = new Vector3(TC.assignedDoor.transform.position.x, TC.assignedDoor.transform.position.y + 1f, TC.assignedDoor.transform.position.z);
+                displayPosition = new Vector3(TC.assignedObject.transform.position.x, TC.assignedObject.transform.position.y + 1f, TC.assignedObject.transform.position.z);
             }
         }
-        else if (TC.assignedDoor.GetComponent<DoorScript>().orientation == MapGenerator.Corridor.Orientation.Horizontal)
+        else if (TC.assignedObject.GetComponent<DoorScript>().orientation == MapGenerator.Corridor.Orientation.Horizontal)
         {
-            if (GCS.playerObj.transform.position.x > TC.assignedDoor.transform.position.x)
+            if (GCS.playerObj.transform.position.x > TC.assignedObject.transform.position.x)
             {
-                displayPosition = new Vector3(TC.assignedDoor.transform.position.x - 1f, TC.assignedDoor.transform.position.y, TC.assignedDoor.transform.position.z);
+                displayPosition = new Vector3(TC.assignedObject.transform.position.x - 1f, TC.assignedObject.transform.position.y, TC.assignedObject.transform.position.z);
             }
             else
             {
-                displayPosition = new Vector3(TC.assignedDoor.transform.position.x + 1f, TC.assignedDoor.transform.position.y, TC.assignedDoor.transform.position.z);
+                displayPosition = new Vector3(TC.assignedObject.transform.position.x + 1f, TC.assignedObject.transform.position.y, TC.assignedObject.transform.position.z);
             }
         }
 
@@ -71,7 +70,7 @@ public class OverlayController : MonoBehaviour
         TC.title.text = "Open";
         TC.cost.text = GCS.doorPrice.ToString();
         door.Tip = tip;
-        TC.assignedDoor = door.gameObject;
+        TC.assignedObject = door.gameObject;
         tipList.Add(tip);
     }
 
@@ -81,5 +80,28 @@ public class OverlayController : MonoBehaviour
         tipList.Remove(door.Tip);
         Destroy(door.Tip);
 
+    }
+
+    public void MakeBoofStationTip(BoofStationScript BSS)
+    {
+        if (GCS == null)
+        {
+            GCS = GameControllerScript.GCS;
+        }
+        GameObject tip = Instantiate(tipPrefab);
+        tip.transform.SetParent(this.transform);
+        TipController TC = tip.GetComponent<TipController>();
+        TC.title.text = BSS.BBD.boofName.ToString();
+        TC.cost.text = BSS.BBD.boofCost.ToString();
+        BSS.Tip = tip;
+        TC.assignedObject = BSS.gameObject;
+        tipList.Add(tip);
+    }
+
+    public void DestroyBoofStationTip(BoofStationScript BSS)
+    {
+        Debug.Log($"[OC] - {BSS.Tip.name} has to be deleted");
+        tipList.Remove(BSS.Tip);
+        Destroy(BSS.Tip);
     }
 }

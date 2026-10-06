@@ -5,18 +5,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapGenerator;
 
-public class DoorScript : PickupBase
+public class DoorScript : InteractableBase
 {
     public int price;
     public bool isUnlocked = false;
     public bool openingEnded = false;
     public Room[] connectsRooms;
-    public GameControllerScript GCS;
-    public OverlayController OC;
     public MapGenerator mapGenerator;
     public MapGenerator.Corridor belongedCorridor;
     public List<Room> RoomsAttached = new List<Room>();
-    public MapGenerator.Corridor.Orientation orientation;
     public Collider2D col;
     public GameObject RightWing;
     public GameObject LeftWing;
@@ -27,11 +24,7 @@ public class DoorScript : PickupBase
     private Vector3 rrbTarget;
     private Vector3 lrbTarget;
     public float moveSpeed = 0.2f;
-    public override void Awake()
-    {
-        GCS = GameControllerScript.GCS;
-        OC = OverlayController.OC;
-    }
+
 
     private void Update()
     {
@@ -70,10 +63,12 @@ public class DoorScript : PickupBase
 
     public override void OnPickedUp(PlayerInventory inventory)
     {
-        //Debug.Log($"[DoorScript] - beggins to open {this.name} the door");
-        inventory.RemoveScore(GCS.doorPrice);
-        UnlockDoor();
-        
+        if (inventory.currentScorePoints >= GCS.doorPrice)
+        {
+            //Debug.Log($"[DoorScript] - beggins to open {this.name} the door");
+            inventory.RemoveScore(GCS.doorPrice);
+            UnlockDoor();
+        }        
     }
 
     public void UnlockDoor()

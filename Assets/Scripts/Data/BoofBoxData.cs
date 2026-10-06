@@ -7,6 +7,7 @@ public class BoofBoxData : ScriptableObject
     public int boofCost;
     public GameObject boofGO;
     public BoofTypes boofType;
+    public Sprite boofStationSprite;
 
 
     public enum BoofTypes

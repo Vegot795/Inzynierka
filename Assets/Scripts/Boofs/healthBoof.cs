@@ -1,5 +1,6 @@
 using UnityEngine;
 using static Unity.Cinemachine.AxisState;
+[CreateAssetMenu(fileName = "HealthBoof ", menuName = "Env/HealthBoof")]
 
 public class healthBoof : BoofBoxData
 {

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "DamageBoof ", menuName = "Env/DamageBoof")]
+
 public class damageBoof : BoofBoxData
 {
     public float damageModif = 0.2f;

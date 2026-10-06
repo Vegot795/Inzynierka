@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "SpeedBoof ", menuName = "Env/SpeedBoof")]
+
 public class speedBoof : BoofBoxData
 {
     public float speedModif = 0.2f;

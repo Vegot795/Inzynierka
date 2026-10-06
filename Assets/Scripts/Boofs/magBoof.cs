@@ -1,6 +1,7 @@
 using UnityEngine;
-using static Unity.Cinemachine.AxisState;
 
+
+[CreateAssetMenu(fileName = "MagBoof", menuName = "Env/MagBoof")]
 public class magBoof : BoofBoxData
 {
     public float magModif = 0.2f;
