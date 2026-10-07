@@ -15,10 +15,12 @@ public class MapGenerator : MonoBehaviour
     public GameObject gridCellPref;
     public GameObject doorPrefab;
     public GameObject spawnerPrefab;
+    public GameObject BoofStationPrefab;
+    [Header("Kids")]
     public GameObject cellsKid;
     public GameObject doorsKid;
     public GameObject spawnersKid;
-
+    public GameObject BoofStationsKid;
     [Header("Map Settings")]
     public bool isMapReady = false;
     public int iterations = 4;
@@ -35,11 +37,13 @@ public class MapGenerator : MonoBehaviour
     public List<GridCell> cellsList = new List<GridCell>();
     private List<Room> roomList = new List<Room>();
     private List<Corridor> createdCorridors = new List<Corridor>();
-
     public List<SpawnerScript> spawnerList = new List<SpawnerScript>();
+    private readonly List<GridCell> emptyCells = new List<GridCell>();
+    public List<BoofBoxData> BoofBoxes = new List<BoofBoxData>();
+
+    [Header("Else")]
     [SerializeField] public EnvironmentData[] roomEnvironment;
 
-    private readonly List<GridCell> emptyCells = new List<GridCell>();
     private EnvironmentData[] notUsedRoomEnvironments;
 
     public GridCell[,] grid;
@@ -127,6 +131,7 @@ public class MapGenerator : MonoBehaviour
         CreateDoors();
         CreateSpawners();
         GC.SetupGame(FindStartRoom());
+        SpawnBoofStations();
     }
 
     #region ----- Map Generating -----
@@ -892,6 +897,7 @@ public class MapGenerator : MonoBehaviour
             for (int x = 0; x < SpawnersToCreate; x++)
             {
                 GridCell spawnCell = cellsUnderWall[Random.Range(0, cellsUnderWall.Count-1)];
+                spawnCell.isOccupied = true;
                 GameObject spawner = Instantiate(spawnerPrefab);
                 SpawnerScript spawnerScript = spawner.GetComponent<SpawnerScript>();
                 spawner.transform.position = spawnCell.transform.position;
@@ -909,6 +915,78 @@ public class MapGenerator : MonoBehaviour
     }
     #endregion
 
+    #region ----- Boof Stations -----
+
+    public void SpawnBoofStations()
+    {
+        var roomList = allRoomList
+            .Where(room => room.isStartingRoom == false)
+            .OrderBy(_ => Random.value)
+            .ToList();
+
+        List<Room> roomsWithBoofStation = new List<Room>();
+        List<BoofBoxData> unusedBoofBoxes = new List<BoofBoxData>();
+        unusedBoofBoxes.AddRange(BoofBoxes);
+
+        Debug.Log("[BoofStation creation] - trying to spawn boof stations");
+
+        while(roomsWithBoofStation.Count < BoofBoxes.Count)
+        {
+            //bierze liste do loopa
+            List<BoofBoxData> UBB = unusedBoofBoxes
+                .OrderBy(_ => Random.value)
+                .ToList();
+
+            //znajduje pokój który ani on ani jego sąsiedzi nie mają BoofBoxa
+            Room roomForBS = roomList
+                .Where(room => room.BoofBox == null && !room.adjectedRooms.Any(room => room.Value.BoofBox != null))
+                .OrderBy(_ => Random.value)
+                .ToList()
+                .FirstOrDefault();
+            
+            //znajdź komórkę matkę
+            var cellForBoofStation = roomForBS.cells
+                .Where(cell => cell.isOccupied == false && cell.type == GridCell.CellType.floor)
+                .Where(cell => GetCellNeighbors(cell).Any(kvp => !kvp.Value.IsUnityNull() && kvp.Value.type == GridCell.CellType.floor))
+                .OrderBy(_ => Random.value)
+                .FirstOrDefault();
+
+            //znajdź sąsiada matki
+            var neighbourCell = GetCellNeighbors(cellForBoofStation)
+                .Where(cell => !cell.Value.IsUnityNull() && cell.Value.type == GridCell.CellType.floor)
+                .OrderBy(_ => Random.value)
+                .FirstOrDefault();
+
+            //oblicz spawn point
+            var BSSpawnPosition = new Vector2((cellForBoofStation.x + neighbourCell.Value.x) / 2, (cellForBoofStation.y + neighbourCell.Value.y) / 2);
+
+            //weź Boof Box i usuń go z listy nieużytych
+            var choosenBoofBox = UBB.FirstOrDefault();
+            unusedBoofBoxes.Remove(choosenBoofBox);
+
+            //utwórz boof station i zaklep komórki
+            var BoofStation = Instantiate(BoofStationPrefab);
+            cellForBoofStation.isOccupied = true;
+            neighbourCell.Value.isOccupied = true;
+
+            //oblicz kierunek położenia
+            var BSScript = BoofStation.GetComponent<BoofStationScript>();
+            BSScript.direction = neighbourCell.Key;
+            BSScript.BBD = choosenBoofBox;
+            var spawnRotation = BSScript.GetRotation() - 90f;
+            roomForBS.BoofBox = choosenBoofBox;
+            roomsWithBoofStation.Add(roomForBS);
+
+            //Postaw stację z odpowiednim transformem
+            BoofStation.transform.position = BSSpawnPosition;
+            BoofStation.transform.rotation = Quaternion.Euler(0, 0, spawnRotation);
+            BoofStation.transform.SetParent(BoofStationsKid.transform);
+            BSScript.SetUpBoofStation();
+            Debug.Log($"[BoofStation creation] - created {BSScript.BBD.boofName} in room {roomForBS.roomName}. BoofBoxes left: {unusedBoofBoxes.Count}");
+        }
+    }
+
+    #endregion
     #region --- Debugging and Visualization ---
 
     private Color GetRandomColor()

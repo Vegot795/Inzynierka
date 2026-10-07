@@ -93,6 +93,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8818995410916945753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7070702773843655235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7899690477690269698}
+  m_Layer: 0
+  m_Name: BoofStations
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7899690477690269698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7070702773843655235}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8818995410916945753}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7930169104597275817
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +159,7 @@ Transform:
   - {fileID: 5125662673485973548}
   - {fileID: 436630245700641691}
   - {fileID: 5768854873808219056}
+  - {fileID: 7899690477690269698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7311619006494670757
@@ -150,6 +182,7 @@ MonoBehaviour:
   cellsKid: {fileID: 534690454003089694}
   doorsKid: {fileID: 4256132494292646164}
   spawnersKid: {fileID: 2136631559442268486}
+  BoofStationPrefab: {fileID: 0}
   isMapReady: 0
   iterations: 6
   roomCount: 0
@@ -160,6 +193,7 @@ MonoBehaviour:
   gridMap: {fileID: 0}
   cellsList: []
   spawnerList: []
+  BoofBoxes: []
   roomEnvironment:
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
   - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}

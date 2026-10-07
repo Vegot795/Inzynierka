@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8566136021513632173}
   - component: {fileID: 7919652634604933673}
   - component: {fileID: 5875842040656935370}
+  - component: {fileID: -5345513201097157413}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -108,18 +109,13 @@ MonoBehaviour:
   canSpawnEnemies: 1
   isUnlocked: 0
   openingEnded: 0
-  rotation: 0
   direction: 0
-  canOpen: 0
-  canClose: 0
   rightWing: {fileID: 8703710801656273690}
   leftWing: {fileID: 7705130751927585557}
   RWr: 0
   RWrb: 0
   LWr: 0
   LWrb: 0
-  rb: {fileID: 0}
-  animation: {fileID: 0}
   openedDoorRotation: 120
   doorRotationSpeed: 90
   totalDoorRotation: 0
@@ -166,6 +162,52 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &-5345513201097157413
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4902672215052379028}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.03125, y: 0.75}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.03125, y: 0.75}
+  m_EdgeRadius: 0
 --- !u!1 &7705130751927585557
 GameObject:
   m_ObjectHideFlags: 0

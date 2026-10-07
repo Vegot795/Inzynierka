@@ -86,6 +86,7 @@ public class GameControllerScript : MonoBehaviour
         var CineCamComp = CinemachineCamera.GetComponent<CinemachineCamera>();
         CineCamComp.Target.TrackingTarget = playerObj.transform;
         allSpawners = mapGenerator.spawnerList;
+        startRoom.isStartingRoom = true;
         startRoom.UnlockRoom();
 
         GivePlayerStartScore(startScore);

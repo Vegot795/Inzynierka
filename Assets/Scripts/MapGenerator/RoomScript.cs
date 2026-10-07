@@ -8,15 +8,17 @@ public class Room
 {
     [Header("Scripts")]
     public MapGenerator mapGenerator;
+    public EnvironmentData environmentData;
+    public BoofBoxData BoofBox;
+    public Room parentRoom;
 
     [Header("Specs")]
     public string roomName;
     public int minimalRoomLength = 6;
     public int roomsConnectedWithCorridor = 0;
-    public RectInt bounds;
-    public EnvironmentData environmentData;
-    public Room parentRoom;
     public bool isUnlocked = false;
+    public bool isStartingRoom = false;
+    public RectInt bounds;
 
     [Header("Lists")]
     public List<MapGenerator.Corridor> OwnedCorridors = new List<MapGenerator.Corridor>();

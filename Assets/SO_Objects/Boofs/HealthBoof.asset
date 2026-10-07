@@ -16,5 +16,5 @@ MonoBehaviour:
   boofCost: 1000
   boofGO: {fileID: 0}
   boofType: 1
-  boofStationSprite: {fileID: -447145238113514017, guid: 6fcf0d7096c863342b971d6e38758cf3, type: 3}
+  boofStationSprite: {fileID: 21300000, guid: 6fcf0d7096c863342b971d6e38758cf3, type: 3}
   healthModifier: 0.2

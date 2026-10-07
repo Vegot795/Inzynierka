@@ -16,5 +16,5 @@ MonoBehaviour:
   boofCost: 1000
   boofGO: {fileID: 0}
   boofType: 5
-  boofStationSprite: {fileID: -2639906625382144178, guid: ed91bda2631447e498303de10f329d9f, type: 3}
+  boofStationSprite: {fileID: 21300000, guid: ed91bda2631447e498303de10f329d9f, type: 3}
   damageModif: 0.2

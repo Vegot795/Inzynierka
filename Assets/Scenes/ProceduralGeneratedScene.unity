@@ -313,6 +313,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &967461176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7070702773843655235, guid: 33a80709159abde49a4318181de575d5, type: 3}
+  m_PrefabInstance: {fileID: 2013436210200670862}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1344958544 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
@@ -828,6 +833,34 @@ PrefabInstance:
       propertyPath: gridCellPref
       value: 
       objectReference: {fileID: 1554538527}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: BoofStationsKid
+      value: 
+      objectReference: {fileID: 967461176}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: BoofStationPrefab
+      value: 
+      objectReference: {fileID: 2788191976107861270, guid: c9c68b3aca542444f89926f4ee113a88, type: 3}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: BoofBoxes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: 'BoofBoxes.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 073b95cfd3ff2c246937f980664470bf, type: 2}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: 'BoofBoxes.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 70addf50d296a3e42b6fdf3bd0c7694b, type: 2}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: 'BoofBoxes.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 26f4764210e769c4f8a0aa2f4eac6a62, type: 2}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: 'BoofBoxes.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 282e0f42273759c48adbdb565a87c2f6, type: 2}
     - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
       propertyPath: roomEnvironment.Array.size
       value: 4

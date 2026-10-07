@@ -23,7 +23,7 @@ public class OverlayController : MonoBehaviour
         TipController TC = tip.GetComponent<TipController>();
         Vector3 displayPosition = new Vector3();
 
-        if (TC.assignedObject.GetComponent<DoorScript>().orientation == MapGenerator.Corridor.Orientation.Vertical)
+        if (TC.assignedObject.GetComponent<InteractableBase>().orientation == MapGenerator.Corridor.Orientation.Vertical)
         {
             if(GCS.playerObj.transform.position.y > TC.assignedObject.transform.position.y)
             {
@@ -34,7 +34,7 @@ public class OverlayController : MonoBehaviour
                 displayPosition = new Vector3(TC.assignedObject.transform.position.x, TC.assignedObject.transform.position.y + 1f, TC.assignedObject.transform.position.z);
             }
         }
-        else if (TC.assignedObject.GetComponent<DoorScript>().orientation == MapGenerator.Corridor.Orientation.Horizontal)
+        else if (TC.assignedObject.GetComponent<InteractableBase>().orientation == MapGenerator.Corridor.Orientation.Horizontal)
         {
             if (GCS.playerObj.transform.position.x > TC.assignedObject.transform.position.x)
             {
@@ -96,6 +96,7 @@ public class OverlayController : MonoBehaviour
         BSS.Tip = tip;
         TC.assignedObject = BSS.gameObject;
         tipList.Add(tip);
+        Debug.Log("Boof Tip Created");
     }
 
     public void DestroyBoofStationTip(BoofStationScript BSS)

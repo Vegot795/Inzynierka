@@ -29,7 +29,7 @@ public class GridCell : MonoBehaviour
     public int y;
     public CellType type = CellType.empty;
     public EnvironmentData environmentData;
-
+    public bool isOccupied = false;
     public GridCell(int x, int y, CellType cellType, EnvironmentData environmentData)
     {
         this.x = x;
