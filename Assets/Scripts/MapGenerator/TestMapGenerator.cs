@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 
@@ -10,9 +12,9 @@ public class TestMapGenerator : MapGenerator
 {
     [Header("MapSettings")]
     public bool spawnTestingEnemy;
+    public bool canSpawnTestingBoofStation;
     public float spawnDistance = 5;
     public int spawnEnemyCount = 1;
-
 
     public int height = 10;
     public int width = 10;
@@ -37,11 +39,17 @@ public class TestMapGenerator : MapGenerator
 
     public override void Awake()
     {
+        BoofBoxes = BHS.BoofList;
         GenerateGrid(width, height);
         SpawnPlayer();
         if (spawnTestingEnemy)
         {
             SpawnTestingEnemy(PC.transform.position, spawnDistance, spawnEnemyCount);
+        }
+
+        if (canSpawnTestingBoofStation)
+        {
+            SpawnTestingBoofStation();
         }
     }
 
@@ -173,5 +181,21 @@ public class TestMapGenerator : MapGenerator
         }
         //Debug.Log($"Spawned {enemyList.Count} testing enemies around position {targetPosition} within distance {targetDistance}.");
     }
+
+    /*public void SpawnTestingBoofStation()
+    {
+        var BBL = BoofBoxes;
+        if (BBL.Count == 0 || BBL == null)
+        {
+            Debug.Log("BBL is missing");
+        }
+        BoofBoxData randomBB = BBL.Where(x => x)
+            .OrderBy(_ => Random.value)
+            .FirstOrDefault();
+
+        GameObject testBoofStation = Instantiate(BoofStationPrefab);
+        var BBScript = testBoofStation.GetComponent<BoofBoxData>();
+        BBScript.BBD = randomBB;
+    }*/
 
 }

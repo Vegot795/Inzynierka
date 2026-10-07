@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boofName: Damage Boof
   boofCost: 1000
-  boofGO: {fileID: 0}
+  boofGO: {fileID: 8730343987887656175, guid: 2af28d2b62f0b234e8f12a03b04f26cd, type: 3}
+  boofIcon: {fileID: 0}
   boofType: 5
-  boofStationSprite: {fileID: 21300000, guid: ed91bda2631447e498303de10f329d9f, type: 3}
+  boofStationSprite: {fileID: -2639906625382144178, guid: ed91bda2631447e498303de10f329d9f, type: 3}
   damageModif: 0.2

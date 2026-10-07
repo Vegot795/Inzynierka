@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boofName: Health Boof
   boofCost: 1000
-  boofGO: {fileID: 0}
+  boofGO: {fileID: 8730343987887656175, guid: 2af28d2b62f0b234e8f12a03b04f26cd, type: 3}
+  boofIcon: {fileID: 0}
   boofType: 1
-  boofStationSprite: {fileID: 21300000, guid: 6fcf0d7096c863342b971d6e38758cf3, type: 3}
+  boofStationSprite: {fileID: -447145238113514017, guid: 6fcf0d7096c863342b971d6e38758cf3, type: 3}
   healthModifier: 0.2

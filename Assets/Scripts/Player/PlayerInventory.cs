@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Current Slots (runtime, readonly)")]
-    [SerializeField] private WeaponData currentWeapon;
-    [SerializeField] private GrenadeData currentGrenade;
+    [SerializeField] public WeaponData currentWeapon;
+    [SerializeField] public GrenadeData currentGrenade;
 
     [Header("References")]
     public WeaponHolder weaponHolder;

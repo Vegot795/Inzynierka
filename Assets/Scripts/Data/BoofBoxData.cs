@@ -1,4 +1,6 @@
+using Unity.AppUI.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "BoofData ", menuName = "Env/BoofBox")]
 public class BoofBoxData : ScriptableObject
@@ -6,6 +8,7 @@ public class BoofBoxData : ScriptableObject
     public string boofName;
     public int boofCost;
     public GameObject boofGO;
+    public Sprite boofIcon;
     public BoofTypes boofType;
     public Sprite boofStationSprite;
 

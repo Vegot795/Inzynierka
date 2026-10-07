@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoofManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class BoofManager : MonoBehaviour
         UIC = UIController.UIC;
         GCS = GameControllerScript.GCS;
         player = GCS.playerObj.GetComponent<PC_Controller>();
-        
+        weapon = GCS.playerObj.GetComponent<PlayerInventory>().weaponClass;
     }
 
 
@@ -28,6 +29,7 @@ public class BoofManager : MonoBehaviour
         BoofBoxData newBoofSo = Instantiate(boof);
 
         GameObject newBoofGO = Instantiate(boof.boofGO);
+        newBoofGO.GetComponent<Image>().sprite = boof.boofIcon;
         newBoofGO.transform.SetParent(UIC.BoofsList.transform);
         BoofBox.Add(boof, boof.boofGO);
         boof.ActivateBoof(player); 

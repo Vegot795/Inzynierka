@@ -43,6 +43,7 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Else")]
     [SerializeField] public EnvironmentData[] roomEnvironment;
+    public BoofsHolderScript BHS;
 
     private EnvironmentData[] notUsedRoomEnvironments;
 
@@ -82,6 +83,10 @@ public class MapGenerator : MonoBehaviour
         if (MG == null)
         {
             MG = this;
+        }
+        if (BHS != null)
+        {
+            BoofBoxes = BHS.BoofList;
         }
 
         if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
@@ -946,19 +951,19 @@ public class MapGenerator : MonoBehaviour
             
             //znajdź komórkę matkę
             var cellForBoofStation = roomForBS.cells
-                .Where(cell => cell.isOccupied == false && cell.type == GridCell.CellType.floor)
-                .Where(cell => GetCellNeighbors(cell).Any(kvp => !kvp.Value.IsUnityNull() && kvp.Value.type == GridCell.CellType.floor))
+                .Where(cell => cell.isOccupied == false && cell.type == GridCell.CellType.floor && cell.corridorOwner == null)
+                .Where(cell => GetCellNeighbors(cell).Any(kvp => !kvp.Value.IsUnityNull() && kvp.Value.type == GridCell.CellType.floor && kvp.Value.corridorOwner == null))
                 .OrderBy(_ => Random.value)
                 .FirstOrDefault();
 
             //znajdź sąsiada matki
             var neighbourCell = GetCellNeighbors(cellForBoofStation)
-                .Where(cell => !cell.Value.IsUnityNull() && cell.Value.type == GridCell.CellType.floor)
+                .Where(cell => !cell.Value.IsUnityNull() && cell.Value.type == GridCell.CellType.floor && cell.Value.corridorOwner == null)
                 .OrderBy(_ => Random.value)
                 .FirstOrDefault();
 
             //oblicz spawn point
-            var BSSpawnPosition = new Vector2((cellForBoofStation.x + neighbourCell.Value.x) / 2, (cellForBoofStation.y + neighbourCell.Value.y) / 2);
+            var BSSpawnPosition = new Vector2((cellForBoofStation.transform.position.x + neighbourCell.Value.transform.position.x) / 2, (cellForBoofStation.transform.position.y + neighbourCell.Value.transform.position.y) / 2);
 
             //weź Boof Box i usuń go z listy nieużytych
             var choosenBoofBox = UBB.FirstOrDefault();
@@ -987,6 +992,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     #endregion
+
     #region --- Debugging and Visualization ---
 
     private Color GetRandomColor()

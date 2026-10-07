@@ -51,7 +51,6 @@ public class DoorScript : InteractableBase
         {
             gameObject.transform.eulerAngles = new Vector3(0, 0, 90);
             gameObject.transform.position = new Vector2(belongedCorridor.leftTopCell.transform.position.x + 0.5f, belongedCorridor.leftTopCell.transform.position.y - 0.5f);
-
         }
         else
         {
@@ -73,7 +72,6 @@ public class DoorScript : InteractableBase
 
     public void UnlockDoor()
     {
-
         if (!isUnlocked) 
         {
             isUnlocked = true;
@@ -82,13 +80,16 @@ public class DoorScript : InteractableBase
             lrbTarget = LeftWing.transform.localPosition - moveVector;
 
             Debug.Log($"RightWing position: {RightWing.transform.position}, localPosition: {RightWing.transform.localPosition} Position to go: {rrbTarget}");
-            Debug.Log($"RightWing position: {RightWing.transform.position}, localPosition: {RightWing.transform.localPosition}Position to go: {lrbTarget}");
+            Debug.Log($"RightWing position: {RightWing.transform.position}, localPosition: {RightWing.transform.localPosition} Position to go: {lrbTarget}");
 
             Room roomToOpen = RoomsAttached
                 .Where(x => x.isUnlocked == false)
                 .First();
             roomToOpen.UnlockRoom();
-            
+            if (Tip != null)
+            {
+                OC.DestroyDoorTip(this);
+            }
         } 
     }
 

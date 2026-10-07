@@ -179,10 +179,11 @@ MonoBehaviour:
   gridCellPref: {fileID: 0}
   doorPrefab: {fileID: 1784765971862958678, guid: ac67a5bc67ce45e4b822ee250aa55d1f, type: 3}
   spawnerPrefab: {fileID: 4902672215052379028, guid: 6dd8b29c3ab074b499d950aba77f90ac, type: 3}
+  BoofStationPrefab: {fileID: 0}
   cellsKid: {fileID: 534690454003089694}
   doorsKid: {fileID: 4256132494292646164}
   spawnersKid: {fileID: 2136631559442268486}
-  BoofStationPrefab: {fileID: 0}
+  BoofStationsKid: {fileID: 0}
   isMapReady: 0
   iterations: 6
   roomCount: 0
@@ -197,6 +198,7 @@ MonoBehaviour:
   roomEnvironment:
   - {fileID: 11400000, guid: ed68f7be704946942b2ad87bcf86752d, type: 2}
   - {fileID: 11400000, guid: 10068ea3e66a97c4ba6c1d3015055399, type: 2}
+  BHS: {fileID: 49822450179068285, guid: e9ff667bd9159ec4bbf3bd738b192b91, type: 3}
 --- !u!114 &2136667599410248270
 MonoBehaviour:
   m_ObjectHideFlags: 0
