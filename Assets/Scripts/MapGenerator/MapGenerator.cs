@@ -110,6 +110,7 @@ public class MapGenerator : MonoBehaviour
         CreateSpawners();
         StartRoom = FindStartRoom();
 
+        GC.SetupGC();
         GC.SetupGame(StartRoom);
         BM.SetupBM();
         UIC.SetupUIC();

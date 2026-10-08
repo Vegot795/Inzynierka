@@ -53,7 +53,6 @@ public class GameControllerScript : MonoBehaviour
 
     public void Awake()
     {
-        GCS = this;
         SetupGC();
         
     }
@@ -95,7 +94,7 @@ public class GameControllerScript : MonoBehaviour
 
     }
 
-    private void SetupGC()
+    public void SetupGC()
     {
         GCS = this;
         mapGenerator = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
