@@ -27,6 +27,12 @@ public partial class SetNewTargetLocationAction : Action
             return Status.Failure;
         }
 
+        FoV fov = Agent.Value.GetComponentInChildren<FoV>();
+        if (fov == null)
+        {
+            Debug.Log("[GH SetNewTargetLocation] - Fov is missing");
+        }
+
         if (enemy.lastSpottedPosition == null)
         {
             //Debug.LogError("SetNewTargetLocationAction: lastSpottedPosition is null.");
@@ -46,6 +52,11 @@ public partial class SetNewTargetLocationAction : Action
         if (enemy == null)
         {
             //Debug.LogError("SetNewTargetLocationAction: EnemyClass component is missing on Agent.");
+            return Status.Failure;
+        }
+        //FoV fov = Agent.Value.GetComponentInChildren<FoV>();
+        if (enemy.targetCharacter != null)
+        {
             return Status.Failure;
         }
 

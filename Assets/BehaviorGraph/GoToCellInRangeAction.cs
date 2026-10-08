@@ -10,6 +10,7 @@ public partial class GoToCellInRangeAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     [SerializeReference] public BlackboardVariable<GameObject> Player;
+    private Vector3 destination;
 
     protected override Status OnStart()
     {
@@ -27,9 +28,15 @@ public partial class GoToCellInRangeAction : Action
         Vector3 distance = Player.Value.transform.position - Agent.Value.transform.position;
         if (enemyScript is SkeletEnemy skeletEnemy)
         {
-            if (distance.magnitude < skeletEnemy.callRange || distance.magnitude > skeletEnemy.viewDistance/2)
+            if (distance.magnitude < skeletEnemy.viewDistance && distance.magnitude > skeletEnemy.viewDistance/2)
             {
-                return Status.Failure;
+                return Status.Success;
+            }
+            else if(distance.magnitude > skeletEnemy.viewDistance || distance.magnitude < skeletEnemy.viewDistance / 2)
+            {
+                destination = skeletEnemy.GetCellBetweenThisAndTarget().transform.position;
+                Debug.Log($"[GoToCellInRange] - destination cell: {destination}");
+                skeletEnemy.GoToCell(destination);
             }
         }
 
@@ -41,9 +48,22 @@ public partial class GoToCellInRangeAction : Action
         EnemyClass enemyScript = Agent.Value.GetComponent<EnemyClass>();
 
         Vector3 distance = Player.Value.transform.position - Agent.Value.transform.position;
-        
+        if (enemyScript is SkeletEnemy skeletEnemy)
+        {
+            bool isInAttackRange = distance.magnitude < skeletEnemy.viewDistance && distance.magnitude > skeletEnemy.viewDistance / 2;
+            if (isInAttackRange)
+            {
+                return Status.Success;
+            }
+            else if (distance.magnitude > skeletEnemy.viewDistance || distance.magnitude < skeletEnemy.viewDistance / 2)
+            {
+                destination = skeletEnemy.GetCellBetweenThisAndTarget().transform.position;
+                Debug.Log($"[GoToCellInRange] - destination cell: {destination}");
+                skeletEnemy.GoToCell(destination);
+            }
 
-        return Status.Success;
+        }
+        return Status.Running;
     }
 
     protected override void OnEnd()
