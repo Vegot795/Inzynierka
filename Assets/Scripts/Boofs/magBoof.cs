@@ -8,14 +8,14 @@ public class magBoof : BoofBoxData
 
     public override void ActivateBoof(PC_Controller player)
     {
-        var weapon = player.GetComponent<WeaponClass>();
+        var weapon = player.GetComponent<PlayerInventory>().weaponClass;
         weapon.maxAmmoModif += magModif;
         weapon.OnMagBoofStatusChange();
     }
 
     public override void DeactivateBoof(PC_Controller player)
     {
-        var weapon = player.GetComponent<WeaponClass>();
+        var weapon = player.GetComponent<PlayerInventory>().weaponClass;
         weapon.maxAmmoModif -= magModif;
         weapon.OnMagBoofStatusChange();
     }

@@ -12,6 +12,7 @@ public class GameControllerScript : MonoBehaviour
     public static GameControllerScript GCS { get; private set; }
     public MapGenerator mapGenerator;
     public PC_Controller pcController;
+    public BoofManager BM;
 
     [Header("Prefabs")]
     public GameObject PlayerPrefab;
@@ -90,6 +91,8 @@ public class GameControllerScript : MonoBehaviour
         startRoom.UnlockRoom();
 
         GivePlayerStartScore(startScore);
+        BM.SetupBM();
+
     }
 
     private void SetupGC()

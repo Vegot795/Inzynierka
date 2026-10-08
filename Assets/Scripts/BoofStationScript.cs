@@ -33,10 +33,6 @@ public class BoofStationScript : InteractableBase
     public override void OnPlayerEnter()
     {
         OC.MakeBoofStationTip(this);
-        if (!boofManager.BoofBox.ContainsKey(BBD))
-        {
-            OC.MakeBoofStationTip(this);
-        }
     }
 
     public override void OnPlayerExit()
@@ -55,6 +51,10 @@ public class BoofStationScript : InteractableBase
             {
                 inventory.RemoveScore(BBD.boofCost);
                 boofManager.AddBoofToList(BBD);
+                if (Tip != null)
+                {
+                    OC.DestroyBoofStationTip(this);
+                }
             }
         }
     }

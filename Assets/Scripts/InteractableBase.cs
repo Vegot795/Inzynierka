@@ -15,8 +15,8 @@ public class InteractableBase : PickupBase
         OC = OverlayController.OC;
         MG = MapGenerator.MG;
     }
-
-    public override void OnPickedUp(PlayerInventory inventory) { }
+    public virtual void OnInteraction() { }
+    public override void OnPickedUp(PlayerInventory inventory) => OnInteraction();
     public override void OnPlayerEnter() { }
     public override void OnPlayerExit() { }
 

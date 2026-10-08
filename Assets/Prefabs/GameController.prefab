@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2510173420255733759}
   - component: {fileID: 6187860270363312288}
+  - component: {fileID: 7385771861831028243}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -44,3 +45,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a788e0fca1542b84785ec71e6739e82c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapGenerator: {fileID: 0}
+  pcController: {fileID: 0}
+  PlayerPrefab: {fileID: 0}
+  SkeletPrefab: {fileID: 0}
+  ZombiePrefab: {fileID: 0}
+  MainCamera: {fileID: 0}
+  CinemachineCamera: {fileID: 0}
+  playerObj: {fileID: 0}
+  WaveNumber: 1
+  MaxEnemies: 0
+  AddMaxEnemiesPerWave: 0
+  AllEnemiesKilled: 0
+  enemiesSpawnedDuringRound: 0
+  EnemiesKilledDuringRound: 0
+  canSpawnEnemies: 0
+  timeBetweenSpawns: 3
+  doorPrice: 300
+  doorPricePerUnlockedDoors: 50
+  startScore: 0
+  readyToSpawn: 1
+  enemiesSpawned: []
+  allSpawners: []
+--- !u!114 &7385771861831028243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34167030297691740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3ee3396e7399b408c8b9b422cd7c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIC: {fileID: 0}
+  GCS: {fileID: 0}
+  player: {fileID: 0}
+  weapon: {fileID: 0}

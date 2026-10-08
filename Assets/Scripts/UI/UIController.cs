@@ -9,24 +9,29 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI wavesText;
-    public GameObject BoofsList;
+    public GameObject BoofList;
     public WeaponClass riffle;
     public CharacterBase character;
     public PlayerInventory inventory;
     public GameControllerScript GCS;
 
-	private void Start()
+    private void Awake()
     {
         if (UIC == null)
         {
             UIC = this;
         }
+    }
+
+	public void SetupUIC()
+    {
+
         PC = GameObject.FindGameObjectWithTag("Player");
         ammoText = GameObject.FindGameObjectWithTag("AmmoDisplay").GetComponent<TextMeshProUGUI>();
         hpText = GameObject.FindGameObjectWithTag("hpDisplay").GetComponent<TextMeshProUGUI>();
-        scoreText = GameObject.FindGameObjectWithTag("ScoreDisplay").GetComponent<TextMeshProUGUI>();
+        scoreText = GameObject.Find("ScoreDisplay").GetComponent<TextMeshProUGUI>();
         wavesText = GameObject.FindGameObjectWithTag("WavesDisplay").GetComponent<TextMeshProUGUI>();
-        BoofsList = GameObject.FindGameObjectWithTag("BuffsList");
+        BoofList = transform.Find("BoofList").gameObject;
 
 
         riffle = PC.GetComponentInChildren<WeaponClass>();
@@ -47,13 +52,23 @@ public class UIController : MonoBehaviour
 
    private void UpdateAmmoText()
    {
-       if (PC != null)
-       {
-           if (riffle != null)
-           {
-               ammoText.text = "Ammo: " + riffle.currentAmmo + "/" + riffle.currentMaxAmmo;
-           }
-       }
+        if (PC != null)
+        {
+            if (riffle != null)
+            {
+                ammoText.text = "Ammo: " + riffle.currentAmmo + "/" + riffle.currentMaxAmmo;
+            }
+            else
+            {
+                Debug.Log("riffle is missing, trying to reassign");
+                riffle = PC.GetComponentInChildren<WeaponClass>();
+
+            }
+        }
+        else
+        {
+            Debug.Log("PC is null");
+        }
    }
 
     private void UpdateHealthText()

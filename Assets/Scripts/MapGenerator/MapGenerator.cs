@@ -5,11 +5,15 @@ using Unity.VisualScripting;
 
 public class MapGenerator : MonoBehaviour
 {
+    #region ----- Declarations -----
     [Header("Scripts")]
     public static MapGenerator MG { get; private set; }
     public DoorScript doorScript;
     public Room roomScript;
     public GameControllerScript GC;
+    public BoofManager BM;
+    public UIController UIC;
+    public OverlayController OC;
 
     [Header("Prefabs")]
     public GameObject gridCellPref;
@@ -44,6 +48,7 @@ public class MapGenerator : MonoBehaviour
     [Header("Else")]
     [SerializeField] public EnvironmentData[] roomEnvironment;
     public BoofsHolderScript BHS;
+    public Room StartRoom;
 
     private EnvironmentData[] notUsedRoomEnvironments;
 
@@ -77,40 +82,8 @@ public class MapGenerator : MonoBehaviour
         public Orientation orientation;
 
     }
+    #endregion
 
-    public virtual void SetupGenerator()
-    {
-        if (MG == null)
-        {
-            MG = this;
-        }
-        if (BHS != null)
-        {
-            BoofBoxes = BHS.BoofList;
-        }
-
-        if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
-        {
-            //Debug.LogError("[MapGenerator] Missing room environments.");
-            return;
-        }
-
-        if (gridCellPref == null)
-        {
-            //Debug.LogError("[MapGenerator] Missing gridCellPref.");
-            return;
-        }
-
-        GC = GameObject.Find("GameController").GetComponent<GameControllerScript>();
-        if (GC == null)
-        {
-            //Debug.LogWarning($"[MapGenerator] - GC is missing!!!");
-        }
-        roomScript = new Room("Room_Manager", new List<GridCell>(), null);
-        roomScript.mapGenerator = this;
-        notUsedRoomEnvironments = roomEnvironment;
-        doorScript = doorPrefab.GetComponent<DoorScript>();
-    }
 
     public virtual void Awake()
     {
@@ -135,12 +108,53 @@ public class MapGenerator : MonoBehaviour
         GiveCollidersToWalls();
         CreateDoors();
         CreateSpawners();
-        GC.SetupGame(FindStartRoom());
+        StartRoom = FindStartRoom();
+
+        GC.SetupGame(StartRoom);
+        BM.SetupBM();
+        UIC.SetupUIC();
+        OC.SetupOC();
+
         SpawnBoofStations();
+        SpawnBoofStationInStartingRoom();
     }
 
     #region ----- Map Generating -----
+    public virtual void SetupGenerator()
+    {
+        if (MG == null)
+        {
+            MG = this;
+        }
+        if (BHS != null)
+        {
+            BoofBoxes = BHS.BoofList;
+        }
 
+        if (roomEnvironment == null || roomEnvironment.Length == 0 || roomEnvironment[0] == null)
+        {
+            //Debug.LogError("[MapGenerator] Missing room environments.");
+            return;
+        }
+
+        if (gridCellPref == null)
+        {
+            //Debug.LogError("[MapGenerator] Missing gridCellPref.");
+            return;
+        }
+
+        GC = GameControllerScript.GCS;
+        UIC = UIController.UIC;
+        OC = OverlayController.OC;
+        if (GC == null)
+        {
+            //Debug.LogWarning($"[MapGenerator] - GC is missing!!!");
+        }
+        roomScript = new Room("Room_Manager", new List<GridCell>(), null);
+        roomScript.mapGenerator = this;
+        notUsedRoomEnvironments = roomEnvironment;
+        doorScript = doorPrefab.GetComponent<DoorScript>();
+    }
     public virtual void GenerateGrid(int width, int height)
     {
         mapWidth = width;
@@ -989,6 +1003,29 @@ public class MapGenerator : MonoBehaviour
             BSScript.SetUpBoofStation();
             Debug.Log($"[BoofStation creation] - created {BSScript.BBD.boofName} in room {roomForBS.roomName}. BoofBoxes left: {unusedBoofBoxes.Count}");
         }
+    }
+
+    public void SpawnBoofStationInStartingRoom()
+    {
+        var BBL = BoofBoxes;
+        if (BBL.Count == 0 || BBL == null)
+        {
+            Debug.Log("BBL is missing");
+        }
+        BoofBoxData randomBB = BBL.Where(x => x)
+            .OrderBy(_ => Random.value)
+            .FirstOrDefault();
+
+        var celLToSpawn = StartRoom.cells
+            .Where(x => x.type == GridCell.CellType.floor && x.isOccupied == false)
+            .OrderBy(_ => Random.value)
+            .FirstOrDefault();
+
+        var srBF = Instantiate(BoofStationPrefab);
+        var srBFS = srBF.GetComponent<BoofStationScript>();
+        srBFS.BBD = randomBB;
+        srBF.transform.position = celLToSpawn.transform.position;
+        srBF.GetComponent<SpriteRenderer>().sprite = srBFS.BBD.boofStationSprite;
     }
 
     #endregion

@@ -182,7 +182,7 @@ public class TestMapGenerator : MapGenerator
         //Debug.Log($"Spawned {enemyList.Count} testing enemies around position {targetPosition} within distance {targetDistance}.");
     }
 
-    /*public void SpawnTestingBoofStation()
+    public void SpawnTestingBoofStation()
     {
         var BBL = BoofBoxes;
         if (BBL.Count == 0 || BBL == null)
@@ -194,8 +194,9 @@ public class TestMapGenerator : MapGenerator
             .FirstOrDefault();
 
         GameObject testBoofStation = Instantiate(BoofStationPrefab);
-        var BBScript = testBoofStation.GetComponent<BoofBoxData>();
+        testBoofStation.transform.position = new Vector2(PC.transform.position.x + 2, PC.transform.position.y + 2);
+        var BBScript = testBoofStation.GetComponent<BoofStationScript>();
         BBScript.BBD = randomBB;
-    }*/
+    }
 
 }

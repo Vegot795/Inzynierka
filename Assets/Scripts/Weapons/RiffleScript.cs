@@ -12,11 +12,15 @@ public class RiffleScript : WeaponClass
         //Debug.Log($"Initializing Riffle with data: {data.weaponName}, Max Ammo: {data.maxAmmoCapacity}");
         weaponData = data;
         
-        currentMaxAmmo = weaponData.maxAmmoCapacity;
-        currentReloadTime = weaponData.reloadTime;
-        currentDamage = weaponData.damage;
+        baseMaxAmmo = weaponData.maxAmmoCapacity;
+        currentMaxAmmo = baseMaxAmmo;
+        baseReloadTime = weaponData.reloadTime;
+        currentReloadTime = baseReloadTime;
+        baseDamage = weaponData.damage;
+        currentDamage = baseDamage;
         projectileSpeed = weaponData.projectileSpeed;
-        currentFireRate = weaponData.fireRate;
+        baseFireRate = weaponData.fireRate;
+        currentFireRate = baseFireRate;
         projectilePrefab = weaponData.projectilePrefab;
         playerController = GetComponentInParent<CharacterBase>();
 

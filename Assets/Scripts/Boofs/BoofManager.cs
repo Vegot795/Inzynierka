@@ -11,7 +11,7 @@ public class BoofManager : MonoBehaviour
     public WeaponClass weapon;
     public Dictionary<BoofBoxData, GameObject> BoofBox = new Dictionary<BoofBoxData, GameObject>();
     
-    public void Awake()
+    public void SetupBM()
     {
         if (boofManager == null)
         {
@@ -30,7 +30,7 @@ public class BoofManager : MonoBehaviour
 
         GameObject newBoofGO = Instantiate(boof.boofGO);
         newBoofGO.GetComponent<Image>().sprite = boof.boofIcon;
-        newBoofGO.transform.SetParent(UIC.BoofsList.transform);
+        newBoofGO.transform.SetParent(UIC.BoofList.transform);
         BoofBox.Add(boof, boof.boofGO);
         boof.ActivateBoof(player); 
     }
