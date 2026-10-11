@@ -230,7 +230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 4.3984375
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -399,6 +399,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1189367654460553243, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1585467087895518601, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_TagString
       value: WavesDisplay
@@ -430,6 +434,10 @@ PrefabInstance:
     - target: {fileID: 3247313071389218337, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522689286970313413, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6026913187603159789, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchorMax.x
@@ -797,7 +805,7 @@ PrefabInstance:
       objectReference: {fileID: 1608640502}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: canSpawnEnemies
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: CinemachineCamera

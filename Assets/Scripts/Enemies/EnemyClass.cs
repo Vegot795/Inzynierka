@@ -7,12 +7,17 @@ public class EnemyClass : CharacterBase
     [Header("Enemy Class Stats")]
     public bool canAttack = true;
     public int Damage;
+    public int baseDamage;
+    public int damagePerWave = 2;
+    public int msPerWave = 2;
+    public int hpPerWave = 2;
     public float attackCooldown = 1f;
     public int scoreValue;
     public float viewDistance = 6f;
     public float repathInterval = 0.5f;
     public int attempts = 3;
     public float minDistance = 1f;
+    public float playerMoveSpeed;
 
     [Header("Character Components")]
     public Pathfinding pathfinder;
@@ -45,7 +50,10 @@ public class EnemyClass : CharacterBase
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         rb = GetComponent<Rigidbody2D>();
         fov = GetComponentInChildren<FoV>(true);
-        CurrentHp = BaseMaxHp * healthModif;
+        playerMoveSpeed = GCS.playerObj.GetComponent<PC_Controller>().currentMoveSpeed;
+        currentMaxHp = BaseMaxHp * healthModif);
+        Damage = (int)(baseDamage * damageModif);
+        currentMoveSpeed = Mathf.Lerp(baseMoveSpeed, playerMoveSpeed, baseMoveSpeed * moveSpeedModif);
     }
     void Update()
     {

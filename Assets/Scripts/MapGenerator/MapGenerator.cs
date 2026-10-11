@@ -84,6 +84,18 @@ public class MapGenerator : MonoBehaviour
     }
     #endregion
 
+    public void SetupScripts()
+    {
+        GC.SetupGC();
+        if (this is not TestMapGenerator)
+        {
+            GC.SetupGame(StartRoom);
+
+        }
+        BM.SetupBM();
+        UIC.SetupUIC();
+        OC.SetupOC();
+    }
 
     public virtual void Awake()
     {
@@ -109,15 +121,9 @@ public class MapGenerator : MonoBehaviour
         CreateDoors();
         CreateSpawners();
         StartRoom = FindStartRoom();
-
-        GC.SetupGC();
-        GC.SetupGame(StartRoom);
-        BM.SetupBM();
-        UIC.SetupUIC();
-        OC.SetupOC();
-
+        SetupScripts();
         SpawnBoofStations();
-        SpawnBoofStationInStartingRoom();
+        //SpawnBoofStationInStartingRoom();
     }
 
     #region ----- Map Generating -----
@@ -154,7 +160,11 @@ public class MapGenerator : MonoBehaviour
         roomScript = new Room("Room_Manager", new List<GridCell>(), null);
         roomScript.mapGenerator = this;
         notUsedRoomEnvironments = roomEnvironment;
-        doorScript = doorPrefab.GetComponent<DoorScript>();
+        if (this is not TestMapGenerator)
+        {
+            doorScript = doorPrefab.GetComponent<DoorScript>();
+
+        }
     }
     public virtual void GenerateGrid(int width, int height)
     {

@@ -41,6 +41,8 @@ public class TestMapGenerator : MapGenerator
     {
         BoofBoxes = BHS.BoofList;
         GenerateGrid(width, height);
+        SetupGenerator();
+        SetupScripts();
         SpawnPlayer();
         if (spawnTestingEnemy)
         {

@@ -20,9 +20,7 @@ public partial class SetCharacterAsTargetAction : Action
         if (fov == null || fov.spotted == null)
         {
             return Status.Failure;
-        }
-
-        
+        }        
 
         return Status.Running;
     }
@@ -30,10 +28,21 @@ public partial class SetCharacterAsTargetAction : Action
     protected override Status OnUpdate()
     {
         EnemyClass enemy = GameObject.GetComponent<EnemyClass>();
+        if (enemy == null)
+        {
+            return Status.Failure;
+        }
         FoV fov = GameObject.GetComponentInChildren<FoV>(true);
 
-        enemy.targetLocation = enemy.targetCharacter.position;
-        enemy.lastSpottedPosition = enemy.targetCharacter.position;
+        if (enemy.targetCharacter != null)
+        {
+            enemy.targetLocation = enemy.targetCharacter.position;
+            enemy.lastSpottedPosition = enemy.targetCharacter.position;
+        }
+        else
+        {
+            return Status.Failure;
+        }
         
         var distanceToTarget = Vector3.Distance(enemy.transform.position, enemy.targetCharacter.position);
         if (distanceToTarget < 0.05f)

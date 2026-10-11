@@ -27,7 +27,7 @@ public class SkeletEnemy : EnemyClass
     public bool isBeingProtected = false;
 
 
-    public override void Awake()
+    public void Start()
     {
         base.Awake();
         MG = pathfinder.GetComponent<MapGenerator>();

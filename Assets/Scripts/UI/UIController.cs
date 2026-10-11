@@ -19,9 +19,7 @@ public class UIController : MonoBehaviour
     public CharacterBase character;
     public PlayerInventory inventory;
     public GameControllerScript GCS;
-    public bool canFadeBlackScreen = false;
     public float blackScreenAlpha = 0;
-    public float fadeRatio = 5;
 
     private void Awake()
     {
@@ -62,13 +60,6 @@ public class UIController : MonoBehaviour
         UpdateHealthText();
         UpdateScore();
         UpdateWaves();
-        
-
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     private void UpdateAmmoText()
@@ -134,9 +125,9 @@ public class UIController : MonoBehaviour
 
     public void ShowDeathScreen()
     {
-        DeathScreen.SetActive(true);
         BlackScreen.color = new Color(0,0,0,blackScreenAlpha);
-        canFadeBlackScreen = true;
+        BlackScreen.gameObject.SetActive(true);
+        DeathScreenText.gameObject.SetActive(true);
         StartCoroutine(StartBlackScreenFade(3));
     }
     private IEnumerator StartBlackScreenFade(float duration)

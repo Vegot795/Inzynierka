@@ -494,6 +494,11 @@ public class Room
     public void UnlockRoom()
     {
         isUnlocked = true;
+        foreach (var cell in cells)
+        {
+            cell.isUnlocked = true;
+        }
+
         foreach (var spawner in spawners)
         {
             spawner.GetComponent<SpawnerScript>().isUnlocked = true;      

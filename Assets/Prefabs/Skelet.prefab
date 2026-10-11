@@ -62,7 +62,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 0
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterType: 1
   BaseMaxHp: 30
-  currentMaxHp: 30
+  currentMaxHp: 100
   CurrentHp: 0
   healthModif: 1
   damageModif: 1
@@ -271,11 +271,11 @@ MonoBehaviour:
   isFlashed: 0
   col: {fileID: 0}
   canAttack: 1
-  Damage: 8
+  Damage: 341950
   attackCooldown: 1
   scoreValue: 0
   viewDistance: 6
-  repathInterval: 0.5
+  repathInterval: 0.05
   attempts: 3
   minDistance: 1
   pathfinder: {fileID: 0}
@@ -307,7 +307,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2814517985326584477}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

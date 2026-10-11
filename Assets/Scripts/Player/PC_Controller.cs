@@ -99,6 +99,8 @@ public class PC_Controller : CharacterBase
     {
         //Debug.Log("[Player] Player died! Game Over!");
 
-        base.Die(killer);
+        //base.Die(killer);
+        var UIC = UIController.UIC;
+        UIC.ShowDeathScreen();
     }
 }

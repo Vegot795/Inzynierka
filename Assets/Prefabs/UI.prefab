@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1012450419203483468
 RectTransform:
   m_ObjectHideFlags: 0
@@ -635,11 +635,15 @@ MonoBehaviour:
   hpText: {fileID: 0}
   scoreText: {fileID: 0}
   wavesText: {fileID: 0}
+  DeathScreen: {fileID: 0}
+  BlackScreen: {fileID: 0}
+  DeathScreenText: {fileID: 0}
   BoofList: {fileID: 0}
   riffle: {fileID: 0}
   character: {fileID: 0}
   inventory: {fileID: 0}
   GCS: {fileID: 0}
+  blackScreenAlpha: 0
 --- !u!1 &3522689286970313413
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,7 +661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6941598502291882826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1463,9 +1467,9 @@ RectTransform:
   - {fileID: 6941598502291882826}
   m_Father: {fileID: 6869295613756253760}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 804.10016, y: -79.754745}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4568553093654051477

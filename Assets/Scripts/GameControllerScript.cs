@@ -65,8 +65,11 @@ public class GameControllerScript : MonoBehaviour
             readyToSpawn = false;
             StartCoroutine(SpawnEnemies());
         }
+        if (mapGenerator is not TestMapGenerator)
+        {
+            WaveController();
 
-        WaveController();
+        }
     }
 
     #region ------ Game Setup ------
@@ -90,8 +93,6 @@ public class GameControllerScript : MonoBehaviour
         startRoom.UnlockRoom();
 
         GivePlayerStartScore(startScore);
-        BM.SetupBM();
-
     }
 
     public void SetupGC()
@@ -179,6 +180,7 @@ public class GameControllerScript : MonoBehaviour
         if ((enemySpawnChance == 0 || enemyRatio >= 10) && WaveNumber >= 4)
         {
             enemyToSpawn = SkeletPrefab;
+
         }
         else
         {
@@ -216,13 +218,13 @@ public class GameControllerScript : MonoBehaviour
         var zombie = ZombiePrefab.GetComponent<EnemyClass>();
         var skelet = SkeletPrefab.GetComponent<EnemyClass>();
 
-        zombie.currentMaxHp += 2;
-        zombie.Damage += 2;
-        zombie.currentMoveSpeed += 0.2f;
+        zombie.healthModif += 0.05f;
+        zombie.damageModif += 0.05f;
+        zombie.moveSpeedModif += 0.05f;
 
-        skelet.currentMaxHp += 3;
-        skelet.Damage += 2;
-        skelet.currentMoveSpeed += 0.2f;
+        skelet.healthModif += 0.1f;
+        skelet.damageModif += 0.1f;
+        skelet.moveSpeedModif += 0.05f;
 
         MaxEnemies += AddMaxEnemiesPerWave;
     }

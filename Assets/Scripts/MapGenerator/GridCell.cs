@@ -23,6 +23,7 @@ public class GridCell : MonoBehaviour
     }
     
     public bool hasRoom = false;
+    public bool isUnlocked = false;
     public Room roomOwner = null;
     public MapGenerator.Corridor corridorOwner = null;
     public int x;

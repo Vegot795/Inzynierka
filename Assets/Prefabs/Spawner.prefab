@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7919652634604933673}
   - component: {fileID: 5875842040656935370}
   - component: {fileID: -5345513201097157413}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4411735616319074564}
   - component: {fileID: 1000596209535987574}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DoorLeftWing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6396978091043755179}
   - component: {fileID: 2414717218002409500}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DoorLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2540683267786889927}
   - component: {fileID: 7145901201680550225}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DoorRightWing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6208861183629181782}
   - component: {fileID: 673641596724336982}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DoorRightSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

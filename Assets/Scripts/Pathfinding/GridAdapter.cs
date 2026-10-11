@@ -49,7 +49,7 @@ public class GridAdapter : MonoBehaviour
             return false;
         }
 
-        return cell.type == GridCell.CellType.floor;
+        return cell.type == GridCell.CellType.floor && cell.isUnlocked;
     }
 
     public List<Node> GetNeighbors(Node node)
