@@ -13,6 +13,7 @@ public class GameControllerScript : MonoBehaviour
     public MapGenerator mapGenerator;
     public PC_Controller pcController;
     public BoofManager BM;
+    public GameSettings GS;
 
     [Header("Prefabs")]
     public GameObject PlayerPrefab;
@@ -86,6 +87,8 @@ public class GameControllerScript : MonoBehaviour
         playerObj = Instantiate(PlayerPrefab);
         pcController = playerObj.GetComponent<PC_Controller>();
         playerObj.transform.position = SRBounds.center;
+        GS.player = pcController;
+
         var CineCamComp = CinemachineCamera.GetComponent<CinemachineCamera>();
         CineCamComp.Target.TrackingTarget = playerObj.transform;
         allSpawners = mapGenerator.spawnerList;
@@ -99,7 +102,7 @@ public class GameControllerScript : MonoBehaviour
     {
         GCS = this;
         mapGenerator = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
-
+        GS = GameSettings.GS;
         if (GCS == null)
         {
             GCS = this;

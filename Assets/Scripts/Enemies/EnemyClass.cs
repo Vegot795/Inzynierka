@@ -51,7 +51,7 @@ public class EnemyClass : CharacterBase
         rb = GetComponent<Rigidbody2D>();
         fov = GetComponentInChildren<FoV>(true);
         playerMoveSpeed = GCS.playerObj.GetComponent<PC_Controller>().currentMoveSpeed;
-        currentMaxHp = BaseMaxHp * healthModif);
+        currentMaxHp = BaseMaxHp * healthModif;
         Damage = (int)(baseDamage * damageModif);
         currentMoveSpeed = Mathf.Lerp(baseMoveSpeed, playerMoveSpeed, baseMoveSpeed * moveSpeedModif);
     }
