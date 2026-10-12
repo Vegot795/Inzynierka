@@ -58,6 +58,9 @@ public partial class GoToCellInRangeAction : Action
             bool isInAttackRange = distance.magnitude < skeletEnemy.attackRange && distance.magnitude > skeletEnemy.attackRange / 2;
             if (isInAttackRange)
             {
+
+                enemyScript.targetLocation = null;
+                enemyScript.currentPath = null;
                 return Status.Success;
             }
             else if (!isInAttackRange)
@@ -69,10 +72,6 @@ public partial class GoToCellInRangeAction : Action
 
         }
         return Status.Running;
-    }
-
-    protected override void OnEnd()
-    {
     }
 }
 

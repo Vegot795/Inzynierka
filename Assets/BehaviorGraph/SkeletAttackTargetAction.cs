@@ -39,7 +39,7 @@ public partial class SkeletAttackTargetAction : Action
 
         Vector3 direction = Target.Value.transform.position - skelet.transform.position;
         skelet.fov.SetAimDirection(direction);
-        //skelet.ShootProjectile(direction); ///// This piece of code is to be changed, for now there is no animation ~Ogun
+        skelet.ShootProjectile(direction); ///// This piece of code is to be changed, for now there is no animation ~Ogun
         Debug.Log("Skelet theoretically shoots");
         return Status.Success;
     }

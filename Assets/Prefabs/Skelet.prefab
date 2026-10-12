@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 60123281100400793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.266, y: 0.178, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 209022864777702014}
   m_Layer: 7
   m_Name: Skelet
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,7 +202,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.43, y: 0.34}
+  m_Size: {x: 0.671875, y: 0.53125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -272,7 +272,7 @@ MonoBehaviour:
   isFlashed: 0
   col: {fileID: 0}
   canAttack: 1
-  Damage: 341950
+  Damage: 0
   baseDamage: 0
   damagePerWave: 2
   msPerWave: 2
@@ -295,15 +295,15 @@ MonoBehaviour:
   attackRange: 5
   callRange: 10
   neededMobs: 3
-  skeletProjectile: {fileID: 7329302021653139206, guid: 470b9dc4aad5da547bc42189856c325a, type: 3}
   rod: {fileID: 0}
-  skeletProjectilePrefab: {fileID: 0}
-  projectileSpeed: 0
+  skeletProjectilePrefab: {fileID: 8316886315460491243, guid: ab7c7553088a78a47b76297941d818be, type: 3}
+  projectileSpeed: 5
   CallRangeObject: {fileID: 0}
   WallSpots: {fileID: 0}
   WallSpotsList: []
   playerTargetLocation: {x: 0, y: 0, z: 0}
   zombiesCalled: []
+  skeletReloadTime: 2
   isBeingProtected: 0
 --- !u!50 &3334923756349928669
 Rigidbody2D:
@@ -366,8 +366,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.3359375
+  m_Offset: {x: 0.019569755, y: 0}
+  m_Radius: 0.25833356
 --- !u!1 &4273124811743824211
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +394,7 @@ Transform:
   m_GameObject: {fileID: 4273124811743824211}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.268, y: -0.183, z: 0}
+  m_LocalPosition: {x: -0.27, y: 0.179, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 6725062811408109704}
   - component: {fileID: 5555186958426260789}
   - component: {fileID: 5090439728729621614}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: RangeCallCol
   m_TagString: RangeDetector
   m_Icon: {fileID: 0}

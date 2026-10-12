@@ -158,7 +158,7 @@ public class GameControllerScript : MonoBehaviour
         zombiesSpawned = enemiesSpawned.Where(x => x.GetComponent<ZombieEnemy>()).Count();
         skeletsSpawned = enemiesSpawned.Where(x => x.GetComponent<SkeletEnemy>()).Count();
 
-        /*if (zombiesSpawned > 0 && skeletsSpawned > 0)
+        if (zombiesSpawned > 0 && skeletsSpawned > 0)
         {
             enemyRatio = zombiesSpawned / skeletsSpawned;
         }
@@ -185,9 +185,8 @@ public class GameControllerScript : MonoBehaviour
         else
         {
             enemyToSpawn = ZombiePrefab;
-        }*/
+        }
 
-        enemyToSpawn = SkeletPrefab;
         StartCoroutine(currentSpawner.SpawnEnemiesInSpawner(enemyToSpawn, 2f));
 
         yield return new WaitForSeconds(0.5f);

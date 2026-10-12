@@ -53,12 +53,17 @@ public class EnemyClass : CharacterBase
         currentMaxHp = BaseMaxHp * healthModif;
         Damage = (int)(baseDamage * damageModif);
     }
-    void Update()
+    public virtual void Update()
     {
         WalkAccordingToPath();
         playerMoveSpeed = GCS.playerObj.GetComponent<PC_Controller>().currentMoveSpeed;
 
         currentMoveSpeed = Mathf.Lerp(baseMoveSpeed, playerMoveSpeed, baseMoveSpeed * moveSpeedModif);
+
+        if (targetCharacter != null)
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, targetCharacter.position - transform.position);
+        }
     }
 
     public virtual void Attack(CharacterBase target)
@@ -172,6 +177,18 @@ public class EnemyClass : CharacterBase
             return; 
         }
 
+        targetLocation = targetCell;
+        repathTimer = 0f;
+        //Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
+
+        if (Mathf.Approximately(Vector3.Distance(transform.position, targetLocation.Value), 0f))
+        {
+            targetLocation = null;
+        }
+    }
+
+    public void ForceGoToCell(Vector3? targetCell)
+    {
         targetLocation = targetCell;
         repathTimer = 0f;
         //Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");

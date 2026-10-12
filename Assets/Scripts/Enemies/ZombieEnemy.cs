@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class ZombieEnemy : EnemyClass
 
     private Collider2D attackCol;
     public bool calledbySkeleton = false;
-    public EnemyClass skeletonCaller;
+    public SkeletEnemy skeletonCaller;
     public Vector3 spotLocation;
 
 
@@ -30,6 +31,11 @@ public class ZombieEnemy : EnemyClass
         }
     }
 
+    public override void Update()
+    {
+        base.Update();
+    }
+
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -41,6 +47,32 @@ public class ZombieEnemy : EnemyClass
             //Debug.Log("Zombie is attacking: " + character.gameObject.name);
             Attack(character);
             //Debug.Log($"{character.name} has been attacked, current HP: {character.CurrentHp}");
+        }
+    }
+
+    protected override void Die(CharacterBase killer)
+    {
+        base.Die(killer);
+        if (skeletonCaller != null)
+        {
+            skeletonCaller.zombiesCalled.Remove(this);
+        }
+        var GCS = GameControllerScript.GCS;
+        
+        foreach (var enemy in GCS.enemiesSpawned)
+        {
+            if (enemy is SkeletEnemy skelet)
+            {
+                if (skelet.GetComponent<SkeletHelpCaller>().zombiesAround.Contains(this))
+                {
+                    skelet.GetComponent<SkeletHelpCaller>().zombiesAround.Remove(this);
+                }
+
+                if (skelet.zombiesCalled.Contains(this))
+                {
+                    skelet.zombiesCalled.Remove(this);
+                }
+            }
         }
     }
 

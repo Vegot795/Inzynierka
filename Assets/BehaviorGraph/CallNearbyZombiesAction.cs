@@ -14,27 +14,30 @@ public partial class CallNearbyZombiesAction : Action
     {
         if (Agent == null || Agent.Value == null)
         {
+            Debug.Log("SKelet failed at Agent assign");
             return Status.Failure;
         }
         
         SkeletEnemy skelet = Agent.Value.GetComponent<SkeletEnemy>();
         if (skelet == null)
         {
+            Debug.Log("SKelet failed at script assign");
             return Status.Failure;
         }   
         SkeletHelpCaller callRangeScript = skelet.transform.Find("RangeCallCol").GetComponent<SkeletHelpCaller>();
 
         if (callRangeScript == null || callRangeScript.zombiesAround.Count < skelet.neededMobs)
         {
+            Debug.Log("SKelet failed at rangeColS script assign");
             return Status.Failure;
         }
         skelet.CallForHelp();
 
 
-        return Status.Running;
+        return Status.Success;
     }
 
-    protected override Status OnUpdate()
+    /*protected override Status OnUpdate()
     {
         SkeletEnemy skelet = Agent.Value.GetComponent<SkeletEnemy>();
 
@@ -49,6 +52,6 @@ public partial class CallNearbyZombiesAction : Action
             //Debug.Log("Skelet - zombiesCalled.Count: " + skelet.zombiesCalled.Count);
             return Status.Success;
         }
-    }
+    }*/
 }
 

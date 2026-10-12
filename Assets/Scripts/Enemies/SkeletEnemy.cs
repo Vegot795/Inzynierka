@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using Unity.AppUI.UI;
 using Unity.VisualScripting;
@@ -11,7 +12,6 @@ public class SkeletEnemy : EnemyClass
     public float attackRange = 5f;
     public float callRange = 10f;
     public int neededMobs = 3;
-    public GameObject skeletProjectile;
     public GameObject rod;
     public GameObject skeletProjectilePrefab;
     public float projectileSpeed;
@@ -21,11 +21,12 @@ public class SkeletEnemy : EnemyClass
     public GameObject WallSpots;
     public List<GameObject> WallSpotsList = new List<GameObject>();
     public Vector3 playerTargetLocation;
-    public List<ZombieEnemy> zombiesCalled;
+    public List<ZombieEnemy> zombiesCalled = new List<ZombieEnemy>();
     private MapGenerator MG;
+    private bool canShoot = true;
+    public float skeletReloadTime = 2f;
 
     public bool isBeingProtected = false;
-
 
     public void Start()
     {
@@ -52,38 +53,54 @@ public class SkeletEnemy : EnemyClass
         RangeCallCol.isTrigger = true;
     }
 
+    public override void Update()
+    {
+        base.Update();
+
+        if (isBeingProtected && zombiesCalled.Count == 0)
+        {
+            CancelTheCall();
+        }
+    }
+
     public override void Attack(CharacterBase target)
     {
         Vector2 direction = target.transform.position - transform.position;
-        PlayShootAnimation(direction);
+        ShootProjectile(direction);
     }
 
     public void ShootProjectile(Vector2 direction)
     {
-        if (base.targetCharacter == null || Vector3.Distance(transform.position, base.targetCharacter.position) > viewDistance)
+        if (canShoot)
         {
-            return;
+            if (base.targetCharacter == null || Vector3.Distance(transform.position, base.targetCharacter.position) > viewDistance)
+            {
+                return;
+            }
+
+            Vector3 spawnPos = new Vector3(rod.transform.position.x, rod.transform.position.y, 0);
+            Vector2 shootDirection = direction.normalized;
+
+            GameObject newSkeletProjectile = Instantiate(skeletProjectilePrefab, spawnPos, Quaternion.identity);
+            newSkeletProjectile.GetComponent<ProjectileScript>().Initialize(base.Damage, this);
+            Rigidbody2D rbProjectile = newSkeletProjectile.GetComponent<Rigidbody2D>();
+
+            if (newSkeletProjectile == null)
+            {
+                return;
+            }
+
+            rbProjectile.linearVelocity = shootDirection * projectileSpeed;
+            StartCoroutine(SkeletReload(skeletReloadTime));
         }
-        
-        Vector3 spawnPos = new Vector3(rod.transform.position.x, rod.transform.position.y, 0);
-        Vector2 shootDirection = direction.normalized;
-
-        GameObject newSkeletProjectile = Instantiate(skeletProjectilePrefab, spawnPos, Quaternion.identity);
-        newSkeletProjectile.GetComponent<ProjectileScript>().Initialize(base.Damage, this);
-        Rigidbody2D rb = newSkeletProjectile.GetComponent<Rigidbody2D>();
-
-        if (newSkeletProjectile == null)
-        {
-            return;
-        }
-
-        rb.linearVelocity = shootDirection * projectileSpeed;
 
     }
 
-    public void PlayShootAnimation(Vector2 direction)
+    public IEnumerator SkeletReload(float time)
     {
-
+        canShoot = false;
+        yield return new WaitForSeconds(time);
+        canShoot = true;
     }
 
     public Vector3? FindPositionToAttackPlayer(int attempts, float minDistance)
@@ -133,7 +150,10 @@ public class SkeletEnemy : EnemyClass
 
     public void CallForHelp()
     {
-        var zombiesAround = CallRangeObject.GetComponent<SkeletHelpCaller>().zombiesAround;
+        var zombiesAround = CallRangeObject.GetComponent<SkeletHelpCaller>().zombiesAround
+            .Where(zombie => zombie.GetComponent<ZombieEnemy>().calledbySkeleton == false && zombie.GetComponent<ZombieEnemy>().skeletonCaller == null)
+            .ToList();
+
         var closestZombie = new ZombieEnemy[neededMobs];
         List<(EnemyClass, float)> zombieDistances = new List<(EnemyClass, float)>();
 
@@ -174,12 +194,13 @@ public class SkeletEnemy : EnemyClass
 
         zombiesCalled.Clear();
         isBeingProtected = false;
+        WallSpotsList.Clear();
     }
 
     private List<GameObject> CreateShieldSpots()
     {
         List<GameObject> shieldSpots = new List<GameObject>();
-        if (WallSpotsList.Count != 0)
+        if (WallSpotsList.Count == 0)
         {
             for (int i = 0; i < neededMobs; i++)
             {
@@ -207,6 +228,12 @@ public class SkeletEnemy : EnemyClass
         Debug.Log($"[SkeletEnemy] - Cells to return: {availableCells.Count}");
         var cellToReturn = availableCells.First();
         return cellToReturn;
+    }
+
+    protected override void Die(CharacterBase killer)
+    {
+        CancelTheCall();
+        base.Die(killer);
     }
 
     /*public GridCell GetCellInAttackRange()
