@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7788373236236326680}
   - component: {fileID: 9215528548592237936}
   - component: {fileID: -5292560318568801215}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Zombie
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -130,6 +130,7 @@ MonoBehaviour:
   repathInterval: 0.05
   attempts: 3
   minDistance: 1
+  playerMoveSpeed: 0
   pathfinder: {fileID: 0}
   fov: {fileID: 0}
   targetCharacter: {fileID: 0}
@@ -245,7 +246,7 @@ GameObject:
   - component: {fileID: 6065537312398636454}
   - component: {fileID: 7347463186502793922}
   - component: {fileID: 6026806175180882783}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FoV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8895943659177929480}
   - component: {fileID: 2060145554310417796}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttackCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

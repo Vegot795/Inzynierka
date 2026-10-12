@@ -198,8 +198,8 @@ public class SkeletEnemy : EnemyClass
     {
 
         List<GridCell> availableCells = MG.cellsList
-            .Where(cell => (Vector3.Distance(cell.transform.position, targetCharacter.transform.position) <= viewDistance &&
-                           Vector3.Distance(cell.transform.position, targetCharacter.transform.position) >= viewDistance / 2) &&
+            .Where(cell => (Vector3.Distance(cell.transform.position, targetCharacter.transform.position) <= attackRange &&
+                           Vector3.Distance(cell.transform.position, targetCharacter.transform.position) >= attackRange / 2) &&
                            cell.type == GridCell.CellType.floor)
             .OrderBy(cell => Vector3.Distance(cell.transform.position, gameObject.transform.position))
             .ToList();
@@ -208,4 +208,10 @@ public class SkeletEnemy : EnemyClass
         var cellToReturn = availableCells.First();
         return cellToReturn;
     }
+
+    /*public GridCell GetCellInAttackRange()
+    {
+        List<GridCell> availableCells = MG.cellsList
+            .Where(cell => Vector3.Distance(cell.transform.position, )
+    }*/
 }

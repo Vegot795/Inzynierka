@@ -50,14 +50,15 @@ public class EnemyClass : CharacterBase
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         rb = GetComponent<Rigidbody2D>();
         fov = GetComponentInChildren<FoV>(true);
-        playerMoveSpeed = GCS.playerObj.GetComponent<PC_Controller>().currentMoveSpeed;
-        currentMaxHp = BaseMaxHp * healthModif);
+        currentMaxHp = BaseMaxHp * healthModif;
         Damage = (int)(baseDamage * damageModif);
-        currentMoveSpeed = Mathf.Lerp(baseMoveSpeed, playerMoveSpeed, baseMoveSpeed * moveSpeedModif);
     }
     void Update()
     {
         WalkAccordingToPath();
+        playerMoveSpeed = GCS.playerObj.GetComponent<PC_Controller>().currentMoveSpeed;
+
+        currentMoveSpeed = Mathf.Lerp(baseMoveSpeed, playerMoveSpeed, baseMoveSpeed * moveSpeedModif);
     }
 
     public virtual void Attack(CharacterBase target)

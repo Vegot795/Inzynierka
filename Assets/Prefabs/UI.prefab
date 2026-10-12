@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4003738058470093481}
   m_Layer: 5
   m_Name: WavesDisplay
-  m_TagString: ScoreDisplay
+  m_TagString: WavesDisplay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 1968648907077334210}
   - component: {fileID: 6252413709691063997}
   m_Layer: 5
-  m_Name: BuffList
+  m_Name: BoofList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -635,9 +635,9 @@ MonoBehaviour:
   hpText: {fileID: 0}
   scoreText: {fileID: 0}
   wavesText: {fileID: 0}
-  DeathScreen: {fileID: 0}
-  BlackScreen: {fileID: 0}
-  DeathScreenText: {fileID: 0}
+  DeathScreen: {fileID: 7709112297750616148}
+  BlackScreen: {fileID: 2269134069081975309}
+  DeathScreenText: {fileID: 3882026074528303175}
   BoofList: {fileID: 0}
   riffle: {fileID: 0}
   character: {fileID: 0}
