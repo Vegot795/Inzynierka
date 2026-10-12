@@ -24,12 +24,7 @@ public class ProjectileScript : MonoBehaviour
         //Debug.Log($"[Projectile] OnTriggerEnter2D called. Hit: {collision.gameObject.name}");
         CharacterBase character = collision.GetComponent<CharacterBase>();
 
-        if (shooter != null && collision.gameObject == shooter)
-        {
-            return;
-        }
-
-        if (shooter != null && collision.gameObject != shooter)
+        if (shooter != null && collision.gameObject != shooter.gameObject)
         {
             //Debug.Log($"[Projectile] Hit enemy: {collision.gameObject.name}");
             if (character != null)

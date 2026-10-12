@@ -23,9 +23,9 @@ TagManager:
   - Player
   - Enemy
   - Spawner
-  - 
-  - 
-  - 
+  - SkeletProjectile
+  - EnemyRange
+  - PlayerProjectile
   - 
   - 
   - 

@@ -37,13 +37,24 @@ public class TestMapGenerator : MapGenerator
 
     private readonly List<GridCell> emptyCells = new List<GridCell>();
 
-    public override void Awake()
+    public override void Start()
     {
         BoofBoxes = BHS.BoofList;
         GenerateGrid(width, height);
+
+        foreach (var cell in emptyCells)
+        {
+            cell.isUnlocked = true;
+        }
         SetupGenerator();
-        SetupScripts();
         SpawnPlayer();
+        SetupScripts();
+        if (GC.playerObj == null)
+        {
+            GC.playerObj = PC;
+            Debug.Log("player reassigned");
+        }
+
         if (spawnTestingEnemy)
         {
             SpawnTestingEnemy(PC.transform.position, spawnDistance, spawnEnemyCount);
@@ -94,9 +105,10 @@ public class TestMapGenerator : MapGenerator
         }
 
         PC = Instantiate(playerPrefab, new Vector3(startX, startY, 0), Quaternion.identity);
+        GC.playerObj = PC;
 
         ccCamera.Target.TrackingTarget = PC.transform;
-        Instantiate(HUD, Vector3.zero, Quaternion.identity);
+        //Instantiate(HUD, Vector3.zero, Quaternion.identity);
         
 
     }

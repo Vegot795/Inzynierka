@@ -26,7 +26,7 @@ public partial class ProtectSkeletAction : Action
         {
             SkeletEnemy skeletCalling = (SkeletEnemy)zombie.skeletonCaller;
         }
-        mobScript.GoToCell(zombie.spotLocation);
+        mobScript.targetLocation = zombie.spotLocation;
 
         return mobScript.targetLocation != null ? Status.Running : Status.Failure;
     }
@@ -48,7 +48,7 @@ public partial class ProtectSkeletAction : Action
         Vector3 lookDirection = (MobScript.skeletonCaller.transform.position - MobScript.transform.position).normalized;
         MobScript.gameObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, lookDirection);
 
-        return MobScript.targetLocation != null ? Status.Running : Status.Success;
+        return Status.Running;
     }
 }
 

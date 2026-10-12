@@ -49,6 +49,7 @@ public class PC_Controller : CharacterBase
     private void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
+        currentMoveSpeed = baseMoveSpeed * moveSpeedModif;
     }
 
     private bool TryMove(Vector2 direction)
@@ -61,7 +62,7 @@ public class PC_Controller : CharacterBase
                     movementInput,
                     movementFilter,
                     castCollisions,
-                    (baseMoveSpeed * moveSpeedModif)* Time.deltaTime + collisionOffset);
+                    (currentMoveSpeed)* Time.deltaTime + collisionOffset);
                 if (count == 0)
                 {
                     rb.MovePosition(rb.position + movementInput * (baseMoveSpeed * moveSpeedModif) * Time.deltaTime);

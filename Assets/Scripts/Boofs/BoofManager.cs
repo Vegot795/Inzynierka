@@ -10,13 +10,17 @@ public class BoofManager : MonoBehaviour
     public PC_Controller player;
     public WeaponClass weapon;
     public Dictionary<BoofBoxData, GameObject> BoofBox = new Dictionary<BoofBoxData, GameObject>();
-    
-    public void SetupBM()
+
+    public void Awake()
     {
         if (boofManager == null)
         {
             boofManager = this;
-        }
+        }        
+    }
+
+    public void SetupBM()
+    {
         UIC = UIController.UIC;
         GCS = GameControllerScript.GCS;
         player = GCS.playerObj.GetComponent<PC_Controller>();

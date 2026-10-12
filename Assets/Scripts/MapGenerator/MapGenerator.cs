@@ -90,14 +90,13 @@ public class MapGenerator : MonoBehaviour
         if (this is not TestMapGenerator)
         {
             GC.SetupGame(StartRoom);
-
         }
-        BM.SetupBM();
         UIC.SetupUIC();
         OC.SetupOC();
+        BM.SetupBM();
     }
 
-    public virtual void Awake()
+    public virtual void Start()
     {
 
         SetupGenerator();
@@ -153,6 +152,7 @@ public class MapGenerator : MonoBehaviour
         GC = GameControllerScript.GCS;
         UIC = UIController.UIC;
         OC = OverlayController.OC;
+        BM = BoofManager.boofManager;
         if (GC == null)
         {
             //Debug.LogWarning($"[MapGenerator] - GC is missing!!!");
