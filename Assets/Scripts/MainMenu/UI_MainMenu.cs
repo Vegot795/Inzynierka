@@ -35,16 +35,25 @@ public class UI_MainMenu : MonoBehaviour
     public PlayerData playerDataPrefab;
     public PlayerData PD;
     public GameSettings GS;
+    public GameObject GSprefab;
 
     void Start()
     {
         UIM = this;
         GS = GameSettings.GS;
+
+        if (GS == null)
+        {
+            GameObject GameSettingsObj = Instantiate(GSprefab);
+            DontDestroyOnLoad(GameSettingsObj);
+            GS = GameSettings.GS;
+        }
         if (GS.UIM == null)
         {
             GS.UIM = UIM;
         }
-        if (GS.exitToScoreboard = true)
+
+        if (GS.exitToScoreboard == true)
         {
             OpenScoreboard();
             GS.exitToScoreboard = false;

@@ -41,10 +41,6 @@ public class GameSettings : MonoBehaviour
     {
         GS = this;
         UIM = UI_MainMenu.UIM;
-        if (UIM.GS == null)
-        {
-            UIM.GS = GS; 
-        }
         DontDestroyOnLoad(this.gameObject);
 
 
