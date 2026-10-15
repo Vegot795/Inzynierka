@@ -25,6 +25,10 @@ public class UI_MainMenu : MonoBehaviour
     public GameObject Scoretable;
     public GameObject BackButScoreboard;
 
+    [Header("Settings")]
+    public GameObject SettingsTab;
+    public GameObject BackButSettings;
+
     [Header("Data")]
     public List<GameObject> AllTabs = new List<GameObject>();
     public PlayerData playerDataPrefab;
@@ -66,7 +70,7 @@ public class UI_MainMenu : MonoBehaviour
     public void OpenSettings()
     {
         CloseAllTabs();
-        SettingsBut.SetActive(true);
+        SettingsTab.SetActive(true);
     }
 
     public void QuitGame()
