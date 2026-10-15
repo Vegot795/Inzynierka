@@ -279,17 +279,23 @@ public class GameControllerScript : MonoBehaviour
         PD = PlayerData.Instance;
         if (PD == null)
         {
-            PD = new PlayerData();
+            GameObject PDobj = new GameObject();
+            PD = PDobj.AddComponent<PlayerData>();
+
         }
 
-        new ScoreEntry()
-        {
-            playerNickname = PD.playerNickname,
-            totalEnemiesKilled = PD.TotalEnemiesKilled
-        };
         PD.TotalScore = TotalScore;
         PD.TotalEnemiesKilled = AllEnemiesKilled;
         PD.Date = System.DateTime.UtcNow.ToString("dd-MM-yyyy");
+        var newEntry = new ScoreEntry()
+        {
+            playerNickname = PD.playerNickname,
+            totalEnemiesKilled = PD.TotalEnemiesKilled,
+            date = PD.Date,
+            totalScore = PD.TotalScore
+        };
+
+        EndgameStatsController.AddEntry(newEntry);
     }
 
     public void ExitToScoreboard()
