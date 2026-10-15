@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UI_MainMenu : MonoBehaviour
 {
+    public static UI_MainMenu UIM;
     [Header("Main Menu")]
     public GameObject MainMenuTab;
     public GameObject PlayBut;
@@ -33,10 +34,23 @@ public class UI_MainMenu : MonoBehaviour
     public List<GameObject> AllTabs = new List<GameObject>();
     public PlayerData playerDataPrefab;
     public PlayerData PD;
+    public GameSettings GS;
 
     void Start()
     {
+        UIM = this;
+        GS = GameSettings.GS;
+        if (GS.UIM == null)
+        {
+            GS.UIM = UIM;
+        }
+        if (GS.exitToScoreboard = true)
+        {
+            OpenScoreboard();
+            GS.exitToScoreboard = false;
+        }
 
+        StartCoroutine(GS.TurnOffLoadingScreen(null));
     }
 
     // Update is called once per frame
@@ -59,7 +73,8 @@ public class UI_MainMenu : MonoBehaviour
             DontDestroyOnLoad(PD);
         }
         PD.playerNickname = NicknameInputField.text;
-        SceneManager.LoadScene("ProceduralGeneratedScene");
+
+        StartCoroutine(GS.TurnOnLoadingScreen(LoadGameScene));
     }
 
     public void OpenScoreboard()
@@ -89,5 +104,16 @@ public class UI_MainMenu : MonoBehaviour
         {
             tab.SetActive(false);
         }
+    }
+    public void ExitToScoreboard()
+    {
+        SceneManager.LoadScene("MainMenu");
+        OpenScoreboard();
+        StartCoroutine(GS.TurnOffLoadingScreen(null));
+    }
+
+    private void LoadGameScene()
+    {
+        SceneManager.LoadScene("ProceduralGeneratedScene");
     }
 }

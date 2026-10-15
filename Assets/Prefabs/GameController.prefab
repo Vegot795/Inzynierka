@@ -48,25 +48,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapGenerator: {fileID: 0}
   pcController: {fileID: 0}
-  BM: {fileID: 0}
+  BM: {fileID: 7385771861831028243}
+  playerData: {fileID: 0}
+  GS: {fileID: 0}
   EnemiesHolder: {fileID: 5911594473981604630}
-  PlayerPrefab: {fileID: 0}
-  SkeletPrefab: {fileID: 0}
-  ZombiePrefab: {fileID: 0}
+  PlayerPrefab: {fileID: 3605315496584586624, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
+  SkeletPrefab: {fileID: 2814517985326584477, guid: 9408248746e909b48a5928e2131d0d71, type: 3}
+  ZombiePrefab: {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
+  GSprefab: {fileID: 5918447063614819702, guid: 5c1f0f8f339b61a4bbd3be096ee3a145, type: 3}
   MainCamera: {fileID: 0}
   CinemachineCamera: {fileID: 0}
   playerObj: {fileID: 0}
+  PD: {fileID: 0}
   WaveNumber: 1
-  MaxEnemies: 0
-  AddMaxEnemiesPerWave: 0
+  BaseMaxEnemies: 10
+  MaxEnemies: 10
+  AddMaxEnemiesPerWave: 5
   AllEnemiesKilled: 0
+  ZombiesKilled: 0
+  SkeletsKilled: 0
   enemiesSpawnedDuringRound: 0
   EnemiesKilledDuringRound: 0
-  canSpawnEnemies: 0
+  TotalScore: 0
+  canSpawnEnemies: 1
   timeBetweenSpawns: 3
   doorPrice: 300
   doorPricePerUnlockedDoors: 50
-  startScore: 0
+  startScore: 5000
   readyToSpawn: 1
   enemiesSpawned: []
   allSpawners: []

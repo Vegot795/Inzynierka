@@ -8,6 +8,7 @@ public class PC_Controller : CharacterBase
     public ContactFilter2D movementFilter;
     public Vector2 mousePos;
     private bool canMove = true;
+    private bool hasDied = false;
 
     Vector2 movementInput;
     Vector3 mouseRotation;
@@ -100,10 +101,17 @@ public class PC_Controller : CharacterBase
 
     protected override void Die(CharacterBase killer)
     {
-        //Debug.Log("[Player] Player died! Game Over!");
-
-        //base.Die(killer);
+        if (hasDied)
+        {
+            return;
+        }
+        hasDied = true;
+        Time.timeScale = 0;
         var UIC = UIController.UIC;
+        if (UIC == null)
+        {
+            Debug.Log("[PLayer] - UIC was assigned");
+        }
         UIC.ShowDeathScreen();
         GCS.UpdatePlayerData();
     }

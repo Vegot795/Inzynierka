@@ -408,15 +408,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 146188634208291734, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 146188634208291734, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 1189367654460553243, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1585467087895518601, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_TagString
@@ -476,11 +476,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4449550603733691882, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4449550603733691882, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 50
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4780999535682603980, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1344958544}
+    - target: {fileID: 4780999535682603980, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitToScoreboard
       objectReference: {fileID: 0}
     - target: {fileID: 5504869560439854081, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -500,11 +508,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5504869560439854081, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5504869560439854081, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5758575583144379016, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -524,11 +532,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5758575583144379016, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5758575583144379016, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 6026913187603159789, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchorMax.x
@@ -656,6 +664,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7104649388755859520, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104649388755859520, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7709112297750616148, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
@@ -702,6 +714,10 @@ PrefabInstance:
       propertyPath: TotalZombiesKilled
       value: 
       objectReference: {fileID: 1630875903}
+    - target: {fileID: 8258367597381094057, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: timeToDisplayStatistics
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -927,57 +943,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: BM
+      propertyPath: GSprefab
       value: 
-      objectReference: {fileID: 1344958545}
+      objectReference: {fileID: 8120769221373287031, guid: 5c1f0f8f339b61a4bbd3be096ee3a145, type: 3}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: MainCamera
       value: 
       objectReference: {fileID: 1941024792}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: MaxEnemies
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: WaveNumber
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: startScore
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: PlayerPrefab
-      value: 
-      objectReference: {fileID: 3605315496584586624, guid: 7e37f34fce1b3cf4b9b82e592ea52349, type: 3}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: SkeletPrefab
-      value: 
-      objectReference: {fileID: 2814517985326584477, guid: 9408248746e909b48a5928e2131d0d71, type: 3}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: ZombiePrefab
-      value: 
-      objectReference: {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: mapGenerator
       value: 
       objectReference: {fileID: 1608640502}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: BaseMaxEnemies
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: canSpawnEnemies
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: CinemachineCamera
       value: 
       objectReference: {fileID: 1385992371}
-    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
-      propertyPath: AddMaxEnemiesPerWave
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

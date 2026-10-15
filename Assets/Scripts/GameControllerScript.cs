@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameControllerScript : MonoBehaviour
 {
@@ -14,16 +15,17 @@ public class GameControllerScript : MonoBehaviour
     public PC_Controller pcController;
     public BoofManager BM;
     public PlayerData playerData;
+    public GameSettings GS;
 
     [Header("Kids")]
     public GameObject EnemiesHolder;
-    public GameSettings GS;
 
 
     [Header("Prefabs")]
     public GameObject PlayerPrefab;
     public GameObject SkeletPrefab;
     public GameObject ZombiePrefab;
+    public GameObject GSprefab;
 
     [Header("Objects")]
     public GameObject MainCamera;
@@ -105,7 +107,9 @@ public class GameControllerScript : MonoBehaviour
         startRoom.isStartingRoom = true;
         startRoom.UnlockRoom();
         MaxEnemies = BaseMaxEnemies;
-        GivePlayerStartScore(startScore);
+        //GivePlayerStartScore(startScore);
+        Time.timeScale = 1;
+        StartCoroutine(GS.TurnOffLoadingScreen(null));
     }
 
     public void SetupGC()
@@ -113,6 +117,11 @@ public class GameControllerScript : MonoBehaviour
         GCS = this;
         mapGenerator = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
         GS = GameSettings.GS;
+        if (GS == null)
+        {
+            GameObject devGameSettings = Instantiate(GSprefab);
+            GS = devGameSettings.GetComponent<GameSettings>();
+        }
         if (GCS == null)
         {
             GCS = this;
@@ -267,13 +276,30 @@ public class GameControllerScript : MonoBehaviour
 
     public void UpdatePlayerData()
     {
-        new ScoreEntry
+        PD = PlayerData.Instance;
+        if (PD == null)
         {
-            playerNickname = playerData.playerNickname,
-            totalEnemiesKilled = playerData.TotalEnemiesKilled
+            PD = new PlayerData();
+        }
+
+        new ScoreEntry()
+        {
+            playerNickname = PD.playerNickname,
+            totalEnemiesKilled = PD.TotalEnemiesKilled
         };
-        playerData.TotalScore = TotalScore;
-        playerData.TotalEnemiesKilled = AllEnemiesKilled;
-        playerData.Date = System.DateTime.UtcNow.ToString("dd-MM-yyyy");
+        PD.TotalScore = TotalScore;
+        PD.TotalEnemiesKilled = AllEnemiesKilled;
+        PD.Date = System.DateTime.UtcNow.ToString("dd-MM-yyyy");
+    }
+
+    public void ExitToScoreboard()
+    {
+        GS.exitToScoreboard = true;
+        StartCoroutine(GS.TurnOnLoadingScreen(LoadMainMenu));
+    }
+
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

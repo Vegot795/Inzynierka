@@ -22,6 +22,7 @@ public class UIController : MonoBehaviour
     public Image BlackScreen;
     public TextMeshProUGUI DeathScreenText;
     public float blackScreenAlpha = 0;
+    public GameObject StatTab;
     public TextMeshProUGUI TotalScore;
     public TextMeshProUGUI TotalEnemiesKilled;
     public TextMeshProUGUI TotalZombiesKilled;
@@ -50,14 +51,11 @@ public class UIController : MonoBehaviour
         //BlackScreen = DeathScreen.transform.Find("BlackScreen").GetComponent<Image>();
         //DeathScreenText = transform.Find("DeathScreenText").GetComponent<TextMeshProUGUI>();
 
-        DeathScreen.SetActive(false);
-
 
         riffle = PC.GetComponentInChildren<WeaponClass>();
 		character = PC.GetComponent<CharacterBase>();
 		inventory = PC.GetComponent<PlayerInventory>();
         GCS = GameControllerScript.GCS;
-        ShowDeathScreen();
 
 	}
 
@@ -135,12 +133,14 @@ public class UIController : MonoBehaviour
         BlackScreen.color = new Color(0,0,0,blackScreenAlpha);
         BlackScreen.gameObject.SetActive(true);
         DeathScreenText.gameObject.SetActive(true);
-        StartCoroutine(StartBlackScreenFade(3));
+        StartCoroutine(StartBlackScreenFade(5));
 
     }
 
     public void ShowEndgameStatistics()
     {
+        StatTab.SetActive(true);
+
         TotalScore.text = "Total score: " + GCS.TotalScore;
         TotalEnemiesKilled.text = "Total enemies killed: " + GCS.AllEnemiesKilled;
         TotalZombiesKilled.text = "Total zombies killed: " + GCS.ZombiesKilled;
@@ -152,7 +152,7 @@ public class UIController : MonoBehaviour
 
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
             BlackScreen.color = new Color(0, 0, 0, Mathf.Lerp(0, 1, timer/duration));
             yield return null;
         }
@@ -163,9 +163,10 @@ public class UIController : MonoBehaviour
     private IEnumerator ShowPlayerStats(float time)
     {
         DeathScreenText.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1f);
 
         ShowEndgameStatistics();
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
+
+        GCS.ExitToScoreboard();
     }
 }

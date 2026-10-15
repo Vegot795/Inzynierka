@@ -1,11 +1,13 @@
 using NUnit.Framework.Internal.Filters;
+using System;
+using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.InputSystem.XInput;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameSettings : MonoBehaviour
@@ -14,12 +16,18 @@ public class GameSettings : MonoBehaviour
     public static GameSettings GS;
     public Toggle fpsToggle;
     public TextMeshProUGUI fpsText;
+    public Image LoadingScreen;
     public bool showFPS = false;
     public int frames;
     public float time;
     public int FPS;
     public bool isPlayerSet = false;
+    public bool isLoadingScreenOn = false;
     public DeviceKind activeDevice;
+    [Header("Scripts")]
+    public UI_MainMenu UIM;
+    public float LoadingScreenFadeTime = 5;
+    public bool exitToScoreboard = false;
 
     public enum DeviceKind
     {
@@ -32,7 +40,14 @@ public class GameSettings : MonoBehaviour
     public void Awake()
     {
         GS = this;
+        UIM = UI_MainMenu.UIM;
+        if (UIM.GS == null)
+        {
+            UIM.GS = GS; 
+        }
         DontDestroyOnLoad(this.gameObject);
+
+
         SetupGS();
     }
 
@@ -124,5 +139,45 @@ public class GameSettings : MonoBehaviour
     {
         activeDevice = DeviceKind.KeyboardAndMouse;
         ChangeDeviceUI(activeDevice);
+    }
+
+    public IEnumerator TurnOnLoadingScreen(Action function)
+    {
+        float timer = 0f;
+        var duration = LoadingScreenFadeTime;
+        LoadingScreen.gameObject.SetActive(true);
+
+        while (timer < duration)
+        {
+            timer += Time.fixedDeltaTime;
+            LoadingScreen.color = new Color(0, 0, 0, Mathf.Lerp(0, 1, timer / duration));
+            yield return null;
+        }
+        isLoadingScreenOn = true;
+        Debug.Log("BlackScreen coroutine ended");
+        function?.Invoke();
+    }
+
+    public IEnumerator TurnOffLoadingScreen(Action function)
+    {
+        float timer = 0f;
+        var duration = LoadingScreenFadeTime;
+        while (timer < duration)
+        {
+            timer += Time.fixedDeltaTime;
+            LoadingScreen.color = new Color(0, 0, 0, Mathf.Lerp(1, 0, timer / duration));
+            yield return null;
+        }
+        LoadingScreen.gameObject.SetActive(false);
+        isLoadingScreenOn = false;
+        Debug.Log("BlackScreen coroutine ended");
+        function?.Invoke();
+    }
+
+    public void ExitToScoreboard()
+    {
+        SceneManager.LoadScene("MainMenu");
+        UIM.OpenScoreboard();
+        StartCoroutine(TurnOffLoadingScreen(null));
     }
 }
