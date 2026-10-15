@@ -13,6 +13,7 @@ public partial class IsCalledBySkeletonCondition : Condition
         if (Agent == null || Agent.Value == null)
         {
             //Debug.Log("Zombie - IsCalledBySkeleton - Agent is null");
+            return false;
         }
         EnemyClass self = Agent.Value.GetComponent<EnemyClass>();
 

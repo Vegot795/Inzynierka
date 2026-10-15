@@ -10,7 +10,7 @@ public class ZombieEnemy : EnemyClass
     private Collider2D attackCol;
     public bool calledbySkeleton = false;
     public SkeletEnemy skeletonCaller;
-    public Vector3 spotLocation;
+    public GameObject spotLocation;
 
 
 
@@ -63,9 +63,9 @@ public class ZombieEnemy : EnemyClass
         {
             if (enemy is SkeletEnemy skelet)
             {
-                if (skelet.GetComponent<SkeletHelpCaller>().zombiesAround.Contains(this))
+                if (skelet.CallRangeObject.GetComponent<SkeletHelpCaller>().zombiesAround.Contains(this))
                 {
-                    skelet.GetComponent<SkeletHelpCaller>().zombiesAround.Remove(this);
+                    skelet.CallRangeObject.GetComponent<SkeletHelpCaller>().zombiesAround.Remove(this);
                 }
 
                 if (skelet.zombiesCalled.Contains(this))

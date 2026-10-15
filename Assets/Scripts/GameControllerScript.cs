@@ -13,6 +13,10 @@ public class GameControllerScript : MonoBehaviour
     public MapGenerator mapGenerator;
     public PC_Controller pcController;
     public BoofManager BM;
+    public PlayerData playerData;
+
+    [Header("Kids")]
+    public GameObject EnemiesHolder;
 
     [Header("Prefabs")]
     public GameObject PlayerPrefab;
@@ -23,14 +27,19 @@ public class GameControllerScript : MonoBehaviour
     public GameObject MainCamera;
     public GameObject CinemachineCamera;
     public GameObject playerObj;
+    public PlayerData PD;
 
     [Header("Counters")]
     public int WaveNumber = 1;
+    public int BaseMaxEnemies;
     public int MaxEnemies;
     public int AddMaxEnemiesPerWave;
-    public int AllEnemiesKilled;
+    public int AllEnemiesKilled = 0;
+    public int ZombiesKilled = 0;
+    public int SkeletsKilled = 0;
     public int enemiesSpawnedDuringRound;
     public int EnemiesKilledDuringRound;
+    public int TotalScore = 0;
 
     [Header("Specs")]
     public bool canSpawnEnemies;
@@ -91,7 +100,7 @@ public class GameControllerScript : MonoBehaviour
         allSpawners = mapGenerator.spawnerList;
         startRoom.isStartingRoom = true;
         startRoom.UnlockRoom();
-
+        MaxEnemies = BaseMaxEnemies;
         GivePlayerStartScore(startScore);
     }
 
@@ -124,6 +133,7 @@ public class GameControllerScript : MonoBehaviour
         {
             Debug.LogWarning("ZombiePrefab has not been assigned");
         }
+        PD = PlayerData.Instance;
     }
 
     #endregion
@@ -198,6 +208,15 @@ public class GameControllerScript : MonoBehaviour
     {
         AllEnemiesKilled++;
         EnemiesKilledDuringRound++;
+
+        if (enemy is ZombieEnemy zombie)
+        {
+            ZombiesKilled++;
+        }
+        else if (enemy is SkeletEnemy skelet)
+        {
+            SkeletsKilled++;
+        }
         enemiesSpawned.Remove(enemy);
     }
     #endregion
@@ -240,5 +259,17 @@ public class GameControllerScript : MonoBehaviour
 
         }
         pcController.GetComponent<PlayerInventory>().AddScore(startScore);
+    }
+
+    public void UpdatePlayerData()
+    {
+        new ScoreEntry
+        {
+            playerNickname = playerData.playerNickname,
+            totalEnemiesKilled = playerData.TotalEnemiesKilled
+        };
+        playerData.TotalScore = TotalScore;
+        playerData.TotalEnemiesKilled = AllEnemiesKilled;
+        playerData.Date = System.DateTime.UtcNow.ToString("dd-MM-yyyy");
     }
 }

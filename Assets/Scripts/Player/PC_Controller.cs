@@ -14,6 +14,7 @@ public class PC_Controller : CharacterBase
     Rigidbody2D rb;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     SpriteRenderer spriteRenderer;
+    GameControllerScript GCS;
 
     public override void Awake() 
     {
@@ -22,6 +23,7 @@ public class PC_Controller : CharacterBase
         spriteRenderer = GetComponent<SpriteRenderer>();
         baseMoveSpeed = 10f;
         gameObject.layer = LayerMask.NameToLayer("Player");
+        GCS = GameControllerScript.GCS;
     }
 
     void Update()
@@ -103,5 +105,6 @@ public class PC_Controller : CharacterBase
         //base.Die(killer);
         var UIC = UIController.UIC;
         UIC.ShowDeathScreen();
+        GCS.UpdatePlayerData();
     }
 }

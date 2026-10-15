@@ -8,6 +8,7 @@ public class EnemyClass : CharacterBase
     public bool canAttack = true;
     public int Damage;
     public int baseDamage;
+    public int totalDamage;
     public int damagePerWave = 2;
     public int msPerWave = 2;
     public int hpPerWave = 2;
@@ -31,17 +32,6 @@ public class EnemyClass : CharacterBase
     public Rigidbody2D rb;
     private GameControllerScript GCS;
 
-    public Pathfinding Pathfinder
-    {
-        get
-        {
-            if (pathfinder == null)
-            {
-            }
-            return pathfinder;
-        }
-    }
-
     public override void Awake()
     {
         GCS = GameControllerScript.GCS;
@@ -53,12 +43,16 @@ public class EnemyClass : CharacterBase
         currentMaxHp = BaseMaxHp * healthModif;
         Damage = (int)(baseDamage * damageModif);
     }
-    public virtual void Update()
+
+    public virtual void FixedUpdate()
     {
         WalkAccordingToPath();
+    }
+    public virtual void Update()
+    {
         playerMoveSpeed = GCS.playerObj.GetComponent<PC_Controller>().currentMoveSpeed;
 
-        currentMoveSpeed = Mathf.Lerp(baseMoveSpeed, playerMoveSpeed, baseMoveSpeed * moveSpeedModif);
+        currentMoveSpeed = Mathf.Min(baseMoveSpeed * moveSpeedModif, playerMoveSpeed - 0.5f);
 
         if (targetCharacter != null)
         {
@@ -79,11 +73,9 @@ public class EnemyClass : CharacterBase
 
     protected override void Die(CharacterBase killer)
     {
-
         Destroy(gameObject);
         killer.GetComponent<PlayerInventory>()?.AddScore(scoreValue);
         GCS.EnemyKilled(this);
-
     }
 
     void RequestNewPath()
@@ -137,7 +129,7 @@ public class EnemyClass : CharacterBase
 
     public void WalkAccordingToPath()
     {
-        repathTimer -= Time.deltaTime;
+        repathTimer -= Time.fixedDeltaTime;
         if (repathTimer <= 0f)
         {
             RequestNewPath();
@@ -157,10 +149,21 @@ public class EnemyClass : CharacterBase
             return;
         }
 
-        Vector3 destination = currentPath[pathIndex];
-        rb.MovePositionAndRotation(Vector3.MoveTowards(transform.position, destination, currentMoveSpeed * moveSpeedModif * Time.deltaTime), Quaternion.LookRotation(Vector3.forward, destination - transform.position));
+        
 
-        if (Vector3.Distance(transform.position, destination) < 0.05f)
+        Vector3 destination = currentPath[pathIndex];
+        Vector3 targetToLook;
+        if (targetCharacter != null)
+        {
+            targetToLook = targetCharacter.position;
+        }
+        else
+        {
+            targetToLook = destination;
+        }
+        rb.MovePositionAndRotation(Vector3.MoveTowards(rb.position, destination, currentMoveSpeed * moveSpeedModif * Time.fixedDeltaTime), Quaternion.LookRotation(Vector3.forward, targetToLook - transform.position));
+
+        if (Vector3.Distance(rb.position, destination) < 0.05f)
         {
             pathIndex++;
         }
@@ -181,7 +184,7 @@ public class EnemyClass : CharacterBase
         repathTimer = 0f;
         //Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
 
-        if (Mathf.Approximately(Vector3.Distance(transform.position, targetLocation.Value), 0f))
+        if (Mathf.Approximately(Vector3.Distance(rb.position, targetLocation.Value), 0f))
         {
             targetLocation = null;
         }

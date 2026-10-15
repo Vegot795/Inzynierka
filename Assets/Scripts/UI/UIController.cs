@@ -12,14 +12,21 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI wavesText;
     public GameObject DeathScreen;
-    public Image BlackScreen;
-    public TextMeshProUGUI DeathScreenText;
     public GameObject BoofList;
     public WeaponClass riffle;
     public CharacterBase character;
     public PlayerInventory inventory;
     public GameControllerScript GCS;
+
+    [Header("Endgame Stats")]
+    public Image BlackScreen;
+    public TextMeshProUGUI DeathScreenText;
     public float blackScreenAlpha = 0;
+    public TextMeshProUGUI TotalScore;
+    public TextMeshProUGUI TotalEnemiesKilled;
+    public TextMeshProUGUI TotalZombiesKilled;
+    public TextMeshProUGUI TotalSkeletsKilled;
+    public float timeToDisplayStatistics;
 
     private void Awake()
     {
@@ -129,6 +136,15 @@ public class UIController : MonoBehaviour
         BlackScreen.gameObject.SetActive(true);
         DeathScreenText.gameObject.SetActive(true);
         StartCoroutine(StartBlackScreenFade(3));
+
+    }
+
+    public void ShowEndgameStatistics()
+    {
+        TotalScore.text = "Total score: " + GCS.TotalScore;
+        TotalEnemiesKilled.text = "Total enemies killed: " + GCS.AllEnemiesKilled;
+        TotalZombiesKilled.text = "Total zombies killed: " + GCS.ZombiesKilled;
+        TotalSkeletsKilled.text = "Total skelets killed: " + GCS.SkeletsKilled;
     }
     private IEnumerator StartBlackScreenFade(float duration)
     {
@@ -141,5 +157,15 @@ public class UIController : MonoBehaviour
             yield return null;
         }
         Debug.Log("BlackScreen coroutine ended");
+        StartCoroutine(ShowPlayerStats(timeToDisplayStatistics));
+    }
+
+    private IEnumerator ShowPlayerStats(float time)
+    {
+        DeathScreenText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
+
+        ShowEndgameStatistics();
+        yield return new WaitForSeconds(time);
     }
 }

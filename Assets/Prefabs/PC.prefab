@@ -234,8 +234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 0
-  BaseMaxHp: 10000
-  currentMaxHp: 0
+  BaseMaxHp: 100
+  currentMaxHp: 100
   CurrentHp: 10000
   healthModif: 1
   damageModif: 1
@@ -277,6 +277,7 @@ MonoBehaviour:
   currentWeapon: {fileID: 11400000, guid: f76d937865b732b44a3d6ca7d68c30bf, type: 2}
   currentGrenade: {fileID: 11400000, guid: 1496c24e862882c40a11552bbc81d6c9, type: 2}
   weaponHolder: {fileID: 6029813842461787600}
+  GCS: {fileID: 0}
   dropDistance: 0.8
   grenadeThrowRange: 10
   currentScorePoints: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using Unity.AppUI.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class UI_MainMenu : MonoBehaviour
 {
@@ -26,11 +27,12 @@ public class UI_MainMenu : MonoBehaviour
 
     [Header("Data")]
     public List<GameObject> AllTabs = new List<GameObject>();
-    public PlayerData playerData;
+    public PlayerData playerDataPrefab;
+    public PlayerData PD;
 
     void Start()
     {
-        playerData = PlayerData.Instance;
+
     }
 
     // Update is called once per frame
@@ -47,7 +49,13 @@ public class UI_MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        playerData.playerNickname = NicknameInputField.text;
+        if (PlayerData.Instance == null)
+        {
+            PD = Instantiate(playerDataPrefab).GetComponent<PlayerData>();
+            DontDestroyOnLoad(PD);
+        }
+        PD.playerNickname = NicknameInputField.text;
+        SceneManager.LoadScene("ProceduralGeneratedScene");
     }
 
     public void OpenScoreboard()

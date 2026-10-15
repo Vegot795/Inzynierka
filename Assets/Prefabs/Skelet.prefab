@@ -262,18 +262,19 @@ MonoBehaviour:
   BaseMaxHp: 30
   currentMaxHp: 100
   CurrentHp: 0
-  healthModif: 1.1
-  damageModif: 1.1
-  moveSpeedModif: 1.05
+  healthModif: 1.2
+  damageModif: 1.2
+  moveSpeedModif: 1.0999999
   currentMoveSpeed: 8
-  baseMoveSpeed: 1
+  baseMoveSpeed: 7
   isStunned: 0
   isSlowed: 0
   isFlashed: 0
   col: {fileID: 0}
   canAttack: 1
   Damage: 0
-  baseDamage: 0
+  baseDamage: 20
+  totalDamage: 0
   damagePerWave: 2
   msPerWave: 2
   hpPerWave: 2
@@ -299,6 +300,7 @@ MonoBehaviour:
   skeletProjectilePrefab: {fileID: 8316886315460491243, guid: ab7c7553088a78a47b76297941d818be, type: 3}
   projectileSpeed: 5
   CallRangeObject: {fileID: 0}
+  RangeCallCol: {fileID: 0}
   WallSpots: {fileID: 0}
   WallSpotsList: []
   playerTargetLocation: {x: 0, y: 0, z: 0}

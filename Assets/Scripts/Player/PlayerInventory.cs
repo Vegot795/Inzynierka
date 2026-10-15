@@ -10,6 +10,7 @@ public class PlayerInventory : MonoBehaviour
 
     [Header("References")]
     public WeaponHolder weaponHolder;
+    public GameControllerScript GCS;
 
     [Header("Drop Settings")]
     public float dropDistance = 0.8f;
@@ -38,6 +39,7 @@ public class PlayerInventory : MonoBehaviour
     private void Awake()
     {
         currentScorePoints = 0;
+        GCS = GameControllerScript.GCS;
         playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
         {
@@ -299,12 +301,13 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddScore(int scoreToAdd)
     {
-        currentScorePoints = currentScorePoints + scoreToAdd;
+        currentScorePoints += scoreToAdd;
+        GCS.TotalScore += scoreToAdd;
     }
 
     public void RemoveScore(int scoreToRemove)
     {
-        currentScorePoints = currentScorePoints - scoreToRemove;
+        currentScorePoints -= scoreToRemove;
     }
 
     #endregion

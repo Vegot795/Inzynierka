@@ -109,18 +109,19 @@ MonoBehaviour:
   BaseMaxHp: 100
   currentMaxHp: 100
   CurrentHp: 0
-  healthModif: 1
-  damageModif: 1
-  moveSpeedModif: 1
-  currentMoveSpeed: 8
-  baseMoveSpeed: 1
+  healthModif: 1.05
+  damageModif: 1.05
+  moveSpeedModif: 1.05
+  currentMoveSpeed: 7
+  baseMoveSpeed: 8
   isStunned: 0
   isSlowed: 0
   isFlashed: 0
   col: {fileID: 7788373236236326680}
   canAttack: 1
   Damage: 341950
-  baseDamage: 0
+  baseDamage: 10
+  totalDamage: 0
   damagePerWave: 2
   msPerWave: 2
   hpPerWave: 2
@@ -141,7 +142,7 @@ MonoBehaviour:
   zombieScoreValue: 100
   calledbySkeleton: 0
   skeletonCaller: {fileID: 0}
-  spotLocation: {x: 0, y: 0, z: 0}
+  spotLocation: {fileID: 0}
 --- !u!58 &7788373236236326680
 CircleCollider2D:
   m_ObjectHideFlags: 0

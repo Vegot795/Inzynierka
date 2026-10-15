@@ -86,6 +86,7 @@ public class SpawnerScript : MonoBehaviour
         GCS.enemiesSpawnedDuringRound++;
         enemy.transform.position = this.transform.position;
         enemy.transform.rotation = transform.rotation;
+        enemy.transform.parent = GCS.EnemiesHolder.transform;
         yield return new WaitForSeconds(timeBetweenSpawns);
         canSpawnEnemies = true;
     }

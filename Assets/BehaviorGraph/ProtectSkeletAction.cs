@@ -1,8 +1,9 @@
 using System;
 using Unity.Behavior;
+using Unity.Properties;
+using UnityEditor;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
-using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "ProtectSkelet", story: "Agent will become a shield for a skelet", category: "Action", id: "4304b7aa48e7c095f060b47719935d32")]
@@ -24,10 +25,10 @@ public partial class ProtectSkeletAction : Action
         }
         else
         {
-            SkeletEnemy skeletCalling = (SkeletEnemy)zombie.skeletonCaller;
+            mobScript.targetLocation = zombie.spotLocation.transform.position;
         }
-        mobScript.targetLocation = zombie.spotLocation;
 
+        mobScript.targetCharacter = null;
         return mobScript.targetLocation != null ? Status.Running : Status.Failure;
     }
 
@@ -40,13 +41,14 @@ public partial class ProtectSkeletAction : Action
             return Status.Failure;
         }
 
-        if(MobScript.targetCharacter != null)
+        if (MobScript.skeletonCaller == null)
         {
             return Status.Failure;
         }
+        MobScript.targetLocation = MobScript.spotLocation.transform.position;
+        MobScript.repathTimer = 0;
 
         Vector3 lookDirection = (MobScript.skeletonCaller.transform.position - MobScript.transform.position).normalized;
-        MobScript.gameObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, lookDirection);
 
         return Status.Running;
     }

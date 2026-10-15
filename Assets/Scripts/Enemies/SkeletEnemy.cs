@@ -16,7 +16,7 @@ public class SkeletEnemy : EnemyClass
     public GameObject skeletProjectilePrefab;
     public float projectileSpeed;
     public GameObject CallRangeObject;
-    CircleCollider2D RangeCallCol;
+    public CircleCollider2D RangeCallCol;
     //public GameObject WallSpotObject;
     public GameObject WallSpots;
     public List<GameObject> WallSpotsList = new List<GameObject>();
@@ -81,7 +81,7 @@ public class SkeletEnemy : EnemyClass
             Vector3 spawnPos = new Vector3(rod.transform.position.x, rod.transform.position.y, 0);
             Vector2 shootDirection = direction.normalized;
 
-            GameObject newSkeletProjectile = Instantiate(skeletProjectilePrefab, spawnPos, Quaternion.identity);
+            GameObject newSkeletProjectile = Instantiate(skeletProjectilePrefab, spawnPos, this.transform.rotation);
             newSkeletProjectile.GetComponent<ProjectileScript>().Initialize(base.Damage, this);
             Rigidbody2D rbProjectile = newSkeletProjectile.GetComponent<Rigidbody2D>();
 
@@ -172,7 +172,7 @@ public class SkeletEnemy : EnemyClass
 
         for (int i =0; i < spawnSpots.Count; i++)
         {
-            closestZombie[i].spotLocation = spawnSpots[i].transform.position;
+            closestZombie[i].spotLocation = spawnSpots[i];
             closestZombie[i].calledbySkeleton = true;
             closestZombie[i].skeletonCaller = this;
             zombiesCalled.Add(closestZombie[i]);
@@ -188,13 +188,17 @@ public class SkeletEnemy : EnemyClass
             {
                 zombie.calledbySkeleton = false;
                 zombie.skeletonCaller = null;
-                zombie.spotLocation = Vector3.zero;
+                zombie.spotLocation = null; ;
             }
         }
 
         zombiesCalled.Clear();
         isBeingProtected = false;
-        WallSpotsList.Clear();
+        foreach (var wall in WallSpotsList)
+        {
+            WallSpotsList.Remove(wall);
+            Destroy(wall);
+        }
     }
 
     private List<GameObject> CreateShieldSpots()
@@ -204,8 +208,8 @@ public class SkeletEnemy : EnemyClass
         {
             for (int i = 0; i < neededMobs; i++)
             {
-                Vector3 spawnPosition = new Vector3(2, -(neededMobs / 2) + i + 0.5f, 0);
-                var spawnSpot = Instantiate(new GameObject());
+                Vector3 spawnPosition = new Vector3(-(neededMobs / 2) + i , 2, 0);
+                var spawnSpot = new GameObject();
                 spawnSpot.transform.parent = WallSpots.transform;
                 spawnSpot.transform.localPosition = spawnPosition;
                 WallSpotsList.Add(spawnSpot);
