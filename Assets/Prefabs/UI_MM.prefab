@@ -3780,6 +3780,7 @@ MonoBehaviour:
   playerDataPrefab: {fileID: 2349477270231956152, guid: 689c33d4df876b34faf4961d246379e6, type: 3}
   PD: {fileID: 0}
   GS: {fileID: 0}
+  GSprefab: {fileID: 8120769221373287031, guid: 5c1f0f8f339b61a4bbd3be096ee3a145, type: 3}
 --- !u!1 &7080245082088497846
 GameObject:
   m_ObjectHideFlags: 0
