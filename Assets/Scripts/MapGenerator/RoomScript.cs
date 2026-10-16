@@ -512,6 +512,8 @@ public class Room
             }
             
         }
+        var MG = MapGenerator.MG;
+        MG.GetComponent<GridAdapter>().RebuildGraph();
 
     }
 
