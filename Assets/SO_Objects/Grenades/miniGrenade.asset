@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 404830c199bd8be4b854aa0827b43f01, type: 3}
   m_Name: miniGrenade
   m_EditorClassIdentifier: 
-  grenadeName: 
-  explosionRadius: 0
-  damage: 0
+  grenadeName: miniGrenade
+  explosionRadius: 1
+  damage: 10
   moveSpeed: 5
   grenadeSprite: {fileID: -803390451, guid: cb757604a00c979499c5d841e8ca73e3, type: 3}
   prefab: {fileID: 0}

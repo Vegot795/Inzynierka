@@ -13,6 +13,8 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI wavesText;
     public GameObject DeathScreen;
     public GameObject BoofList;
+    public Image curGrenadeImg;
+    public TextMeshProUGUI grenadeCount;
     public WeaponClass riffle;
     public CharacterBase character;
     public PlayerInventory inventory;
@@ -125,6 +127,21 @@ public class UIController : MonoBehaviour
             {
                 wavesText.text = $"Wave: {GCS.WaveNumber}";
             }
+        }
+    }
+
+    private void UpdateGrenadeDisplay()
+    {
+        if (PC.GetComponent<PlayerInventory>().currentGrenade == null)
+        {
+            curGrenadeImg.gameObject.SetActive(false);
+            grenadeCount.text = "0";
+        }
+        else
+        {
+            curGrenadeImg.gameObject.SetActive(true);
+            curGrenadeImg.sprite = PC.GetComponent<PlayerInventory>().currentGrenade.grenadeSprite;
+            grenadeCount.text = PC.GetComponent<PlayerInventory>().grenadeCount.ToString();
         }
     }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GrenadeGizmoController : MonoBehaviour
 {
@@ -7,8 +8,8 @@ public class GrenadeGizmoController : MonoBehaviour
     public float explosionRadius;
     public int circleSegments = 64;
     public bool showFill = true;
-
-    private GameObject indicatorObject;
+    public bool isIndicatorVisible = false;
+    public GameObject indicatorObject;
     private LineRenderer lineRenderer;
 
     void Start()
@@ -21,6 +22,14 @@ public class GrenadeGizmoController : MonoBehaviour
         
         CreateIndicator();
         ShowIndicator();
+    }
+
+    void Update()
+    {
+        if (isIndicatorVisible)
+        {
+            MoveIndicator();
+        }
     }
 
     public void CreateIndicator()
@@ -113,12 +122,14 @@ public class GrenadeGizmoController : MonoBehaviour
     {
         if (indicatorObject != null)
             indicatorObject.SetActive(true);
+        isIndicatorVisible = true;
     }
 
     public void HideIndicator()
     {
         if (indicatorObject != null)
             indicatorObject.SetActive(false);
+        isIndicatorVisible = false;
     }
 
     public void UpdateRadius(float newRadius)
@@ -134,5 +145,10 @@ public class GrenadeGizmoController : MonoBehaviour
                 fill.GetComponent<MeshFilter>().mesh = CreateFilledCircleMesh();
             }
         }
+    }
+
+    public void MoveIndicator()
+    {
+        indicatorObject.transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
     }
 }

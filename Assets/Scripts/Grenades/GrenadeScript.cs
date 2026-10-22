@@ -66,7 +66,7 @@ public class GrenadeScript : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
-    public void DestroyGrenade()
+    public virtual void DestroyGrenade()
     {
         Destroy(gameObject); 
     }

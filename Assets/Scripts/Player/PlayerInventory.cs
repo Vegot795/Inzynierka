@@ -35,6 +35,7 @@ public class PlayerInventory : MonoBehaviour
     private InputAction grenadeAction;
     private InputAction attackAction;
     private bool isFiring = false;
+    public int grenadeCount;
 
     private void Awake()
     {
@@ -120,6 +121,8 @@ public class PlayerInventory : MonoBehaviour
         {
             MakeWeaponShootScript();
         }
+
+        if 
     }
 
     #region --- Pickup/Drop ---
@@ -140,11 +143,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void PickupGrenade(GrenadePickup pickup)
     {
-        if (currentGrenade != null)
+        
+        if (currentGrenade == pickup.grenadeData)
         {
-            DropGrenade();
+            grenadeCount++;
         }
-        currentGrenade = pickup.grenadeData;
+        else
+        {
+            if (currentGrenade != null)
+            {
+                DropGrenade();
+            }
+            currentGrenade = pickup.grenadeData;
+        }
         Destroy(pickup.gameObject);
 
         //Debug.Log($"[Inventory] Picked up grenade: {currentGrenade.grenadeName}");
@@ -259,6 +270,7 @@ public class PlayerInventory : MonoBehaviour
         }
         
         grenadeScript.Initialize(currentGrenade, targetPos);
+        grenadeScript.playerController = PC;
 
         SpriteRenderer sr = grenadeObj.GetComponent<SpriteRenderer>();
         if (sr != null && currentGrenade.grenadeSprite != null)
@@ -266,7 +278,11 @@ public class PlayerInventory : MonoBehaviour
             sr.sprite = currentGrenade.grenadeSprite;
         }
         
-        currentGrenade = null;
+        grenadeCount--;
+        if (grenadeCount <= 0)
+        {
+            currentGrenade = null;
+        }
     }
 
     private Vector2 GetClampedGrenadeTarget()

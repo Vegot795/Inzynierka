@@ -234,7 +234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 3.4140625
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -450,6 +450,10 @@ PrefabInstance:
       propertyPath: m_margin.z
       value: -284.5007
       objectReference: {fileID: 0}
+    - target: {fileID: 3236481416724363205, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3247313071389218337, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_Name
       value: UI
@@ -457,6 +461,10 @@ PrefabInstance:
     - target: {fileID: 3522689286970313413, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003738058470093481, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4449550603733691882, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -670,6 +678,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 7698697208749737909, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -27
+      objectReference: {fileID: 0}
     - target: {fileID: 7709112297750616148, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -717,6 +729,10 @@ PrefabInstance:
     - target: {fileID: 8258367597381094057, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: timeToDisplayStatistics
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018585110591031257, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1932478594143146570}
   - component: {fileID: 3189862873204207995}
   - component: {fileID: 3584922899273350568}
-  m_Layer: 0
+  - component: {fileID: 3937073820652873052}
+  m_Layer: 13
   m_Name: KasketPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1290606635
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_Sprite: {fileID: -2497173784819439056, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -99,7 +100,7 @@ Animator:
   m_GameObject: {fileID: 7677928584485673106}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 55e083755524eb348a35634251d5d5ec, type: 2}
+  m_Controller: {fileID: 9100000, guid: d785406fca9c9eb4d90461ed8e63d622, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -132,5 +133,41 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0}
   grenadeData: {fileID: 0}
   grenadeType: 0
-  miniGrenadePrefab: {fileID: 2892383039622883421, guid: d54108b8e39473240b690cabbbe0f343, type: 3}
   playerController: {fileID: 0}
+  miniGrenadePrefab: {fileID: 2892383039622883421, guid: d54108b8e39473240b690cabbbe0f343, type: 3}
+--- !u!58 &3937073820652873052
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7677928584485673106}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.049058855}
+  m_Radius: 0.20094115
