@@ -16,7 +16,7 @@ public static class EndgameStatsController
             string file = JsonUtility.ToJson(statList, true);
             File.WriteAllText(savesPath, file);
         }
-        catch (Exception ex)
+        catch
         {
             Debug.LogWarning("[EndgameStatController] - file could not be saved");
         }
@@ -45,7 +45,7 @@ public static class EndgameStatsController
 
             return statList;
         }
-        catch (Exception ex)
+        catch
         {
             Debug.LogWarning("[EndgameStatController] - file could not be read");
             return new StatListClass();

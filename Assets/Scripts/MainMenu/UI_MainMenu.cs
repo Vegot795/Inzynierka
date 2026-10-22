@@ -3,6 +3,7 @@ using TMPro;
 using Unity.AppUI.UI;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class UI_MainMenu : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class UI_MainMenu : MonoBehaviour
     public GameObject ScoreboardTab;
     public GameObject Scoretable;
     public GameObject BackButScoreboard;
+    public int scorePositionsShown = 10;
+    public GameObject scoreRecordHolder;
 
     [Header("Settings")]
     public GameObject SettingsTab;
@@ -36,6 +39,8 @@ public class UI_MainMenu : MonoBehaviour
     public PlayerData PD;
     public GameSettings GS;
     public GameObject GSprefab;
+    public StatListClass scoreListClass;
+    public GameObject RecordPrefab;
 
     void Start()
     {
@@ -90,6 +95,24 @@ public class UI_MainMenu : MonoBehaviour
     {
         CloseAllTabs();
         ScoreboardTab.SetActive(true);
+        scoreListClass = EndgameStatsController.Load();
+        var scoreList = scoreListClass.StatList;
+        scoreList.OrderBy(x => x.totalScore).ToList();
+        for (var i = 0; i < scorePositionsShown; i++)
+        {
+            try
+            {
+                var ScoreRecord = Instantiate(RecordPrefab, scoreRecordHolder.transform);
+                ScoreRecord.gameObject.name = $"Score {i}";
+                //ScoreRecord.transform.parent = scoreRecordHolder.transform;
+                ScoreRecord.GetComponent<RecordScript>().Initialize(scoreList[i], i);
+            }
+            catch
+            {
+                Debug.LogWarning($"Score {i.ToString()} could not be loaded");
+            }
+            
+        }
     }
     public void OpenSettings()
     {
@@ -113,12 +136,6 @@ public class UI_MainMenu : MonoBehaviour
         {
             tab.SetActive(false);
         }
-    }
-    public void ExitToScoreboard()
-    {
-        SceneManager.LoadScene("MainMenu");
-        OpenScoreboard();
-        StartCoroutine(GS.TurnOffLoadingScreen(null));
     }
 
     private void LoadGameScene()
