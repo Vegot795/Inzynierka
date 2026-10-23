@@ -35,7 +35,7 @@ public class PlayerInventory : MonoBehaviour
     private InputAction grenadeAction;
     private InputAction attackAction;
     private bool isFiring = false;
-    public int grenadeCount;
+    public int grenadeCount = 1;
 
     private void Awake()
     {
@@ -115,6 +115,7 @@ public class PlayerInventory : MonoBehaviour
         if (isAimingGrenade && currentGrenade != null)
         {
             Vector2 targetPos = GetClampedGrenadeTarget();
+            indicator.MoveIndicator(targetPos);
         }
 
         if (isFiring)
@@ -122,7 +123,7 @@ public class PlayerInventory : MonoBehaviour
             MakeWeaponShootScript();
         }
 
-        if 
+        
     }
 
     #region --- Pickup/Drop ---
@@ -206,25 +207,33 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadePressed(InputAction.CallbackContext context)
     {
-        ////Debug.Log("Grenade GameObject pressed");
-        OnGrenadeHoldStart();
-        indicator.ShowIndicator();
+        if (grenadeCount > 0)
+        {
+            ////Debug.Log("Grenade GameObject pressed");
+            OnGrenadeHoldStart();
+            indicator.ShowIndicator();
+        }
 
     }
 
     private void OnGrenadeReleased(InputAction.CallbackContext context)
     {
-        ////Debug.Log("Grenade GameObject released");
-        OnGrenadeHoldEnd();
-        indicator.HideIndicator();
+        if (grenadeCount > 0)
+        {
+            ////Debug.Log("Grenade GameObject released");
+            OnGrenadeHoldEnd();
+            indicator.HideIndicator();
+        }
     }
 
     public void OnGrenadeHoldStart()
     {
-        if (currentGrenade == null) return;
+        if (currentGrenade == null || grenadeCount <= 0) return;
 
         isAimingGrenade = true;
+        indicator.UpdateRadius(CurrentGrenade.explosionRadius);
         Vector2 targetPos = GetClampedGrenadeTarget();
+        indicator.MoveIndicator(targetPos);
         
         
         //Debug.Log($"[Inventory] Started aiming grenade");

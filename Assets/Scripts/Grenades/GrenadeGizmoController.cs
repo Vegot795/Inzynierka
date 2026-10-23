@@ -13,23 +13,9 @@ public class GrenadeGizmoController : MonoBehaviour
     private LineRenderer lineRenderer;
 
     void Start()
-    {
-        GrenadeScript grenadeScript = GetComponent<GrenadeScript>();
-        if (grenadeScript != null)
-        {
-            explosionRadius = grenadeScript.explosionRadius;
-        }
-        
+    {        
         CreateIndicator();
-        ShowIndicator();
-    }
-
-    void Update()
-    {
-        if (isIndicatorVisible)
-        {
-            MoveIndicator();
-        }
+        HideIndicator();
     }
 
     public void CreateIndicator()
@@ -38,7 +24,7 @@ public class GrenadeGizmoController : MonoBehaviour
 
         indicatorObject = new GameObject("RangeIndicator");
         indicatorObject.transform.SetParent(transform);
-        indicatorObject.transform.localPosition = Vector3.zero;
+        indicatorObject.transform.position = Vector3.zero;
 
         lineRenderer = indicatorObject.AddComponent<LineRenderer>();
         lineRenderer.loop = true;
@@ -60,7 +46,7 @@ public class GrenadeGizmoController : MonoBehaviour
         {
             GameObject fill = new GameObject("RangeFill");
             fill.transform.SetParent(indicatorObject.transform);
-            fill.transform.localPosition = Vector3.zero;
+            fill.transform.position = Vector3.zero;
 
             MeshFilter mf = fill.AddComponent<MeshFilter>();
             MeshRenderer mr = fill.AddComponent<MeshRenderer>();
@@ -147,8 +133,8 @@ public class GrenadeGizmoController : MonoBehaviour
         }
     }
 
-    public void MoveIndicator()
+    public void MoveIndicator(Vector2 targetPos)
     {
-        indicatorObject.transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        indicatorObject.transform.position = targetPos;
     }
 }
