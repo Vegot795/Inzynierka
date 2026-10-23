@@ -513,6 +513,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1807144540}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: GSprefab
+      value: 
+      objectReference: {fileID: 8120769221373287031, guid: 5c1f0f8f339b61a4bbd3be096ee3a145, type: 3}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: SkeletPrefab
       value: 
       objectReference: {fileID: 2814517985326584477, guid: 9408248746e909b48a5928e2131d0d71, type: 3}
@@ -520,6 +524,14 @@ PrefabInstance:
       propertyPath: ZombiePrefab
       value: 
       objectReference: {fileID: 470573528831612538, guid: fc66b86450735cf418780e63c2efb15a, type: 3}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: readyToSpawn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: canSpawnEnemies
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
