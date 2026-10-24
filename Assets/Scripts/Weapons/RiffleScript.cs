@@ -13,9 +13,9 @@ public class RiffleScript : WeaponClass
         weaponData = data;
         
         baseMaxAmmo = weaponData.maxAmmoCapacity;
-        currentMaxAmmo = baseMaxAmmo;
+        currentReserveAmmo = baseMaxAmmo + maxMagAmmo;
         baseReloadTime = weaponData.reloadTime;
-        currentReloadTime = baseReloadTime;
+        currentReloadTime = baseReloadTime; 
         baseDamage = weaponData.damage;
         currentDamage = baseDamage;
         projectileSpeed = weaponData.projectileSpeed;

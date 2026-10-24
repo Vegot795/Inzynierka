@@ -16,7 +16,9 @@ public class WeaponData : ScriptableObject
     public float fireRate;
     public WeaponType weaponType;
     public int maxAmmoCapacity;
+    public int currentReserveAmmo;
     public int currentAmmo;
+    public int maxMagAmmo;
     public float reloadTime;
 
     public Sprite weaponSprite;

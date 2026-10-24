@@ -122,7 +122,6 @@ public class MapGenerator : MonoBehaviour
         StartRoom = FindStartRoom();
         SetupScripts();
         SpawnBoofStations();
-        //SpawnBoofStationInStartingRoom();
     }
 
     #region ----- Map Generating -----
