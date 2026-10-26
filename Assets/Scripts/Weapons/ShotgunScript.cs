@@ -16,11 +16,17 @@ public class ShotgunScript : WeaponClass
     {
         weaponData = data;
 
-        currentMaxAmmo = weaponData.maxAmmoCapacity;
-        currentReloadTime = weaponData.reloadTime;
-        currentDamage = weaponData.damage;
-        projectileSpeed = weaponData.projectileSpeed;
-        currentFireRate = weaponData.fireRate;
+        baseMaxAmmo = weaponData.maxAmmoCapacity;
+        currentMaxAmmo = (int)(baseMaxAmmo * maxAmmoModif);
+        currentReserveAmmo = currentMaxAmmo;
+        maxMagAmmo = (int)(baseMagAmmo * maxAmmoModif);
+        baseReloadTime = weaponData.reloadTime;
+        currentReloadTime = baseReloadTime;
+        baseReloadTime = weaponData.reloadTime;
+        baseDamage = weaponData.damage;
+        currentDamage = baseDamage;
+        baseFireRate = weaponData.fireRate;
+        currentFireRate = baseFireRate;
         projectilePrefab = weaponData.projectilePrefab;
 
         muzzleSR = muzzle.GetComponent<SpriteRenderer>();

@@ -49,6 +49,10 @@ public class UIController : MonoBehaviour
         wavesText = GameObject.FindGameObjectWithTag("WavesDisplay").GetComponent<TextMeshProUGUI>();
         BoofList = transform.Find("BoofList").gameObject;
         DeathScreen = transform.Find("DeathScreen").gameObject;
+        curGrenadeImg = GameObject.Find("GrenadeImage").gameObject.GetComponent<Image>();
+        grenadeCount = GameObject.Find("GrenadeCount").gameObject.GetComponent<TextMeshProUGUI>();
+
+
 
         //BlackScreen = DeathScreen.transform.Find("BlackScreen").GetComponent<Image>();
         //DeathScreenText = transform.Find("DeathScreenText").GetComponent<TextMeshProUGUI>();
@@ -67,6 +71,7 @@ public class UIController : MonoBehaviour
         UpdateHealthText();
         UpdateScore();
         UpdateWaves();
+        UpdateGrenadeDisplay();
     }
 
     private void UpdateAmmoText()
@@ -75,7 +80,7 @@ public class UIController : MonoBehaviour
         {
             if (riffle != null)
             {
-                ammoText.text = "Ammo: " + riffle.currentAmmo + "/" + riffle.currentMaxAmmo;
+                ammoText.text = "Ammo: " + riffle.currentAmmo + "/" + riffle.currentReserveAmmo;
             }
             else
             {
@@ -132,14 +137,26 @@ public class UIController : MonoBehaviour
 
     private void UpdateGrenadeDisplay()
     {
+        if (grenadeCount == null)
+        {
+            grenadeCount = GameObject.Find("GrenadeCount").gameObject.GetComponent<TextMeshProUGUI>();
+        }
+
+        if (curGrenadeImg == null)
+        {
+            curGrenadeImg = GameObject.Find("GrenadeImage").gameObject.GetComponent<Image>();
+        }
+
         if (PC.GetComponent<PlayerInventory>().currentGrenade == null)
         {
             curGrenadeImg.gameObject.SetActive(false);
             grenadeCount.text = "0";
+            grenadeCount.gameObject.SetActive(false);
         }
         else
         {
             curGrenadeImg.gameObject.SetActive(true);
+            grenadeCount.gameObject.SetActive(true);
             curGrenadeImg.sprite = PC.GetComponent<PlayerInventory>().currentGrenade.grenadeSprite;
             grenadeCount.text = PC.GetComponent<PlayerInventory>().grenadeCount.ToString();
         }

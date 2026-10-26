@@ -27,10 +27,15 @@ public class EnemyClass : CharacterBase
     public Vector3? targetLocation;
     public Vector3? lastSpottedPosition;
     public List<Vector3> currentPath;
-    public int pathIndex;
-    public float repathTimer;
     public Rigidbody2D rb;
     private GameControllerScript GCS;
+
+    [Header("Else")]
+    public int pathIndex;
+    public float repathTimer;
+    public int dropChance = 20;
+    public ItemDropData itemDropList;
+
 
     public override void Awake()
     {
@@ -75,9 +80,10 @@ public class EnemyClass : CharacterBase
 
     protected override void Die(CharacterBase killer)
     {
-        Destroy(gameObject);
         killer.GetComponent<PlayerInventory>()?.AddScore(scoreValue);
+        TryToDropObject();
         GCS.EnemyKilled(this);
+        Destroy(gameObject);
     }
 
     void RequestNewPath()
@@ -215,6 +221,19 @@ public class EnemyClass : CharacterBase
         {
             //Debug.Log($"[EnemyClass] - No valid cell found to get in range of target at {targetPosition}");
         }
+    }
+
+    private void TryToDropObject()
+    {
+        int dropInt = Random.Range(1, 100);
+
+        if (dropInt <= dropChance)
+        {
+            var droppedItem = itemDropList.dropItems[Random.Range(0, itemDropList.dropItems.Count - 1)];
+            var newDrop = Instantiate(droppedItem);
+            newDrop.transform.position = this.transform.position;
+        }
+
     }
 
 }

@@ -15,6 +15,7 @@ public class WeaponData : ScriptableObject
     public float projectileSpeed;
     public float fireRate;
     public WeaponType weaponType;
+    [Header ("Ammo settings")]
     public int maxAmmoCapacity;
     public int currentReserveAmmo;
     public int currentAmmo;

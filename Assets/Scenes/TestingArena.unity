@@ -261,9 +261,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1530160120595732557, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_Name
+      value: GrenadeImage
+      objectReference: {fileID: 0}
     - target: {fileID: 3247313071389218337, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003738058470093481, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6869295613756253760, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_Pivot.x
@@ -449,7 +457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

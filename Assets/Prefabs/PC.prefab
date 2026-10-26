@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 11400000, guid: f76d937865b732b44a3d6ca7d68c30bf, type: 2}
-  currentGrenade: {fileID: 11400000, guid: 1496c24e862882c40a11552bbc81d6c9, type: 2}
+  currentGrenade: {fileID: 0}
   weaponHolder: {fileID: 6029813842461787600}
   GCS: {fileID: 0}
   dropDistance: 0.8
@@ -289,6 +289,7 @@ MonoBehaviour:
   PC: {fileID: 0}
   animator: {fileID: 0}
   indicator: {fileID: 0}
+  grenadeCount: 0
 --- !u!114 &6029813842461787600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +331,8 @@ MonoBehaviour:
   explosionRadius: 0
   circleSegments: 64
   showFill: 1
+  isIndicatorVisible: 0
+  indicatorObject: {fileID: 0}
 --- !u!114 &-2865863654709918596
 MonoBehaviour:
   m_ObjectHideFlags: 0

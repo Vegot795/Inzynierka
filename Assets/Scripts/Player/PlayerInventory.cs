@@ -104,10 +104,10 @@ public class PlayerInventory : MonoBehaviour
             //Debug.LogWarning("[Inventory] Bron startowa nieprzypisana na prefabie gracza.");
         }
 
-        if (stastingGrenade != null)
+        /*if (stastingGrenade != null)
         {
             currentGrenade = stastingGrenade;
-        }
+        }*/
     }
 
     private void Update()
@@ -156,6 +156,7 @@ public class PlayerInventory : MonoBehaviour
                 DropGrenade();
             }
             currentGrenade = pickup.grenadeData;
+            grenadeCount++;
         }
         Destroy(pickup.gameObject);
 

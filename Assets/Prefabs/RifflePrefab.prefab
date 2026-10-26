@@ -164,7 +164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -333397685
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -9083002490964022906, guid: 9311e36648836a3499c773ab620868fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -189,14 +189,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21687a87d37664e40b20c4bf69e0c36a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileSpeed: 20
+  baseDamage: 10
+  damageModif: 1
+  currentDamage: 0
+  baseFireRate: 0.5
+  fireRateModif: 1
+  currentFireRate: 0
+  baseMaxAmmo: 250
+  maxAmmoModif: 1
+  currentAmmo: 0
+  currentMaxAmmo: 0
+  maxMagAmmo: 25
+  currentReserveAmmo: 0
+  baseReloadTime: 3
+  reloadTimeModif: 1
+  currentReloadTime: 0
+  shotDisplayTime: 0.1
+  isReloading: 0
+  lastFireTime: 0
+  weaponData: {fileID: 0}
+  playerController: {fileID: 0}
   projectilePrefab: {fileID: 7329302021653139206, guid: 470b9dc4aad5da547bc42189856c325a, type: 3}
   muzzle: {fileID: 109985180763392267}
-  projectileSpeed: 20
-  damage: 10
-  fireRate: 0.1
-  maxAmmo: 25
-  currentAmmo: 0
-  reloadTime: 3
 --- !u!111 &7367026968548973673
 Animation:
   m_ObjectHideFlags: 0

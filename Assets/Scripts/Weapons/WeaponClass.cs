@@ -5,18 +5,23 @@ public class WeaponClass : MonoBehaviour
 {
     [Header("Projectile Settings")]
     public float projectileSpeed = 20f;
+    //Damage
     public float baseDamage = 10f;
     public float damageModif = 1;
     public float currentDamage;
+    //fire rate
     public float baseFireRate = 0.5f;
     public float fireRateModif = 1;
     public float currentFireRate;
-    public int baseMaxAmmo;
+    //ammo
     public float maxAmmoModif = 1;
-    public int currentAmmo;
-    public int currentMaxAmmo;
-    public int maxMagAmmo = 25;
-    public int currentReserveAmmo;
+    public int baseMaxAmmo; //base max ammo
+    public int currentMaxAmmo; // max ammo after modifier
+    public int currentAmmo; // ammo in mag
+    public int maxMagAmmo; //max mag ammo
+    public int baseMagAmmo = 25;
+    public int currentReserveAmmo; // ammo in reserve
+    //reload
     public float baseReloadTime = 3f;
     public float reloadTimeModif = 1f;
     public float currentReloadTime;
@@ -71,6 +76,7 @@ public class WeaponClass : MonoBehaviour
     public void OnMagBoofStatusChange()
     {
         currentMaxAmmo = (int)(baseMaxAmmo * maxAmmoModif);
+        maxMagAmmo = (int)(baseMagAmmo * maxAmmoModif);
     }
 
     public void OnDamageBoofStatusChange()

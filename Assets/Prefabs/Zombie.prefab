@@ -136,9 +136,11 @@ MonoBehaviour:
   fov: {fileID: 0}
   targetCharacter: {fileID: 0}
   currentPath: []
+  rb: {fileID: 0}
   pathIndex: 0
   repathTimer: 0
-  rb: {fileID: 0}
+  dropChance: 20
+  itemDropList: {fileID: 11400000, guid: 2ba1c54a4c7869b4cbe285739a3251ac, type: 2}
   zombieScoreValue: 100
   calledbySkeleton: 0
   skeletonCaller: {fileID: 0}

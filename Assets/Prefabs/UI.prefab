@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 4394963215955848608}
   - component: {fileID: 4052898826359529342}
   m_Layer: 5
-  m_Name: GrenadeIMage
+  m_Name: GrenadeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1494,6 +1494,8 @@ MonoBehaviour:
   wavesText: {fileID: 0}
   DeathScreen: {fileID: 7709112297750616148}
   BoofList: {fileID: 0}
+  curGrenadeImg: {fileID: 0}
+  grenadeCount: {fileID: 0}
   riffle: {fileID: 0}
   character: {fileID: 0}
   inventory: {fileID: 0}

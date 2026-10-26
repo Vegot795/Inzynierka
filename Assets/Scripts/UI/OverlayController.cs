@@ -71,10 +71,13 @@ public class OverlayController : MonoBehaviour
 
     void Update()
     {
-        foreach (var tip in tipList)
+        if (tipList.Count > 0)
         {
-            tip.transform.position = cam.WorldToScreenPoint(GetPositionForTip(tip));
-        }
+            foreach (var tip in tipList)
+            {
+                tip.transform.position = cam.WorldToScreenPoint(GetPositionForTip(tip));
+            }
+        }        
     }
 
     public void MakeDoorTip(DoorScript door)
