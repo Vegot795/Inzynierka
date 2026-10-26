@@ -106,6 +106,9 @@ public class GameControllerScript : MonoBehaviour
         allSpawners = mapGenerator.spawnerList;
         startRoom.isStartingRoom = true;
         startRoom.UnlockRoom();
+
+        pcController.gameObject.GetComponent<PlayerInventory>().AddScore(5000);
+
         MaxEnemies = BaseMaxEnemies;
         //GivePlayerStartScore(startScore);
         Time.timeScale = 1;

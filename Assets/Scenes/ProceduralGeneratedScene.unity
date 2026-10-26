@@ -234,13 +234,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+--- !u!1 &337045374 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9079399884620765926, guid: 33a80709159abde49a4318181de575d5, type: 3}
+  m_PrefabInstance: {fileID: 2013436210200670862}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &967461176 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7070702773843655235, guid: 33a80709159abde49a4318181de575d5, type: 3}
@@ -818,6 +823,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2067434155583067138, guid: 4dd03261db878af4794c0a6e7f5d1c61, type: 3}
     - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: BuyableParent
+      value: 
+      objectReference: {fileID: 337045374}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: BuyableObjects
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c6e86a666a7d7544a295bbf946e4efc, type: 2}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
       propertyPath: BoofStationsKid
       value: 
       objectReference: {fileID: 967461176}
@@ -970,6 +983,14 @@ PrefabInstance:
       propertyPath: mapGenerator
       value: 
       objectReference: {fileID: 1608640502}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: readyToSpawn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
+      propertyPath: canSpawnEnemies
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6187860270363312288, guid: f8685084f678a964fa32bcb812dda337, type: 3}
       propertyPath: CinemachineCamera
       value: 

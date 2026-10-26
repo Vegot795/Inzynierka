@@ -137,4 +137,27 @@ public class OverlayController : MonoBehaviour
         tipList.Remove(BSS.Tip);
         Destroy(BSS.Tip);
     }
+
+    public void MakeBuyItemTip(BuyableBase buyable)
+    {
+        if (GCS == null)
+        {
+            GCS = GameControllerScript.GCS;
+        }
+        GameObject tip = Instantiate(tipPrefab);
+        tip.transform.SetParent(this.transform);
+        TipController TC = tip.GetComponent<TipController>();
+        TC.owner = buyable;
+        TC.title.text = buyable.objectName;
+        TC.cost.text = buyable.price.ToString();
+        buyable.Tip = tip;
+        TC.assignedObject = buyable.gameObject;
+        tipList.Add(tip);
+    }
+
+    public void DestroyBuyItemTip(BuyableBase buyable)
+    {
+        tipList.Remove(buyable.Tip);
+        Destroy(buyable.Tip);
+    }
 }

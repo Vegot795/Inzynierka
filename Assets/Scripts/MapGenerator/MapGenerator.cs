@@ -25,6 +25,7 @@ public class MapGenerator : MonoBehaviour
     public GameObject doorsKid;
     public GameObject spawnersKid;
     public GameObject BoofStationsKid;
+    public GameObject BuyableParent;
     [Header("Map Settings")]
     public bool isMapReady = false;
     public int iterations = 4;
@@ -47,6 +48,8 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Else")]
     [SerializeField] public EnvironmentData[] roomEnvironment;
+    public ItemDropData BuyableObjects;
+    public int minEachBuyableCount = 2;
     public BoofsHolderScript BHS;
     public Room StartRoom;
 
@@ -122,6 +125,7 @@ public class MapGenerator : MonoBehaviour
         StartRoom = FindStartRoom();
         SetupScripts();
         SpawnBoofStations();
+        SpawnWeaponsToBuy();
     }
 
     #region ----- Map Generating -----
@@ -1038,6 +1042,40 @@ public class MapGenerator : MonoBehaviour
         srBF.GetComponent<SpriteRenderer>().sprite = srBFS.BBD.boofStationSprite;
     }
 
+    #endregion
+
+    #region ------ Buyable Items ------
+
+    private void SpawnWeaponsToBuy()
+    {
+        List<Room> emptyRooms = roomList
+            .Where(x => x.BoofBox == null)
+            .OrderBy(_ => Random.value)
+            .ToList();
+
+        foreach (var room in emptyRooms)
+        {
+            var emptyCells = room.cells
+                .Where(x => x.isOccupied == false && x.type == GridCell.CellType.floor)
+                .OrderBy(_ => Random.value)
+                .ToList();
+
+            var randomCell = emptyCells.First();
+            GameObject objectToSpawn;
+            objectToSpawn = BuyableObjects.dropItems[Random.Range(0, BuyableObjects.dropItems.Count)];
+            CreateBuyable(objectToSpawn, randomCell);
+            room.BuyableOwned = objectToSpawn.GetComponent<BuyableBase>();
+        }
+    }
+
+    private GameObject CreateBuyable(GameObject buyable, GridCell cell)
+    {
+        var newBuyable = Instantiate(buyable);
+        newBuyable.transform.position = cell.transform.position;
+        newBuyable.transform.parent = BuyableParent.transform;
+        newBuyable.name = newBuyable.GetComponent<BuyableBase>().objectName;
+        return newBuyable;
+    }
     #endregion
 
     #region --- Debugging and Visualization ---

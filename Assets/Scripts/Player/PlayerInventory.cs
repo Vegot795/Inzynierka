@@ -338,7 +338,7 @@ public class PlayerInventory : MonoBehaviour
 
     #endregion
 
-    private void SetWeaponScriptReferences(WeaponData weapon)
+    public void SetWeaponScriptReferences(WeaponData weapon)
     {
         weaponClass = null;
         animator = null;

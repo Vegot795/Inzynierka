@@ -11,6 +11,7 @@ public class Room
     public EnvironmentData environmentData;
     public BoofBoxData BoofBox;
     public Room parentRoom;
+    public BuyableBase BuyableOwned;
 
     [Header("Specs")]
     public string roomName;
