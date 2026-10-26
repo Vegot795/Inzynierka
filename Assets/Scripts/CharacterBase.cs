@@ -49,7 +49,7 @@ public class CharacterBase : MonoBehaviour
         DetermineCharacterType();
     }
 
-    public void TakeDamage(float damage, CharacterBase attacker)
+    public virtual void TakeDamage(int damage, CharacterBase attacker)
     {
         CurrentHp -= damage;
 

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,13 +11,17 @@ public class PC_Controller : CharacterBase
     public Vector2 mousePos;
     private bool canMove = true;
     private bool hasDied = false;
-
     Vector2 movementInput;
     Vector3 mouseRotation;
     Rigidbody2D rb;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     SpriteRenderer spriteRenderer;
     GameControllerScript GCS;
+
+    [Header("HP regen")]
+    public float timeToStartRegen = 10f;
+    public int hpRegenPerTick = 2;
+    public float countingToRegen;
 
     public override void Awake() 
     {
@@ -30,6 +36,8 @@ public class PC_Controller : CharacterBase
     void Update()
     {
         mousePos = PlayerRotation();
+
+        
     }
 
     private void FixedUpdate()
@@ -46,6 +54,8 @@ public class PC_Controller : CharacterBase
                 success = TryMove(new Vector2(0, movementInput.y));
             }
         }
+
+        RegenerateHpIfPossible();
     }
 
 #region ---Input System---
@@ -114,5 +124,30 @@ public class PC_Controller : CharacterBase
         }
         UIC.ShowDeathScreen();
         GCS.UpdatePlayerData();
+    }
+
+    public override void TakeDamage(int damage, CharacterBase attacker)
+    {
+        base.TakeDamage(damage, attacker);
+        countingToRegen = timeToStartRegen;
+    }
+
+    public void RegenerateHpIfPossible()
+    {
+        if (countingToRegen > 0)
+        {
+            countingToRegen -= Time.fixedDeltaTime;
+            return;
+        }
+
+        if (countingToRegen <= 0 && CurrentHp <= currentMaxHp)
+        {
+            CurrentHp = (int)Mathf.Min(CurrentHp + (healthModif * Time.fixedDeltaTime), currentMaxHp);
+        }
+
+        if (CurrentHp >= currentMaxHp)
+        {
+            return;
+        }
     }
 }

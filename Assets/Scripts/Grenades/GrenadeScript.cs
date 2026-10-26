@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GrenadeScript : MonoBehaviour
 {
-    public float damage;
+    public int damage;
     public float explosionRadius;
     public float moveSpeed;
     public bool isThrown = false;

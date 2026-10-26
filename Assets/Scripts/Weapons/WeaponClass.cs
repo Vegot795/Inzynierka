@@ -6,9 +6,9 @@ public class WeaponClass : MonoBehaviour
     [Header("Projectile Settings")]
     public float projectileSpeed = 20f;
     //Damage
-    public float baseDamage = 10f;
+    public int baseDamage = 10;
     public float damageModif = 1;
-    public float currentDamage;
+    public int currentDamage;
     //fire rate
     public float baseFireRate = 0.5f;
     public float fireRateModif = 1;
@@ -58,18 +58,9 @@ public class WeaponClass : MonoBehaviour
 
     public virtual void Reload()
     {
-        if (currentReserveAmmo >= maxMagAmmo)
-        {
-            currentAmmo += maxMagAmmo;
-            currentReserveAmmo -= maxMagAmmo;
-        }
-        else
-        {
-            currentAmmo += currentReserveAmmo;
-            currentReserveAmmo = 0;
-        }
-
-        
+        var ammoToLoad = Mathf.Min(maxMagAmmo, currentReserveAmmo);
+        currentAmmo += ammoToLoad;
+        currentReserveAmmo -= ammoToLoad;        
         //Debug.Log($"[RiffleScript] Reloaded. Current ammo: {currentAmmo}");
     }
 
@@ -81,6 +72,6 @@ public class WeaponClass : MonoBehaviour
 
     public void OnDamageBoofStatusChange()
     {
-        currentDamage = baseDamage * damageModif;
+        currentDamage = (int)(baseDamage * damageModif);
     }
 }

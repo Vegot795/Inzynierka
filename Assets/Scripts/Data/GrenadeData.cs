@@ -14,7 +14,7 @@ public class GrenadeData : ScriptableObject
 {
     public string grenadeName;
     public float explosionRadius;
-    public float damage;
+    public int damage;
     public float moveSpeed;
 
     public Sprite grenadeSprite;

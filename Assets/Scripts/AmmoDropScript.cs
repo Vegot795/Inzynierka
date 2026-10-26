@@ -13,7 +13,9 @@ public class AmmoDropScript : PickupBase
         var curWeapon = inventory.weaponClass;
         if (curWeapon.currentReserveAmmo < curWeapon.currentMaxAmmo)
         {
-            var missingAmmo = curWeapon.currentMaxAmmo - curWeapon.currentReserveAmmo;
+            curWeapon.currentReserveAmmo = Mathf.Min(curWeapon.currentReserveAmmo + (curWeapon.maxMagAmmo * extraMags), curWeapon.currentMaxAmmo);
+
+            /*var missingAmmo = curWeapon.currentMaxAmmo - curWeapon.currentReserveAmmo;
             if (missingAmmo >= extraMags * curWeapon.maxMagAmmo)
             {
                 curWeapon.currentReserveAmmo += extraMags * curWeapon.maxMagAmmo;
@@ -21,7 +23,7 @@ public class AmmoDropScript : PickupBase
             else
             {
                 curWeapon.currentReserveAmmo += missingAmmo;
-            }
+            }*/
         }
         Destroy(gameObject);
     }

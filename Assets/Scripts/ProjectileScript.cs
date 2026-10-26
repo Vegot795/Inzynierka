@@ -3,7 +3,7 @@ using UnityEngine;
 public class ProjectileScript : MonoBehaviour
 {
     public float SDT = 3f;
-    public float damage;
+    public int damage;
     public float time;
     public Collider2D col;
     public CharacterBase shooter { get; private set; }
@@ -13,7 +13,7 @@ public class ProjectileScript : MonoBehaviour
         col = GetComponent<Collider2D>();
     }
 
-    public void Initialize(float weaponDamage, CharacterBase shooterCharacter)
+    public void Initialize(int weaponDamage, CharacterBase shooterCharacter)
     {
         damage = weaponDamage;
         shooter = shooterCharacter;
