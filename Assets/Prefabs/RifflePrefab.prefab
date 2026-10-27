@@ -189,18 +189,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21687a87d37664e40b20c4bf69e0c36a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 20
+  projectileSpeed: 50
   baseDamage: 10
   damageModif: 1
   currentDamage: 0
   baseFireRate: 0.5
   fireRateModif: 1
   currentFireRate: 0
-  baseMaxAmmo: 250
   maxAmmoModif: 1
-  currentAmmo: 0
+  baseMaxAmmo: 250
   currentMaxAmmo: 0
+  currentAmmo: 0
   maxMagAmmo: 25
+  baseMagAmmo: 25
   currentReserveAmmo: 0
   baseReloadTime: 3
   reloadTimeModif: 1

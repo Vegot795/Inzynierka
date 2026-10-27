@@ -61,6 +61,11 @@ public class DoorScript : InteractableBase
 
     public override void OnPickedUp(PlayerInventory inventory)
     {
+        if (isUnlocked)
+        {
+            return;
+        }
+
         if (inventory.currentScorePoints >= GCS.doorPrice)
         {
             //Debug.Log($"[DoorScript] - beggins to open {this.name} the door");

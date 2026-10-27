@@ -86,6 +86,8 @@ public class SpawnerScript : MonoBehaviour
         enemy.transform.position = this.transform.position;
         enemy.transform.rotation = transform.rotation;
         enemy.transform.parent = GCS.EnemiesHolder.transform;
+        GCS.ChangeValuesWithRound(enemy.GetComponent<EnemyClass>());
+        enemy.GetComponent<EnemyClass>().RecalculateStatsOnSpawn();
         yield return new WaitForSeconds(timeBetweenSpawns);
         canSpawnEnemies = true;
     }

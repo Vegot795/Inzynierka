@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: KastetGrenade
   m_EditorClassIdentifier: 
   grenadeName: KastetGrenade
-  explosionRadius: 7
+  explosionRadius: 4
   damage: 20
   moveSpeed: 15
   grenadeSprite: {fileID: -2497173784819439056, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}

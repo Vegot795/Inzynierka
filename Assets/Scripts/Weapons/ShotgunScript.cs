@@ -22,7 +22,6 @@ public class ShotgunScript : WeaponClass
         maxMagAmmo = (int)(baseMagAmmo * maxAmmoModif);
         baseReloadTime = weaponData.reloadTime;
         currentReloadTime = baseReloadTime;
-        baseReloadTime = weaponData.reloadTime;
         baseDamage = weaponData.damage;
         currentDamage = baseDamage;
         baseFireRate = weaponData.fireRate;

@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Riffle
   damage: 10
-  projectileSpeed: 10
+  projectileSpeed: 20
   fireRate: 0.1
   weaponType: 0
   maxAmmoCapacity: 250
   currentReserveAmmo: 0
   currentAmmo: 0
-  maxMagAmmo: 0
-  reloadTime: 0
+  maxMagAmmo: 25
+  reloadTime: 3
   weaponSprite: {fileID: 561098451996550236, guid: 70cd1c3e291bb824685cbef9404a0356, type: 3}
   projectilePrefab: {fileID: 7329302021653139206, guid: 470b9dc4aad5da547bc42189856c325a, type: 3}
   prefab: {fileID: 3213006790434053956, guid: 873f4ab5fa7500e468c629177b4ae56f, type: 3}

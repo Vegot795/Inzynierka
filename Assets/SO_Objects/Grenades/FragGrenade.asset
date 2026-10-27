@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FragGrenade
   m_EditorClassIdentifier: 
   grenadeName: FragGrenade
-  explosionRadius: 5
+  explosionRadius: 4
   damage: 20
   moveSpeed: 15
   grenadeSprite: {fileID: -1952370511707383376, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}

@@ -17,8 +17,10 @@ MonoBehaviour:
   projectileSpeed: 0
   fireRate: 0.75
   weaponType: 1
-  maxAmmoCapacity: 8
+  maxAmmoCapacity: 77
+  currentReserveAmmo: 0
   currentAmmo: 0
+  maxMagAmmo: 7
   reloadTime: 3
   weaponSprite: {fileID: -6439872719477547833, guid: a8b61a8514f97574389d250684419069, type: 3}
   projectilePrefab: {fileID: 0}

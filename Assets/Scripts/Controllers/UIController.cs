@@ -101,7 +101,7 @@ public class UIController : MonoBehaviour
         {
             if (character != null)
             {
-                hpText.text = "HP: " + character.CurrentHp + "/" + character.currentMaxHp;
+                hpText.text = "HP: " + Mathf.Max((int)character.CurrentHp, 0) + "/" + character.currentMaxHp;
             }
         }
     }

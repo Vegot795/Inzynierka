@@ -260,13 +260,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterType: 1
   BaseMaxHp: 30
-  currentMaxHp: 100
+  currentMaxHp: 30
   CurrentHp: 0
-  healthModif: 1.4000001
-  damageModif: 1.4000001
-  moveSpeedModif: 1.1999998
-  currentMoveSpeed: 8
-  baseMoveSpeed: 7
+  healthModif: 1
+  damageModif: 1
+  moveSpeedModif: 1
+  currentMoveSpeed: 6
+  baseMoveSpeed: 6
   isStunned: 0
   isSlowed: 0
   isFlashed: 0
@@ -300,7 +300,7 @@ MonoBehaviour:
   neededMobs: 3
   rod: {fileID: 0}
   skeletProjectilePrefab: {fileID: 8316886315460491243, guid: ab7c7553088a78a47b76297941d818be, type: 3}
-  projectileSpeed: 5
+  projectileSpeed: 20
   CallRangeObject: {fileID: 0}
   RangeCallCol: {fileID: 0}
   WallSpots: {fileID: 0}

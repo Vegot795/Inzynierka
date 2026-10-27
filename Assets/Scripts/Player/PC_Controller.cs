@@ -20,8 +20,8 @@ public class PC_Controller : CharacterBase
 
     [Header("HP regen")]
     public float timeToStartRegen = 10f;
-    public int hpRegenPerTick = 2;
-    public float countingToRegen;
+    public int hpRegenPerTick = 10; // later multiplied by 0.2 (time.deltaTime)
+    public float countingToRegen; 
 
     public override void Awake() 
     {
@@ -35,9 +35,7 @@ public class PC_Controller : CharacterBase
 
     void Update()
     {
-        mousePos = PlayerRotation();
-
-        
+        mousePos = PlayerRotation();        
     }
 
     private void FixedUpdate()
@@ -58,7 +56,7 @@ public class PC_Controller : CharacterBase
         RegenerateHpIfPossible();
     }
 
-#region ---Input System---
+#region --- Input System ---
     private void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
@@ -96,18 +94,17 @@ public class PC_Controller : CharacterBase
             return false;
         }
     }
-#endregion
-
     public Vector2 PlayerRotation()
     {
         Vector3 mousePos = Mouse.current.position.ReadValue();
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 direction = (mouseWorldPosition - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        gameObject.transform.rotation = Quaternion.Euler(0, 0, angle + 90f);
+        rb.MoveRotation(angle + 90f);
 
         return direction;
     }
+    #endregion
 
     protected override void Die(CharacterBase killer)
     {
@@ -142,7 +139,7 @@ public class PC_Controller : CharacterBase
 
         if (countingToRegen <= 0 && CurrentHp <= currentMaxHp)
         {
-            CurrentHp = (int)Mathf.Min(CurrentHp + (healthModif * Time.fixedDeltaTime), currentMaxHp);
+            CurrentHp = Mathf.Min(CurrentHp + (healthModif * hpRegenPerTick * Time.fixedDeltaTime), currentMaxHp);
         }
 
         if (CurrentHp >= currentMaxHp)

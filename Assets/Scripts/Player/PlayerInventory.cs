@@ -17,6 +17,7 @@ public class PlayerInventory : MonoBehaviour
 
     [Header("Constants")]
     public float grenadeThrowRange = 20f;
+    public int maxGrenadeHeld = 3;
 
     public int currentScorePoints;
     public WeaponData CurrentWeapon => currentWeapon;
@@ -144,6 +145,10 @@ public class PlayerInventory : MonoBehaviour
 
     public void PickupGrenade(GrenadePickup pickup)
     {
+        if (grenadeCount >= maxGrenadeHeld)
+        {
+            return;
+        }
         
         if (currentGrenade == pickup.grenadeData)
         {
@@ -156,7 +161,7 @@ public class PlayerInventory : MonoBehaviour
                 DropGrenade();
             }
             currentGrenade = pickup.grenadeData;
-            grenadeCount++;
+            grenadeCount = 1;
         }
         Destroy(pickup.gameObject);
 

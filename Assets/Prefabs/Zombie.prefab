@@ -106,14 +106,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
-  BaseMaxHp: 100
-  currentMaxHp: 100
+  BaseMaxHp: 20
+  currentMaxHp: 20
   CurrentHp: 0
-  healthModif: 1.05
-  damageModif: 1.05
-  moveSpeedModif: 1.05
-  currentMoveSpeed: 7
-  baseMoveSpeed: 8
+  healthModif: 1
+  damageModif: 1
+  moveSpeedModif: 1
+  currentMoveSpeed: 6
+  baseMoveSpeed: 6
   isStunned: 0
   isSlowed: 0
   isFlashed: 0

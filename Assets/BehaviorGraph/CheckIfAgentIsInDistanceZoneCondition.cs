@@ -23,7 +23,7 @@ public partial class CheckIfAgentIsInDistanceZoneCondition : Condition
 
         float distance = Vector3.Distance(Agent.Value.transform.position, Target.Value.transform.position);
 
-        if(distance > DistanceZone.Value+0.5f || distance < (DistanceZone.Value/2)+0.5f)
+        if(distance > DistanceZone.Value || distance < (DistanceZone.Value/2))
         {
             return false;
         }

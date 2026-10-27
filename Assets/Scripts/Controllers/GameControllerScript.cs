@@ -245,24 +245,24 @@ public class GameControllerScript : MonoBehaviour
             EnemiesKilledDuringRound = 0;
             enemiesSpawnedDuringRound = 0;
             WaveNumber++;
-            ChangeValuesWithRound();
+            MaxEnemies += AddMaxEnemiesPerWave;
         }
     }
 
-    public void ChangeValuesWithRound()
+    public void ChangeValuesWithRound(EnemyClass enemy)
     {
-        var zombie = ZombiePrefab.GetComponent<EnemyClass>();
-        var skelet = SkeletPrefab.GetComponent<EnemyClass>();
-
-        zombie.healthModif += 0.05f;
-        zombie.damageModif += 0.05f;
-        zombie.moveSpeedModif += 0.05f;
-
-        skelet.healthModif += 0.1f;
-        skelet.damageModif += 0.1f;
-        skelet.moveSpeedModif += 0.05f;
-
-        MaxEnemies += AddMaxEnemiesPerWave;
+        if (enemy is ZombieEnemy zombie)
+        {
+            zombie.healthModif += 0.05f * (WaveNumber - 1);
+            zombie.damageModif += 0.05f * (WaveNumber - 1);
+            zombie.moveSpeedModif += 0.05f * (WaveNumber - 1);
+        }
+        else if (enemy is SkeletEnemy skelet)
+        {
+            skelet.healthModif += 0.1f * (WaveNumber - 1);
+            skelet.damageModif += 0.1f * (WaveNumber - 1);
+            skelet.moveSpeedModif += 0.05f * (WaveNumber - 1);
+        }
     }
     #endregion
 

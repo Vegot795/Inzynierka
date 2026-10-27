@@ -1,19 +1,23 @@
 using UnityEngine;
 using System.Collections;
+using Unity.AppUI.Redux;
 
 public class WeaponClass : MonoBehaviour
 {
     [Header("Projectile Settings")]
     public float projectileSpeed = 20f;
-    //Damage
+
+    [Header("Damage")]
     public int baseDamage = 10;
     public float damageModif = 1;
     public int currentDamage;
-    //fire rate
+
+    [Header("Fire rate")]
     public float baseFireRate = 0.5f;
     public float fireRateModif = 1;
     public float currentFireRate;
-    //ammo
+
+    [Header("Ammo")]
     public float maxAmmoModif = 1;
     public int baseMaxAmmo; //base max ammo
     public int currentMaxAmmo; // max ammo after modifier
@@ -21,7 +25,8 @@ public class WeaponClass : MonoBehaviour
     public int maxMagAmmo; //max mag ammo
     public int baseMagAmmo = 25;
     public int currentReserveAmmo; // ammo in reserve
-    //reload
+
+    [Header("Reload")]
     public float baseReloadTime = 3f;
     public float reloadTimeModif = 1f;
     public float currentReloadTime;
@@ -29,6 +34,7 @@ public class WeaponClass : MonoBehaviour
     public bool isReloading = false;
     public float lastFireTime = 0f;
 
+    [Header("Else")]
 
     private Vector3 muzzlePos;
     private Vector3 spawnPos;
@@ -58,6 +64,7 @@ public class WeaponClass : MonoBehaviour
 
     public virtual void Reload()
     {
+        var currentTimeToReload = currentReloadTime;
         var ammoToLoad = Mathf.Min(maxMagAmmo, currentReserveAmmo);
         currentAmmo += ammoToLoad;
         currentReserveAmmo -= ammoToLoad;        

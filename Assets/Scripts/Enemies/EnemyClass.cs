@@ -39,6 +39,7 @@ public class EnemyClass : CharacterBase
 
     public override void Awake()
     {
+        base.Awake();
         GCS = GameControllerScript.GCS;
         pathfinder = Pathfinding.Instance;
         base.characterType = CharacterType.Enemy;
@@ -137,6 +138,10 @@ public class EnemyClass : CharacterBase
 
     public void WalkAccordingToPath()
     {
+        if (isStunned)
+        {
+            return;
+        }
         repathTimer -= Time.fixedDeltaTime;
         if (repathTimer <= 0f)
         {
@@ -182,6 +187,11 @@ public class EnemyClass : CharacterBase
     /// <param name="targetCell"></param>
     public void GoToCell(Vector3? targetCell)
     {
+        if (isStunned)
+        {
+            return;
+        }
+
         if (targetLocation != null)
         {
             //Debug.Log($"[EnemyClass] - Already moving towards a target. Current target: {targetLocation}");
@@ -229,11 +239,20 @@ public class EnemyClass : CharacterBase
 
         if (dropInt <= dropChance)
         {
-            var droppedItem = itemDropList.dropItems[Random.Range(0, itemDropList.dropItems.Count - 1)];
+            var droppedItem = itemDropList.dropItems[Random.Range(0, itemDropList.dropItems.Count)];
             var newDrop = Instantiate(droppedItem);
             newDrop.transform.position = this.transform.position;
         }
 
+    }
+
+    public void RecalculateStatsOnSpawn()
+    {
+        currentMaxHp = BaseMaxHp * healthModif;
+        CurrentHp = currentMaxHp;
+
+        currentMoveSpeed = baseMoveSpeed * moveSpeedModif;
+        Damage = (int)(baseDamage * damageModif);
     }
 
 }

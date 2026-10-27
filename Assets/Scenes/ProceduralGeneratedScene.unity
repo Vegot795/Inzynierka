@@ -171,14 +171,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CinemachineCamera
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6487260035709803022, guid: 194e9fc97caa8ab4eb2fcbc2dbf9c0a9, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8802338481660429824, guid: 194e9fc97caa8ab4eb2fcbc2dbf9c0a9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1385992375}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 194e9fc97caa8ab4eb2fcbc2dbf9c0a9, type: 3}
 --- !u!1001 &259943580
 PrefabInstance:
@@ -234,7 +230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 6.4921875
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -444,25 +440,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8802338481660429824, guid: 194e9fc97caa8ab4eb2fcbc2dbf9c0a9, type: 3}
   m_PrefabInstance: {fileID: 60052091}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1385992375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385992371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TrackerSettings:
-    BindingMode: 4
-    PositionDamping: {x: 0.2, y: 0.2, z: 1}
-    AngularDampingMode: 0
-    RotationDamping: {x: 1, y: 1, z: 1}
-    QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 0, z: -10}
 --- !u!114 &1608640502 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
