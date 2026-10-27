@@ -15,7 +15,7 @@ public class EnemyClass : CharacterBase
     public float attackCooldown = 1f;
     public int scoreValue;
     public float viewDistance = 6f;
-    public float repathInterval = 0.5f;
+    public float repathInterval = 0.05f;
     public int attempts = 3;
     public float minDistance = 1f;
     public float playerMoveSpeed;

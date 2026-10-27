@@ -113,22 +113,6 @@ public class FoV : MonoBehaviour
         mesh.RecalculateBounds();
     }
 
-    public bool CanSee(Vector3 worldPoint)
-    {
-        Vector3 origin = transform.position;
-        Vector3 toTarget = worldPoint - origin;
-        toTarget.z = 0f;
-
-        float distance = toTarget.magnitude;
-        if (distance > viewDistance)
-            return false;
-
-        if (Vector3.Angle(transform.right, toTarget) > fov / 2f)
-            return false;
-
-        return Physics2D.Raycast(origin, toTarget.normalized, distance, sightBlockerMask).collider == null;
-    }
-
     public void SetAimDirection(Vector3 worldDirection)
     {
         if (worldDirection.sqrMagnitude < 0.0001f)
