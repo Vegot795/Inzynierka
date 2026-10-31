@@ -4,23 +4,19 @@ using Unity.AppUI.UI;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.UI;
 
 public class UI_MainMenu : MonoBehaviour
 {
     public static UI_MainMenu UIM;
     [Header("Main Menu")]
     public GameObject MainMenuTab;
-    public GameObject PlayBut;
-    public GameObject ScoreboardBut;
-    public GameObject SettingsBut;
-    public GameObject QuitBut;
 
     [Header("Play")]
     public GameObject PlayGameTab;
     public GameObject EnterNicknameText;
     public TMP_InputField NicknameInputField;
-    public GameObject StartGameBut;
-    public GameObject BackBut;
+    public Image PlayerSpritePreview;
 
     [Header("Scoreboard")]
     public GameObject ScoreboardTab;
@@ -31,7 +27,6 @@ public class UI_MainMenu : MonoBehaviour
 
     [Header("Settings")]
     public GameObject SettingsTab;
-    public GameObject BackButSettings;
 
     [Header("Data")]
     public List<GameObject> AllTabs = new List<GameObject>();
@@ -41,6 +36,8 @@ public class UI_MainMenu : MonoBehaviour
     public GameObject GSprefab;
     public StatListClass scoreListClass;
     public GameObject RecordPrefab;
+    public List<Sprite> PlayerSprites;
+    public int currentPCPrevNum = 0;
 
     void Start()
     {
@@ -77,6 +74,7 @@ public class UI_MainMenu : MonoBehaviour
     {
         CloseAllTabs();
         PlayGameTab.SetActive(true);
+        PlayerSpritePreview.sprite = PlayerSprites[0];
     }
 
     public void StartGame()
@@ -87,6 +85,7 @@ public class UI_MainMenu : MonoBehaviour
             DontDestroyOnLoad(PD);
         }
         PD.playerNickname = NicknameInputField.text;
+        PD.playerSprite = PlayerSprites[currentPCPrevNum];
 
         StartCoroutine(GS.TurnOnLoadingScreen(LoadGameScene));
     }
@@ -141,5 +140,36 @@ public class UI_MainMenu : MonoBehaviour
     private void LoadGameScene()
     {
         SceneManager.LoadScene("ProceduralGeneratedScene");
+    }
+
+    public void NextPcSprite()
+    {
+        if (currentPCPrevNum == 2)
+        {
+            currentPCPrevNum = 0;
+        }
+        else
+        {
+            currentPCPrevNum++;
+        }
+        ChangePcSpritePreview();
+    }
+
+    public void PrevPcSprite()
+    {
+        if (currentPCPrevNum == 0)
+        {
+            currentPCPrevNum = 2;
+        }
+        else
+        {
+            currentPCPrevNum--;
+        }
+        ChangePcSpritePreview();
+    }
+
+    private void ChangePcSpritePreview()
+    {
+        PlayerSpritePreview.sprite = PlayerSprites[currentPCPrevNum];
     }
 }

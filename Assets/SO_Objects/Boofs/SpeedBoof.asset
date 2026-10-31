@@ -15,7 +15,7 @@ MonoBehaviour:
   boofName: Speed Boof
   boofCost: 1000
   boofGO: {fileID: 8730343987887656175, guid: 2af28d2b62f0b234e8f12a03b04f26cd, type: 3}
-  boofIcon: {fileID: 0}
+  boofIcon: {fileID: -3624422396111721849, guid: 807db151aff4b1b47959636b5fcad9c3, type: 3}
   boofType: 0
   boofStationSprite: {fileID: 1264070406317277813, guid: 874917793c817e249908f2e5a802d8be, type: 3}
   speedModif: 0.2

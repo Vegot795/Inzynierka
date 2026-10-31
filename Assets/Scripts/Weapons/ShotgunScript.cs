@@ -41,7 +41,7 @@ public class ShotgunScript : WeaponClass
         {
             return;
         }
-
+        base.Shoot(direction);
         StartCoroutine(ShowShot(shotDisplayTime));
         var enemiesInRange = GetComponentInChildren<ShotgunShotScript>().enemiesInRange;
 

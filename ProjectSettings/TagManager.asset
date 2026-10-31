@@ -29,8 +29,8 @@ TagManager:
   - PlayerProjectile
   - GameSettings
   - Grenade
-  - 
-  - 
+  - EnemyComponent
+  - Wall
   - 
   - 
   - 

@@ -184,8 +184,6 @@ public class PlayerInventory : MonoBehaviour
     }
     #endregion-----------------------------------------------
 
-
-
     #region --- Combat ---
 
     private void OnAttackStarted(InputAction.CallbackContext ctx) => isFiring = true;

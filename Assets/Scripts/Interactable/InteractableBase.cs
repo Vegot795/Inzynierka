@@ -25,16 +25,16 @@ public class InteractableBase : PickupBase
         switch (direction)
         {
             case MapGenerator.Directions.Up:
-                cusRotation = 0;
+                cusRotation = 270;
                 break;
             case MapGenerator.Directions.Left:
-                cusRotation = 90;
+                cusRotation = 0;
                 break;
             case MapGenerator.Directions.Down:
-                cusRotation = 180;
+                cusRotation = 90;
                 break;
             case MapGenerator.Directions.Right:
-                cusRotation = 270;
+                cusRotation = 180;
                 break;
             default:
                 Debug.LogWarning("[SpawnerScript] - Quaternion is screwwwwed");

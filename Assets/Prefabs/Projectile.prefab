@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1485208096885760335}
   - component: {fileID: -4442475469709379806}
   - component: {fileID: -4847219985167567403}
-  - component: {fileID: 2417616918229646967}
+  - component: {fileID: 1436476987592762537}
   m_Layer: 11
   m_Name: Projectile
   m_TagString: Projectile
@@ -79,12 +79,12 @@ SpriteRenderer:
   m_SortingLayerID: -333397685
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1229858627709956937, guid: 1118d5a714fb3634f896ae71564fc848, type: 3}
+  m_Sprite: {fileID: 447378081, guid: 24982bbf82b4e1b498f9b87df80ee1a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.015625, y: 0.015625}
+  m_Size: {x: 0.03125, y: 0.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -133,8 +133,8 @@ MonoBehaviour:
   damage: 100
   time: 0
   col: {fileID: 0}
---- !u!58 &2417616918229646967
-CircleCollider2D:
+--- !u!61 &1436476987592762537
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -163,9 +163,19 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.0078125
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.03125, y: 0.0625}
+    newSize: {x: 0.03125, y: 0.0625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.03125, y: 0.0625}
+  m_EdgeRadius: 0

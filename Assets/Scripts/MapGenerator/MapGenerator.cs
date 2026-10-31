@@ -1016,6 +1016,7 @@ public class MapGenerator : MonoBehaviour
             BoofStation.transform.SetParent(BoofStationsKid.transform);
             BSScript.SetUpBoofStation();
             Debug.Log($"[BoofStation creation] - created {BSScript.BBD.boofName} in room {roomForBS.roomName}. BoofBoxes left: {unusedBoofBoxes.Count}");
+            //Funkcja tak długa, że się w niej gubiłem i potrzebowałem opisów poszczególntych elementów         
         }
     }
 
@@ -1049,7 +1050,7 @@ public class MapGenerator : MonoBehaviour
     private void SpawnWeaponsToBuy()
     {
         List<Room> emptyRooms = roomList
-            .Where(x => x.BoofBox == null)
+            .Where(x => x.BoofBox == null && x.BuyableOwned == null)
             .OrderBy(_ => Random.value)
             .ToList();
 

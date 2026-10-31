@@ -100,14 +100,16 @@ public class GameControllerScript : MonoBehaviour
         pcController = playerObj.GetComponent<PC_Controller>();
         playerObj.transform.position = SRBounds.center;
         GS.player = pcController;
+        if (PD != null &&  PD.playerSprite != null)
+        {
+            playerObj.GetComponent<SpriteRenderer>().sprite = PD.playerSprite;
+        }
 
         var CineCamComp = CinemachineCamera.GetComponent<CinemachineCamera>();
         CineCamComp.Target.TrackingTarget = playerObj.transform;
         allSpawners = mapGenerator.spawnerList;
         startRoom.isStartingRoom = true;
         startRoom.UnlockRoom();
-
-        pcController.gameObject.GetComponent<PlayerInventory>().AddScore(5000);
 
         MaxEnemies = BaseMaxEnemies;
         //GivePlayerStartScore(startScore);
@@ -203,7 +205,7 @@ public class GameControllerScript : MonoBehaviour
         
 
 
-        if ((enemySpawnChance == 0 || enemyRatio >= 5)) //&& WaveNumber >= 4
+        if ((enemySpawnChance == 0 || enemyRatio >= 8) && WaveNumber >= 4) 
         {
             enemyToSpawn = SkeletPrefab;
 

@@ -161,6 +161,7 @@ public class Room
             else
             {
                 cell.GetComponent<SpriteRenderer>().sortingLayerName = "Walls";
+                cell.gameObject.layer = 15;
             }
         }
 

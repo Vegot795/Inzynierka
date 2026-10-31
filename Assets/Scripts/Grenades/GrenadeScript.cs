@@ -17,7 +17,9 @@ public class GrenadeScript : MonoBehaviour
     public GrenadeData grenadeData;
     public GrenadeType grenadeType;
     public CharacterBase playerController;
-
+    public AudioSource AS;
+    public AudioClip explosionAudio;
+    public GameSettings GS;
 
 
     public virtual void Initialize(GrenadeData data, Vector2 target)
@@ -31,9 +33,7 @@ public class GrenadeScript : MonoBehaviour
         targetPosition = target;
         playerController = GetComponentInParent<CharacterBase>();
 
-
         animator = GetComponent<Animator>();
-
 
         //Debug.Log($"Grenade initialized with target position: {targetPosition}, damage: {damage}, explosion radius: {explosionRadius}, move speed: {moveSpeed}");
     }
@@ -43,6 +43,13 @@ public class GrenadeScript : MonoBehaviour
         {
             return;
         }
+
+        if (GS == null)
+        {
+            GS = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        }
+
+        AS.volume = GS.AudioVolume.value;
 
         Vector2 currentPos = transform.position;
         Vector2 direction = (targetPosition - currentPos).normalized;
@@ -58,7 +65,7 @@ public class GrenadeScript : MonoBehaviour
 
     public virtual void Explode()
     {
-        return;
+        AS.PlayOneShot(explosionAudio);
     }
 
     private void OnDrawGizmos()

@@ -56,8 +56,9 @@ public class EnemyClass : CharacterBase
     {
         WalkAccordingToPath();
     }
-    public virtual void Update()
+    public override void Update()
     {
+        base.Update();
         playerMoveSpeed = GCS.playerObj.GetComponent<PC_Controller>().currentMoveSpeed;
 
         currentMoveSpeed = Mathf.Min(baseMoveSpeed * moveSpeedModif, playerMoveSpeed - 0.5f);

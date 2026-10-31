@@ -8,7 +8,7 @@ public class FragGrenade : GrenadeScript
         {
             return;
         }
-
+        base.Explode();
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
         foreach (Collider2D hitCollider in hitColliders)
         {

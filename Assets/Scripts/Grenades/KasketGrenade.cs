@@ -17,7 +17,7 @@ public class KasketGrenade : GrenadeScript
         {
             return;
         }
-
+        base.Explode();
         List<GameObject> kasketObjects = new List<GameObject>();
 
         if (grenadeType == GrenadeType.Kasket)

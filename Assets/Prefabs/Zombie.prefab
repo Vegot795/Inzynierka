@@ -127,7 +127,7 @@ MonoBehaviour:
   hpPerWave: 2
   attackCooldown: 1
   scoreValue: 0
-  viewDistance: 6
+  viewDistance: 20
   repathInterval: 0.05
   attempts: 3
   minDistance: 1
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 6065537312398636454}
   - component: {fileID: 7347463186502793922}
   - component: {fileID: 6026806175180882783}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: FoV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,9 +264,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4099116899343495320}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0.9365603, w: 0.35050666}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999964, y: 0.99999964, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2557823599578455876}
@@ -345,7 +345,7 @@ MonoBehaviour:
     m_Bits: 0
   sightBlockerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   viewColor: {r: 1, g: 1, b: 0.4, a: 0}
   ownerType: 1
   parent: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8895943659177929480}
   - component: {fileID: 2060145554310417796}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: AttackCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

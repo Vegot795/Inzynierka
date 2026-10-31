@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8265100947008554093}
   - component: {fileID: 1307870946881712103}
   - component: {fileID: 1072276575794074496}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: FoV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 60123281100400793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.266, y: 0.178, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,7 +108,7 @@ MonoBehaviour:
     m_Bits: 0
   sightBlockerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   viewColor: {r: 1, g: 1, b: 0.4, a: 0.25}
   ownerType: 1
   parent: {fileID: 0}
@@ -280,7 +280,7 @@ MonoBehaviour:
   hpPerWave: 2
   attackCooldown: 1
   scoreValue: 0
-  viewDistance: 10
+  viewDistance: 20
   repathInterval: 0.05
   attempts: 3
   minDistance: 1
@@ -382,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 622645081486438878}
   - component: {fileID: 5202780226165924358}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 6725062811408109704}
   - component: {fileID: 5555186958426260789}
   - component: {fileID: 5090439728729621614}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: RangeCallCol
   m_TagString: RangeDetector
   m_Icon: {fileID: 0}
@@ -531,7 +531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8415717958060900467}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: WallSpots
   m_TagString: Untagged
   m_Icon: {fileID: 0}

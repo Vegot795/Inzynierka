@@ -746,6 +746,11 @@ MonoBehaviour:
   activeDevice: 0
   UIM: {fileID: 0}
   LoadingScreenFadeTime: 5
+  exitToScoreboard: 0
+  MainAS: {fileID: 0}
+  canPlayMusic: 1
+  MenuMusic: {fileID: 8300000, guid: 558d7d84e9945104b93bfbb0fcf03ba9, type: 3}
+  Volume: 1
 --- !u!1 &8854152133077057544
 GameObject:
   m_ObjectHideFlags: 0

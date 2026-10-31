@@ -37,7 +37,7 @@ public class CharacterBase : MonoBehaviour
         Neutral
     }
 
-    private void Update()
+    public virtual void Update()
     {
         TickEffect();
     }

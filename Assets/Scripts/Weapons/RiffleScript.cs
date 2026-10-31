@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class RiffleScript : WeaponClass
 {
     public GameObject projectilePrefab;
     public GameObject muzzle;
-    
+    public LayerMask layerToIgnore;
 
     public override void Initialize(WeaponData data)
     {
@@ -29,34 +30,27 @@ public class RiffleScript : WeaponClass
 
         Reload();
         base.lastFireTime = -currentFireRate;
-
     }
 
     public override void Shoot(Vector2 direction)
     {
-        
         if (!base.CanShoot())
         {
             return;
         }
 
+        base.Shoot(direction);
         Vector3 spawnPos = new Vector3(muzzle.transform.position.x, muzzle.transform.position.y, 0);
 
         Vector2 shootDirection = direction.normalized;
-        GameObject newProjectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+
+        RaycastHit2D hit = Physics2D.Raycast(muzzle.transform.position, direction, 1000f, ~layerToIgnore);
         
-        newProjectile.GetComponent<ProjectileScript>().Initialize(currentDamage, playerController);
-        Rigidbody2D rb = newProjectile.GetComponent<Rigidbody2D>();
-        
-        if (newProjectile == null)
+        CharacterBase character = hit.collider.GetComponent<CharacterBase>();
+        if (character != null && character is EnemyClass)
         {
-            return;
+            character.TakeDamage(currentDamage, playerController);
         }
-
-
-        GameObject player = transform.parent.parent.gameObject;
-
-        rb.linearVelocity = shootDirection * projectileSpeed;
 
         base.currentAmmo--;
         base.lastFireTime = Time.time;

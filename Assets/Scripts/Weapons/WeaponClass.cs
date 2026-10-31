@@ -34,17 +34,33 @@ public class WeaponClass : MonoBehaviour
     public bool isReloading = false;
     public float lastFireTime = 0f;
 
-    [Header("Else")]
+    [Header("Sounds")]
+    public AudioClip weaponShootSound;
+    public AudioClip reloadSound;
+    public AudioSource AS;
 
+    [Header("Else")]
     private Vector3 muzzlePos;
     private Vector3 spawnPos;
     public WeaponData weaponData;
     public CharacterBase playerController;
-
+    public GameSettings GS;
 
     public virtual void Initialize(WeaponData data) { }
 
-    public virtual void Shoot(Vector2 direction) { }
+    void Update()
+    {
+        if (GS == null)
+        {
+            GS = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        }
+
+        AS.volume = GS.AudioVolume.value;
+    }
+    public virtual void Shoot(Vector2 direction) 
+    {
+        AS.PlayOneShot(weaponShootSound);
+    }
 
     public bool CanShoot()
     {
@@ -57,7 +73,10 @@ public class WeaponClass : MonoBehaviour
     {
         isReloading = true;
         //Debug.Log($"[RiffleScript] Starting reload for {time} seconds...");
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(time - reloadSound.length);
+        AS.PlayOneShot(reloadSound);
+        yield return new WaitForSeconds(reloadSound.length);
+
         Reload();
         isReloading = false;
     }

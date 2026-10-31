@@ -1,6 +1,9 @@
+using NUnit.Framework;
 using NUnit.Framework.Internal.Filters;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +32,15 @@ public class GameSettings : MonoBehaviour
     public float LoadingScreenFadeTime = 5;
     public bool exitToScoreboard = false;
 
+    [Header("Audio")]
+    public AudioSource MainAS;
+    public bool canPlayMusic = true;
+    public AudioClip MenuMusic;
+    public List<AudioClip> GameMusic = new List<AudioClip>();
+    public Slider AudioVolume;
+    public Slider MusicVolume;
+    public int currentMusicNum = -1;
+
     public enum DeviceKind
     {
         KeyboardAndMouse,
@@ -50,8 +62,15 @@ public class GameSettings : MonoBehaviour
     private void SetupGS()
     {
         fpsText.gameObject.SetActive(false);
+        if (GS == null)
+        {
+            GS = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        }
+        GS.MainAS.clip = MenuMusic;
+        GameMusic.OrderBy(_ => UnityEngine.Random.value);
+
     }
-    
+
     public void Update()
     {
         if (showFPS)
@@ -76,6 +95,18 @@ public class GameSettings : MonoBehaviour
             }
         }
 
+        if (canPlayMusic && MainAS.isPlaying == false)
+        {
+            MainAS.Play();
+        }
+
+        if (!canPlayMusic && MainAS.isPlaying == true)
+        {
+            MainAS.Stop();
+        }
+
+        ChangeMusicVolume();
+        GameMusicHandler();
     }
     public void CalculateFPS()
     {
@@ -88,12 +119,7 @@ public class GameSettings : MonoBehaviour
             time = 0;
         }
     }
-    public void ToggleFpsScript()
-    {
-        showFPS = !showFPS;
-        fpsText.gameObject.SetActive(showFPS);
 
-    }
 
     public void SetPlayerObject(PC_Controller playerObj)
     {
@@ -176,4 +202,53 @@ public class GameSettings : MonoBehaviour
         UIM.OpenScoreboard();
         StartCoroutine(TurnOffLoadingScreen(null));
     }
+
+    #region ----- Toggles -----
+    public void ToggleFpsScript()
+    {
+        showFPS = !showFPS;
+        fpsText.gameObject.SetActive(showFPS);
+
+    }
+
+    public void ToggleMusic()
+    {
+        canPlayMusic = !canPlayMusic;
+    }
+
+    public void ChangeMusicVolume()
+    {
+        MainAS.volume = AudioVolume.value * MusicVolume.value;
+    }
+
+    public void GameMusicHandler()
+    {
+        if (SceneManager.GetActiveScene().name == "MainMenu" && MainAS.clip != MenuMusic)
+        {
+            MainAS.clip = MenuMusic;
+            if (!MainAS.isPlaying)
+            {
+                MainAS.Play();
+            }
+        }
+        else if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            if (!MainAS.isPlaying || !GameMusic.Contains(MainAS.clip))
+            {
+                if (currentMusicNum == GameMusic.Count - 1)
+                {
+                    currentMusicNum = 0;
+                }
+                else
+                {
+                    currentMusicNum++;
+                }
+                MainAS.clip = GameMusic[currentMusicNum];
+                MainAS.Play();
+
+            }
+            
+        }
+    }
+    #endregion
 }
