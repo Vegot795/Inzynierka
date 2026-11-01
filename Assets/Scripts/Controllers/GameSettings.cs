@@ -17,13 +17,6 @@ public class GameSettings : MonoBehaviour
 {
     public PC_Controller player = null;
     public static GameSettings GS;
-    public Toggle fpsToggle;
-    public TextMeshProUGUI fpsText;
-    public Image LoadingScreen;
-    public bool showFPS = false;
-    public int frames;
-    public float time;
-    public int FPS;
     public bool isPlayerSet = false;
     public bool isLoadingScreenOn = false;
     public DeviceKind activeDevice;
@@ -39,7 +32,22 @@ public class GameSettings : MonoBehaviour
     public List<AudioClip> GameMusic = new List<AudioClip>();
     public Slider AudioVolume;
     public Slider MusicVolume;
-    public int currentMusicNum = -1;
+    public float audioFloat;
+    public float musicFloat;
+    public int currentMusicNum = 0;
+    public List<AudioSource> audioSources = new List<AudioSource>();
+    [Header("Else")]
+    public Toggle fpsToggle;
+    public TextMeshProUGUI fpsText;
+    public GameObject fpsDisplay;
+    public Image LoadingScreen;
+    public float time;
+    public bool showFPS = false;
+    public int frames;
+    public bool isGamePaused = false;
+    public int FPS;
+    public GameSettingsSave setts;
+
 
     public enum DeviceKind
     {
@@ -66,22 +74,30 @@ public class GameSettings : MonoBehaviour
         {
             GS = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         }
-        GS.MainAS.clip = MenuMusic;
+        GameMusicHandler();
         GameMusic.OrderBy(_ => UnityEngine.Random.value);
-
+        var settings = GameSettingsSaveSystem.Load();
+        audioFloat = settings.AudioVolume;
+        musicFloat = settings.MusicVolume;
+        showFPS = settings.showFPS;
+        canPlayMusic = settings.playMusic;
     }
 
     public void Update()
     {
         if (showFPS)
         {
+            fpsDisplay.SetActive(true);
             CalculateFPS();
             fpsText.text = $"FPS: {FPS}";
+        }
+        else
+        {
+            fpsDisplay.SetActive(false);
         }
 
         if (isPlayerSet)
         {
-            
             var deviceInputed = player.GetComponent<PlayerInput>().devices;
             if (deviceInputed.Count > 0)
             {
@@ -102,11 +118,12 @@ public class GameSettings : MonoBehaviour
 
         if (!canPlayMusic && MainAS.isPlaying == true)
         {
-            MainAS.Stop();
+            musicFloat = 0;
         }
 
-        ChangeMusicVolume();
+        ChangeMusicVolume(audioFloat, musicFloat);
         GameMusicHandler();
+        HandleAudioVolume(audioFloat);
     }
     public void CalculateFPS()
     {
@@ -207,7 +224,12 @@ public class GameSettings : MonoBehaviour
     public void ToggleFpsScript()
     {
         showFPS = !showFPS;
-        fpsText.gameObject.SetActive(showFPS);
+        ToggleFPS(showFPS);
+    }
+
+    public void ToggleFPS(bool toggle)
+    {
+        fpsText.gameObject.SetActive(toggle);
 
     }
 
@@ -216,13 +238,25 @@ public class GameSettings : MonoBehaviour
         canPlayMusic = !canPlayMusic;
     }
 
-    public void ChangeMusicVolume()
+    public void ChangeMusicVolume(float audio, float music)
     {
-        MainAS.volume = AudioVolume.value * MusicVolume.value;
+        MainAS.volume = audio * music;
+    }
+
+    public void HandleAudioVolume(float audio)
+    {
+       foreach (var source in audioSources)
+        {
+            source.volume = audio;
+        }
     }
 
     public void GameMusicHandler()
     {
+        if (MainAS == null)
+        {
+            MainAS = gameObject.GetComponent<AudioSource>();
+        }
         if (SceneManager.GetActiveScene().name == "MainMenu" && MainAS.clip != MenuMusic)
         {
             MainAS.clip = MenuMusic;
@@ -251,4 +285,22 @@ public class GameSettings : MonoBehaviour
         }
     }
     #endregion
+
+    public void SetSettingsInputs()
+    {
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+
+        }
+    }
+
+    public void LoadFromSaveFile()
+    {
+        setts = GameSettingsSaveSystem.Load();
+        ToggleFPS(setts.showFPS);
+        canPlayMusic = setts.playMusic;
+        audioFloat = setts.AudioVolume;
+        musicFloat = setts.MusicVolume;
+
+    }
 }

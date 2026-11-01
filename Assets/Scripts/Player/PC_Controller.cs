@@ -17,6 +17,7 @@ public class PC_Controller : CharacterBase
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     SpriteRenderer spriteRenderer;
     GameControllerScript GCS;
+    OverlayController OC;
 
     [Header("HP regen")]
     public float timeToStartRegen = 10f;
@@ -31,6 +32,7 @@ public class PC_Controller : CharacterBase
         baseMoveSpeed = 10f;
         gameObject.layer = LayerMask.NameToLayer("Player");
         GCS = GameControllerScript.GCS;
+        OC = OverlayController.OC;
     }
 
     void Update()
@@ -61,6 +63,10 @@ public class PC_Controller : CharacterBase
     {
         movementInput = movementValue.Get<Vector2>();
         currentMoveSpeed = baseMoveSpeed * moveSpeedModif;
+    }
+    private void OnEscMenu(InputValue value)
+    {
+        OC.ToggleEscMenu();
     }
 
     private bool TryMove(Vector2 direction)

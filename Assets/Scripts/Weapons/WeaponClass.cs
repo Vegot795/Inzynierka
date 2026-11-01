@@ -52,10 +52,10 @@ public class WeaponClass : MonoBehaviour
     {
         if (GS == null)
         {
-            GS = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+            GS = GameSettings.GS;
         }
 
-        AS.volume = GS.AudioVolume.value;
+        AS.volume = GS.audioFloat;
     }
     public virtual void Shoot(Vector2 direction) 
     {

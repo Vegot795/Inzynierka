@@ -191,6 +191,10 @@ public class PlayerInventory : MonoBehaviour
 
     public void MakeWeaponShootScript()
     {
+        if (IsGamePaused())
+        {
+            return;
+        }
         if (currentWeapon == null) return;
 
         if (!weaponClass) return;
@@ -211,6 +215,10 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadePressed(InputAction.CallbackContext context)
     {
+        if (IsGamePaused())
+        {
+            return;
+        }
         if (grenadeCount > 0)
         {
             ////Debug.Log("Grenade GameObject pressed");
@@ -222,6 +230,10 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnGrenadeReleased(InputAction.CallbackContext context)
     {
+        if (IsGamePaused())
+        {
+            return;
+        }
         if (grenadeCount > 0)
         {
             ////Debug.Log("Grenade GameObject released");
@@ -232,6 +244,10 @@ public class PlayerInventory : MonoBehaviour
 
     public void OnGrenadeHoldStart()
     {
+        if (IsGamePaused())
+        {
+            return;
+        }
         if (currentGrenade == null || grenadeCount <= 0) return;
 
         isAimingGrenade = true;
@@ -244,7 +260,10 @@ public class PlayerInventory : MonoBehaviour
     }
     public void OnGrenadeHoldEnd()
     {
-
+        if (IsGamePaused())
+        {
+            return;
+        }
         if (!isAimingGrenade || currentGrenade == null) return;
 
         isAimingGrenade = false;
@@ -254,7 +273,10 @@ public class PlayerInventory : MonoBehaviour
 
     private void ThrowGrenade()
     {
-        
+        if (IsGamePaused())
+        {
+            return;
+        }
         if (currentGrenade == null)
         {
             return;
@@ -368,5 +390,9 @@ public class PlayerInventory : MonoBehaviour
         return Vector2.left * dropDistance;
     }
 
+    public bool IsGamePaused()
+    {
+        return Time.timeScale == 0;
+    }
 
 }

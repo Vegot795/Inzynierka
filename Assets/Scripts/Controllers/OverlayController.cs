@@ -1,16 +1,39 @@
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class OverlayController : MonoBehaviour
 {
     public static OverlayController OC;
     public GameControllerScript GCS;
+    public GameSettings GS;
+    public GameSettings FakeGS;
     public BoofManager BM;
+    public UIController UIC;
     public GameObject tipPrefab;
     public Camera cam;
     public List<GameObject> tipList = new List<GameObject>();
+    [Header("Esc Menu")]
+    public GameObject EscMenu;
+    public GameObject EscMenuBackground;
+    public GameObject SettingsTab;
+    public GameObject MenuButtons;
+    public bool isEscMenuOpen = false;
+
+    [Header("Settings")]
+    public Slider audioSlider;
+    public Slider musicSlider;
+    public Toggle musicToggle;
+    public Toggle fpsToggle;
+    public List<AudioSource> audioSources = new List<AudioSource>();
+    public float audioVolume;
+    public float musicVolume;
+    public bool isAudioSet = false;
+    public GameSettingsSave setts;
 
 
     void Awake()
@@ -22,6 +45,39 @@ public class OverlayController : MonoBehaviour
     {
         GCS = GameControllerScript.GCS;
         BM = BoofManager.boofManager;
+        UIC = UIController.UIC;
+        GS = GameSettings.GS;
+        if (GS == null)
+        {
+            GS = GCS.GS;
+        }
+
+        LoadSettings();
+        isAudioSet = true;
+    }
+
+    public void ToggleFPS() => GS.ToggleFpsScript();
+    public void ToggleMusic() => GS.ToggleMusic();
+    public void HandleAudioVolume()
+    {
+        if (isAudioSet)
+        {
+            GS.audioFloat = audioSlider.value;
+            GS.musicFloat = musicSlider.value;
+        }        
+    }
+    
+
+    void Update()
+    {
+        if (tipList.Count > 0)
+        {
+            foreach (var tip in tipList)
+            {
+                tip.transform.position = cam.WorldToScreenPoint(GetPositionForTip(tip));
+            }
+        }
+        HandleAudioVolume();
     }
 
     public Vector3 GetPositionForTip(GameObject tip)
@@ -68,18 +124,6 @@ public class OverlayController : MonoBehaviour
 
         return displayPosition;
     }
-
-    void Update()
-    {
-        if (tipList.Count > 0)
-        {
-            foreach (var tip in tipList)
-            {
-                tip.transform.position = cam.WorldToScreenPoint(GetPositionForTip(tip));
-            }
-        }        
-    }
-
     public void MakeDoorTip(DoorScript door)
     {
         if (GCS == null)
@@ -160,4 +204,88 @@ public class OverlayController : MonoBehaviour
         tipList.Remove(buyable.Tip);
         Destroy(buyable.Tip);
     }
+
+    #region ----- Escape Menu -----
+
+
+
+    public void ToggleEscMenu()
+    {
+        isEscMenuOpen = !isEscMenuOpen;
+
+        if (isEscMenuOpen)
+        {
+            UIC.gameObject.SetActive(false);
+            EscMenu.SetActive(true);
+            EscMenuBackground.SetActive(true);
+            MenuButtons.SetActive(true);
+            Time.timeScale = 0;
+            GS.isGamePaused = true;
+        }
+        else
+        {
+            UIC.gameObject.SetActive(true);
+            EscMenu.SetActive(false);
+            EscMenuBackground.SetActive(false);
+            MenuButtons.SetActive(false);
+            SettingsTab.SetActive(false);
+            Time.timeScale = 1;
+            GS.isGamePaused = false;
+        }
+    }
+
+    public void OpenSettings()
+    {
+        MenuButtons.SetActive(false);
+        SettingsTab.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        SettingsTab.SetActive(false);
+        EscMenu.SetActive(true);
+    }
+
+    public void QuitToMM()
+    {
+
+    }
+
+    public void LoadSettings()
+    {
+        setts = GameSettingsSaveSystem.Load();
+        audioSlider.SetValueWithoutNotify(setts.AudioVolume);
+        musicSlider.SetValueWithoutNotify(setts.MusicVolume);
+        fpsToggle.SetIsOnWithoutNotify(setts.showFPS);
+        musicToggle.SetIsOnWithoutNotify(setts.playMusic);
+        GS.LoadFromSaveFile();
+    }
+
+    public void SaveSettings()
+    {
+        GS.audioFloat = audioSlider.value;
+        GS.musicFloat = musicSlider.value;
+        GS.showFPS = fpsToggle.isOn;
+        GS.canPlayMusic = musicToggle.isOn;
+        GameSettingsSaveSystem.Save(setts);
+        GS.LoadFromSaveFile();
+        BackToMenu();
+    }
+
+    public void BackToMenu()
+    {
+        SettingsTab.SetActive(false);
+        MenuButtons.SetActive(true);
+    }
+
+    public void QuitToDesktop()
+    {
+        Application.Quit();
+    }
+
+    public void QuitToMainMenu()
+    {
+        GS.ExitToScoreboard();
+    }
+    #endregion
 }

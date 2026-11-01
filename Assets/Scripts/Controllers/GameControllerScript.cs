@@ -16,6 +16,7 @@ public class GameControllerScript : MonoBehaviour
     public BoofManager BM;
     public PlayerData playerData;
     public GameSettings GS;
+    public OverlayController OC;
 
     [Header("Kids")]
     public GameObject EnemiesHolder;

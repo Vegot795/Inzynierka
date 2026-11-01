@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using Unity.AppUI.UI;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Linq;
@@ -27,6 +26,10 @@ public class UI_MainMenu : MonoBehaviour
 
     [Header("Settings")]
     public GameObject SettingsTab;
+    public Slider AudioVolume;
+    public Slider MusicVolume;
+    public Toggle musicToggle;
+    public Toggle fpsToggle;
 
     [Header("Data")]
     public List<GameObject> AllTabs = new List<GameObject>();
@@ -38,6 +41,8 @@ public class UI_MainMenu : MonoBehaviour
     public GameObject RecordPrefab;
     public List<Sprite> PlayerSprites;
     public int currentPCPrevNum = 0;
+    public bool isAudioSet = false;
+    public GameSettingsSave setts;
 
     void Start()
     {
@@ -61,13 +66,15 @@ public class UI_MainMenu : MonoBehaviour
             GS.exitToScoreboard = false;
         }
 
+        LoadSettings();
+        isAudioSet = true;
         StartCoroutine(GS.TurnOffLoadingScreen(null));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        HandleSettingsInRealTime();
     }
 
     public void PlayGame()
@@ -79,11 +86,16 @@ public class UI_MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        if (PlayerData.Instance == null)
+        if (PlayerData.Instance == null || PD == null)
         {
             PD = Instantiate(playerDataPrefab).GetComponent<PlayerData>();
             DontDestroyOnLoad(PD);
         }
+        else
+        {
+            PD.Clear();
+        }
+
         PD.playerNickname = NicknameInputField.text;
         PD.playerSprite = PlayerSprites[currentPCPrevNum];
 
@@ -110,7 +122,7 @@ public class UI_MainMenu : MonoBehaviour
             {
                 Debug.LogWarning($"Score {i.ToString()} could not be loaded");
             }
-            
+
         }
     }
     public void OpenSettings()
@@ -171,5 +183,43 @@ public class UI_MainMenu : MonoBehaviour
     private void ChangePcSpritePreview()
     {
         PlayerSpritePreview.sprite = PlayerSprites[currentPCPrevNum];
+    }
+
+    public void HandleSettingsInRealTime()
+    {
+        if (isAudioSet)
+        {
+            GS.audioFloat = AudioVolume.value;
+            GS.musicFloat = MusicVolume.value;
+            GS.canPlayMusic = musicToggle.isOn;
+            GS.showFPS = fpsToggle.isOn;
+        }
+    }
+
+    public void LoadSettings()
+    {
+        setts = GameSettingsSaveSystem.Load();
+        AudioVolume.SetValueWithoutNotify(setts.AudioVolume);
+        MusicVolume.SetValueWithoutNotify(setts.MusicVolume);
+        fpsToggle.SetIsOnWithoutNotify(setts.showFPS);
+        musicToggle.SetIsOnWithoutNotify(setts.playMusic);
+        GS.LoadFromSaveFile();
+    }
+
+    public void SaveSettings()
+    {
+        GS.audioFloat = AudioVolume.value;
+        GS.musicFloat = MusicVolume.value;
+        GS.showFPS = fpsToggle.isOn;
+        GS.canPlayMusic = musicToggle.isOn;
+        GameSettingsSaveSystem.Save(setts);
+        GS.LoadFromSaveFile();
+        BackToMainMenu();
+    }
+
+    public void BackFromSettings()
+    {
+        LoadSettings();
+        BackToMainMenu();
     }
 }

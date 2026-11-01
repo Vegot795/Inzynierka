@@ -127,6 +127,7 @@ MonoBehaviour:
   AS: {fileID: -8207169431879127887}
   weaponData: {fileID: 0}
   playerController: {fileID: 0}
+  GS: {fileID: 0}
   projectilePrefab: {fileID: 0}
   muzzle: {fileID: 6049163514633504153}
   muzzleSR: {fileID: 0}
@@ -149,15 +150,15 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassEffects: 1
+  BypassListenerEffects: 1
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:

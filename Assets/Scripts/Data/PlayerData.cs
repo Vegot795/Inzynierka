@@ -17,4 +17,13 @@ public class PlayerData : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
+    public void Clear()
+    {
+        playerNickname = string.Empty;
+        playerSprite = null;
+        TotalScore = 0;
+        TotalEnemiesKilled = 0;
+        Date = string.Empty;
+    }
 }

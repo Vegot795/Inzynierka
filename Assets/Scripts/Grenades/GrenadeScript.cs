@@ -46,7 +46,7 @@ public class GrenadeScript : MonoBehaviour
 
         if (GS == null)
         {
-            GS = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+            GS = GameSettings.GS;
         }
 
         AS.volume = GS.AudioVolume.value;

@@ -7,7 +7,7 @@ public static class EndgameStatsController
 {
     public static string fileName = "playerScores.json";
     public static int maxPositionsDisplayed = 20;
-    public static string savesPath = Path.Combine(Application.persistentDataPath, fileName);
+    public static string savesPath = Path.Combine(Application.persistentDataPath, "playerRecords", fileName);
     
     public static void Save(StatListClass statList)
     {
