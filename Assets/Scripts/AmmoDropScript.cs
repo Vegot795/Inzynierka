@@ -6,7 +6,7 @@ public class AmmoDropScript : PickupBase
 
     public override void OnPickedUp(PlayerInventory inventory)
     {
-        if (inventory.weaponClass == null)
+        if (inventory.weaponClass == null || inventory.weaponClass.currentReserveAmmo == inventory.weaponClass.currentMaxAmmo)
         {
             return;
         }
@@ -25,6 +25,7 @@ public class AmmoDropScript : PickupBase
                 curWeapon.currentReserveAmmo += missingAmmo;
             }*/
         }
+        inventory.PlaySFX(inventory.pickupItemSFX);
         Destroy(gameObject);
     }
 }

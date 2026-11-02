@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6342707198178443119}
   - component: {fileID: 916318870496585627}
   - component: {fileID: -8207169431879127887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShotgunPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 4367462595432955820}
   - component: {fileID: 4802028308567413276}
   - component: {fileID: 8238829514289551344}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

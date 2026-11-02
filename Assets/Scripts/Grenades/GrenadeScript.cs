@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -20,6 +21,9 @@ public class GrenadeScript : MonoBehaviour
     public AudioSource AS;
     public AudioClip explosionAudio;
     public GameSettings GS;
+    public Rigidbody2D rb;
+    float timeToExplode;
+    bool cdStarted = false;
 
 
     public virtual void Initialize(GrenadeData data, Vector2 target)
@@ -32,12 +36,29 @@ public class GrenadeScript : MonoBehaviour
         grenadeType = data.grenadeType;
         targetPosition = target;
         playerController = GetComponentInParent<CharacterBase>();
-
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        var distance = Vector2.Distance(targetPosition, (Vector2)transform.position);
+
+        timeToExplode = distance / (moveSpeed);
+        Debug.Log($"Distance: {distance} | Speed: {moveSpeed} | time: {timeToExplode}");
 
         //Debug.Log($"Grenade initialized with target position: {targetPosition}, damage: {damage}, explosion radius: {explosionRadius}, move speed: {moveSpeed}");
     }
-    private void Update()
+
+    /*private void FixedUpdate()
+    {
+        if (timeToExplode > 0)
+        {
+            timeToExplode -= Time.fixedDeltaTime;
+        }
+
+        if (timeToExplode <= 0)
+        {
+            Explode();
+        }
+    }*/
+    private void FixedUpdate()
     {
         if (hasExploded)
         {
@@ -49,17 +70,20 @@ public class GrenadeScript : MonoBehaviour
             GS = GameSettings.GS;
         }
 
-        AS.volume = GS.AudioVolume.value;
+        AS.volume = GS.audioFloat;
 
         Vector2 currentPos = transform.position;
         Vector2 direction = (targetPosition - currentPos).normalized;
 
         float step = moveSpeed * Time.deltaTime;
-        transform.position = Vector2.MoveTowards(currentPos, targetPosition, step);
-
-        if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
+        if (rb != null)
         {
-            Explode();
+            rb.MovePosition(Vector2.MoveTowards(currentPos, targetPosition, step));
+        }
+
+        if (!cdStarted)
+        {
+            StartCoroutine(WaitToExplode(timeToExplode));
         }
     }
 
@@ -82,5 +106,20 @@ public class GrenadeScript : MonoBehaviour
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.enabled = false;
+        Collider2D col = GetComponent<Collider2D>();
+        col.enabled = false;
+    }
+
+    public IEnumerator WaitToDestroy(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(gameObject);
+    }
+
+    public IEnumerator WaitToExplode(float time)
+    {
+        cdStarted = true;
+        yield return new WaitForSeconds(time);
+        Explode();
     }
 }

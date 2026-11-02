@@ -9,6 +9,6 @@ public class MiniGrenadeScript : FragGrenade
         {
             Destroy(transform.parent.gameObject);
         }
-        base.DestroyGrenade();
+        StartCoroutine(WaitToDestroy(explosionAudio.length));
     }
 }

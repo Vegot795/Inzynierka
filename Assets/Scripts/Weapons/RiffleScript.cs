@@ -14,13 +14,15 @@ public class RiffleScript : WeaponClass
         weaponData = data;
         
         baseMaxAmmo = weaponData.maxAmmoCapacity;
+        baseMagAmmo = weaponData.maxMagAmmo;
         currentMaxAmmo = (int)(baseMaxAmmo * maxAmmoModif);
         currentReserveAmmo = currentMaxAmmo + maxMagAmmo;
+        maxMagAmmo = (int)(baseMagAmmo * maxAmmoModif);
+        currentAmmo = maxMagAmmo;
         baseReloadTime = weaponData.reloadTime;
         currentReloadTime = baseReloadTime; 
         baseDamage = weaponData.damage;
         currentDamage = baseDamage;
-        maxMagAmmo = (int)(baseMagAmmo * maxAmmoModif);
         projectileSpeed = weaponData.projectileSpeed;
         baseFireRate = weaponData.fireRate;
         currentFireRate = baseFireRate;
@@ -47,13 +49,15 @@ public class RiffleScript : WeaponClass
         RaycastHit2D hit = Physics2D.Raycast(muzzle.transform.position, direction, 1000f, ~layerToIgnore);
         
         CharacterBase character = hit.collider.GetComponent<CharacterBase>();
+        Debug.DrawLine(muzzle.transform.position, hit.transform.position);
+
+        base.currentAmmo--;
+        base.lastFireTime = Time.time;
+
         if (character != null && character is EnemyClass)
         {
             character.TakeDamage(currentDamage, playerController);
         }
-
-        base.currentAmmo--;
-        base.lastFireTime = Time.time;
 
         if (currentAmmo == 0)
         {

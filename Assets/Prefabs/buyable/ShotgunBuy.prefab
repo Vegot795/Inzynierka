@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6801988195391116390}
   - component: {fileID: 9164080090932302668}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: BoxCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,8 @@ GameObject:
   - component: {fileID: 6584870459257838195}
   - component: {fileID: 6717155004432437281}
   - component: {fileID: 8907650639531249886}
-  m_Layer: 0
+  - component: {fileID: -5149534084644210077}
+  m_Layer: 16
   m_Name: ShotgunBuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,3 +228,24 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2
+--- !u!114 &-5149534084644210077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7935729219611688570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8165fef5bbeea4dbd63fe033fd76ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineScale: 1
+  defaultColor: {r: 0, g: 5, b: 5, a: 1}
+  hoveredColor: {r: 0, g: 8, b: 2, a: 1}
+  pulseSpeed: 4
+  pulseMinIntensity: 4
+  pulseMaxIntensity: 8
+  mainSr: {fileID: 6584870459257838195}
+  outlineSprite: {fileID: 3143004387345860052, guid: dd59338d12b61904c9fe4c115d0aa53c, type: 3}
+  glowMaterial: {fileID: 2100000, guid: 5713ab83948bcf04e9d3ffeaa4f20d1c, type: 2}

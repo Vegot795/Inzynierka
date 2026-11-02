@@ -25,6 +25,7 @@ public class WeaponData : ScriptableObject
     public Sprite weaponSprite;
     public GameObject projectilePrefab;
     public GameObject prefab;
+    public GameObject pickupPrefab;
     public Sprite muzzleFlash;
     public Sprite outlineSprite;
 

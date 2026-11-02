@@ -17,6 +17,7 @@ public class SpawnerScript : MonoBehaviour
     public float openedDoorRotation = 120f;
     public float doorRotationSpeed = 90;
     public float totalDoorRotation;
+    public Room owner;
 
     public void Start()
     {

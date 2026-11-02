@@ -12,12 +12,16 @@ public class PC_Controller : CharacterBase
     private bool canMove = true;
     private bool hasDied = false;
     Vector2 movementInput;
-    Vector3 mouseRotation;
     Rigidbody2D rb;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     SpriteRenderer spriteRenderer;
     GameControllerScript GCS;
     OverlayController OC;
+    GameSettings GS;
+
+    [Header("Audio")]
+    public AudioSource AS;
+    public AudioClip receiveDamageEffect;
 
     [Header("HP regen")]
     public float timeToStartRegen = 10f;
@@ -33,6 +37,9 @@ public class PC_Controller : CharacterBase
         gameObject.layer = LayerMask.NameToLayer("Player");
         GCS = GameControllerScript.GCS;
         OC = OverlayController.OC;
+        GS = GameSettings.GS;
+        currentMoveSpeed = baseMoveSpeed * moveSpeedModif;
+
     }
 
     void Update()
@@ -62,7 +69,6 @@ public class PC_Controller : CharacterBase
     private void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
-        currentMoveSpeed = baseMoveSpeed * moveSpeedModif;
     }
     private void OnEscMenu(InputValue value)
     {
@@ -76,13 +82,13 @@ public class PC_Controller : CharacterBase
             if (direction != Vector2.zero)
             {
                 int count = rb.Cast(
-                    movementInput,
+                    direction,
                     movementFilter,
                     castCollisions,
                     (currentMoveSpeed)* Time.deltaTime + collisionOffset);
                 if (count == 0)
                 {
-                    rb.MovePosition(rb.position + movementInput * (baseMoveSpeed * moveSpeedModif) * Time.deltaTime);
+                    rb.MovePosition(rb.position + direction * (baseMoveSpeed * moveSpeedModif) * Time.deltaTime);
                     return true;
                 }
                 else
@@ -133,6 +139,8 @@ public class PC_Controller : CharacterBase
     {
         base.TakeDamage(damage, attacker);
         countingToRegen = timeToStartRegen;
+        AS.volume = GS.audioFloat;
+        AS.PlayOneShot(receiveDamageEffect);
     }
 
     public void RegenerateHpIfPossible()
@@ -152,5 +160,16 @@ public class PC_Controller : CharacterBase
         {
             return;
         }
+    }
+
+    public void RecalculateMovementSpeed()
+    {
+        currentMoveSpeed = baseMoveSpeed * moveSpeedModif;
+    }
+
+    public void RecalculateHealth()
+    {
+        currentMaxHp = BaseMaxHp * healthModif;
+        //CurrentHp += CurrentHp * (healthModif - 1);
     }
 }

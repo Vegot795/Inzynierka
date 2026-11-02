@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5375170396797392978}
   - component: {fileID: 2262204389871596217}
   - component: {fileID: 812345688132458654}
+  - component: {fileID: -611183513330322332}
   m_Layer: 13
   m_Name: FragPrefab
   m_TagString: Untagged
@@ -137,6 +138,8 @@ MonoBehaviour:
   playerController: {fileID: 0}
   AS: {fileID: 812345688132458654}
   explosionAudio: {fileID: 8300000, guid: 402da9bfcadfa1649999a7ab60a36ef8, type: 3}
+  GS: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!70 &2262204389871596217
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -271,3 +274,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!50 &-611183513330322332
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6577357634797199923}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDamping: 0
+  m_AngularDamping: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

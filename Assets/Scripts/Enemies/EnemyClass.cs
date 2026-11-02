@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Threading;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class EnemyClass : CharacterBase
 {
@@ -16,7 +18,7 @@ public class EnemyClass : CharacterBase
     public int scoreValue;
     public float viewDistance = 6f;
     public float repathInterval = 0.05f;
-    public int attempts = 3;
+    public int attempts = 20;
     public float minDistance = 1f;
     public float playerMoveSpeed;
 
@@ -29,6 +31,14 @@ public class EnemyClass : CharacterBase
     public List<Vector3> currentPath;
     public Rigidbody2D rb;
     private GameControllerScript GCS;
+
+    [Header("Audio")]
+    public AudioSource AS;
+    public List<AudioClip> enemySounds = new List<AudioClip>();
+    public bool isPlayingSounds = false;
+    public bool canPlaySound = false;
+    public float soundTimer;
+    public float maxBreakTime;
 
     [Header("Else")]
     public int pathIndex;
@@ -50,6 +60,7 @@ public class EnemyClass : CharacterBase
 
         currentMaxHp = BaseMaxHp * healthModif;
         Damage = (int)(baseDamage * damageModif);
+        soundTimer = Random.Range(0, maxBreakTime);
     }
 
     public virtual void FixedUpdate()
@@ -67,6 +78,24 @@ public class EnemyClass : CharacterBase
         {
             transform.rotation = Quaternion.LookRotation(Vector3.forward, targetCharacter.position - transform.position);
         }
+
+        if (enemySounds.Count != 0)
+        {
+            if (soundTimer > 0 && !isPlayingSounds)
+            {
+                soundTimer -= Time.deltaTime;
+            }
+
+            if (soundTimer <= 0 && !isPlayingSounds)
+            {
+                isPlayingSounds = true;
+                AS.volume = GameSettings.GS.audioFloat;
+                AudioClip soundToPlay = enemySounds[Random.Range(0, enemySounds.Count - 1)];
+                AS.clip = soundToPlay;
+                AS.Play();
+                StartCoroutine(TurnOffPlayingSoundFlag(soundToPlay.length));
+            }
+        }   
     }
 
     public virtual void Attack(CharacterBase target)
@@ -85,6 +114,12 @@ public class EnemyClass : CharacterBase
         killer.GetComponent<PlayerInventory>()?.AddScore(scoreValue);
         TryToDropObject();
         GCS.EnemyKilled(this);
+        Destroy(gameObject);
+    }
+
+    public virtual void KillObject()
+    {
+        GCS.DestroyEnemyObject(this);
         Destroy(gameObject);
     }
 
@@ -203,7 +238,7 @@ public class EnemyClass : CharacterBase
         repathTimer = 0f;
         //Debug.Log($"[EnemyClass] - New target location set: {targetLocation}");
 
-        if (Mathf.Approximately(Vector3.Distance(rb.position, targetLocation.Value), 0f))
+        if (targetLocation != null && Mathf.Approximately(Vector3.Distance(rb.position, targetLocation.Value), 0f))
         {
             targetLocation = null;
         }
@@ -256,4 +291,11 @@ public class EnemyClass : CharacterBase
         Damage = (int)(baseDamage * damageModif);
     }
 
+    public IEnumerator TurnOffPlayingSoundFlag(float time)
+    {
+        yield return new WaitForSeconds(time);
+        AS.clip = null;
+        isPlayingSounds = false;
+        soundTimer = Random.Range(0, maxBreakTime);
+    }
 }

@@ -20,6 +20,15 @@ public class KasketGrenade : GrenadeScript
         base.Explode();
         List<GameObject> kasketObjects = new List<GameObject>();
 
+        GrenadeData miniGren = ScriptableObject.CreateInstance<GrenadeData>();
+
+        miniGren.grenadeName = $"{grenadeData.grenadeName}_Mini";
+        miniGren.damage = this.damage / 2;
+        miniGren.explosionRadius = (this.explosionRadius * 2) / miniGrenCount;
+        miniGren.moveSpeed = this.moveSpeed / 3f;
+        miniGren.prefab = grenadeData.miniGrenadePrefab;
+        miniGren.grenadeType = GrenadeType.Mini;
+
         if (grenadeType == GrenadeType.Kasket)
         {
 
@@ -29,6 +38,15 @@ public class KasketGrenade : GrenadeScript
                 if (miniGrenade == null)
                 {
                     //Debug.LogWarning($"Failed to instantiate mini grenade.");
+                }
+                Vector2 randomDirection = Random.insideUnitCircle.normalized;
+                Vector2 targetPos = (Vector2)transform.position + randomDirection * explosionRadius;
+
+                FragGrenade GS = miniGrenade.GetComponent<FragGrenade>();
+                if (GS != null)
+                {
+                    GS.Initialize(miniGren, targetPos);
+                    GS.playerController = playerController;
                 }
                 kasketObjects.Add(miniGrenade);
             }
@@ -40,14 +58,7 @@ public class KasketGrenade : GrenadeScript
            hitCollider.GetComponent<CharacterBase>()?.TakeDamage(damage, playerController);
         }
 
-        GrenadeData miniGren = ScriptableObject.CreateInstance<GrenadeData>();
-
-        miniGren.grenadeName = $"{grenadeData.grenadeName}_Mini";
-        miniGren.damage = this.damage / 2;
-        miniGren.explosionRadius = this.explosionRadius / kasketObjects.Count;
-        miniGren.moveSpeed = this.moveSpeed / 3f;
-        miniGren.prefab = grenadeData.miniGrenadePrefab;
-        miniGren.grenadeType = GrenadeType.Mini;
+        
 
         foreach (GameObject miniGrenade in kasketObjects)
         {
@@ -65,6 +76,7 @@ public class KasketGrenade : GrenadeScript
         Destroy(miniGren);
         hasExploded = true;
         animator.SetTrigger("toExplode");
+        //StartCoroutine(WaitToDestroy(explosionAudio.length)); //w teorii niszczy go ostatnie dziecko
     }
 
 }

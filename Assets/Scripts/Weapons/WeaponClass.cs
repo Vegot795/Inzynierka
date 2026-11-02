@@ -23,7 +23,7 @@ public class WeaponClass : MonoBehaviour
     public int currentMaxAmmo; // max ammo after modifier
     public int currentAmmo; // ammo in mag
     public int maxMagAmmo; //max mag ammo
-    public int baseMagAmmo = 25;
+    public int baseMagAmmo;
     public int currentReserveAmmo; // ammo in reserve
 
     [Header("Reload")]
@@ -84,7 +84,7 @@ public class WeaponClass : MonoBehaviour
     public virtual void Reload()
     {
         var currentTimeToReload = currentReloadTime;
-        var ammoToLoad = Mathf.Min(maxMagAmmo, currentReserveAmmo);
+        var ammoToLoad = Mathf.Min(maxMagAmmo - currentAmmo, currentReserveAmmo);
         currentAmmo += ammoToLoad;
         currentReserveAmmo -= ammoToLoad;        
         //Debug.Log($"[RiffleScript] Reloaded. Current ammo: {currentAmmo}");

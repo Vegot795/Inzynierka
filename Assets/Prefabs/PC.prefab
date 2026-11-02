@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 6413898365671217204}
   - component: {fileID: 2576312438913014529}
   - component: {fileID: -2865863654709918596}
+  - component: {fileID: 2855303182877395887}
   m_Layer: 6
   m_Name: PC
   m_TagString: Player
@@ -83,7 +84,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 231ae411a3ef8b94d9dc22cb2f01e835, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -210,7 +211,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 231ae411a3ef8b94d9dc22cb2f01e835, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -262,6 +263,8 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   mousePos: {x: 0, y: 0}
+  AS: {fileID: 2855303182877395887}
+  receiveDamageEffect: {fileID: 8300000, guid: 0b7496dca3496704eab578469eb456b3, type: 3}
   timeToStartRegen: 10
   hpRegenPerTick: 2
   countingToRegen: 0
@@ -283,6 +286,7 @@ MonoBehaviour:
   GCS: {fileID: 0}
   dropDistance: 0.8
   grenadeThrowRange: 10
+  maxGrenadeHeld: 3
   currentScorePoints: 0
   startingWeapon: {fileID: 11400000, guid: f76d937865b732b44a3d6ca7d68c30bf, type: 2}
   stastingGrenade: {fileID: 11400000, guid: 1496c24e862882c40a11552bbc81d6c9, type: 2}
@@ -293,6 +297,9 @@ MonoBehaviour:
   animator: {fileID: 0}
   indicator: {fileID: 0}
   grenadeCount: 0
+  AS: {fileID: 2855303182877395887}
+  buyItemSFX: {fileID: 8300000, guid: 6c286233d4d5b5547a1a8022cb6a4a10, type: 3}
+  pickupItemSFX: {fileID: 8300000, guid: 8f13c8cb5ec58b94cbf4649a3538ed49, type: 3}
 --- !u!114 &6029813842461787600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,3 +355,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9800e92d53c4f6e4d954e480bdd49806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &2855303182877395887
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3605315496584586624}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

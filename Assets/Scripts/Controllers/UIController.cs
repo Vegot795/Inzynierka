@@ -31,6 +31,8 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI TotalSkeletsKilled;
     public float timeToDisplayStatistics;
 
+    public bool gameEnded = false;
+    
     private void Awake()
     {
         if (UIC == null)
@@ -41,7 +43,7 @@ public class UIController : MonoBehaviour
 
 	public void SetupUIC()
     {
-
+        gameEnded = false;
         PC = GameObject.FindGameObjectWithTag("Player");
         ammoText = GameObject.FindGameObjectWithTag("AmmoDisplay").GetComponent<TextMeshProUGUI>();
         hpText = GameObject.FindGameObjectWithTag("hpDisplay").GetComponent<TextMeshProUGUI>();
@@ -86,7 +88,6 @@ public class UIController : MonoBehaviour
             {
                 Debug.Log("riffle is missing, trying to reassign");
                 riffle = PC.GetComponentInChildren<WeaponClass>();
-
             }
         }
         else
@@ -164,11 +165,11 @@ public class UIController : MonoBehaviour
 
     public void ShowDeathScreen()
     {
+        gameEnded = true;
         BlackScreen.color = new Color(0,0,0,blackScreenAlpha);
         BlackScreen.gameObject.SetActive(true);
         DeathScreenText.gameObject.SetActive(true);
         StartCoroutine(StartBlackScreenFade(5));
-
     }
 
     public void ShowEndgameStatistics()

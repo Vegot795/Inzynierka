@@ -9,6 +9,8 @@ public class BoofStationScript : InteractableBase
     public SpriteRenderer sr;
     public GameObject Tip;
     public GameObject boxCollider;
+    public AudioSource AS;
+    public AudioClip buyUpgradeSFX;
 
     public override void Awake()
     {
@@ -55,6 +57,9 @@ public class BoofStationScript : InteractableBase
                 {
                     OC.DestroyBoofStationTip(this);
                 }
+                var GS = GameSettings.GS;
+                AS.volume = GS.audioFloat;
+                AS.PlayOneShot(buyUpgradeSFX);
             }
         }
     }

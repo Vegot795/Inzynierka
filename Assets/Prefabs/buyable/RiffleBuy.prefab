@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8510044656310691049}
   - component: {fileID: 7387948938854348840}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: BoxCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,8 @@ GameObject:
   - component: {fileID: 3428439377829617163}
   - component: {fileID: 1728335805065330519}
   - component: {fileID: 7262471205696373274}
-  m_Layer: 0
+  - component: {fileID: 455062183137643733}
+  m_Layer: 16
   m_Name: RiffleBuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,3 +228,24 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2
+--- !u!114 &455062183137643733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6997490038719282374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8165fef5bbeea4dbd63fe033fd76ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineScale: 1
+  defaultColor: {r: 0, g: 5, b: 5, a: 1}
+  hoveredColor: {r: 0, g: 8, b: 2, a: 1}
+  pulseSpeed: 4
+  pulseMinIntensity: 4
+  pulseMaxIntensity: 8
+  mainSr: {fileID: 3428439377829617163}
+  outlineSprite: {fileID: 3143004387345860052, guid: c1a6981dcffd70e4798f1ea358ef1da3, type: 3}
+  glowMaterial: {fileID: 2100000, guid: 5713ab83948bcf04e9d3ffeaa4f20d1c, type: 2}

@@ -11,6 +11,8 @@ public class ZombieEnemy : EnemyClass
     public bool calledbySkeleton = false;
     public SkeletEnemy skeletonCaller;
     public GameObject spotLocation;
+    CharacterBase character;
+    public float baseAttackCD;
 
 
 
@@ -34,20 +36,25 @@ public class ZombieEnemy : EnemyClass
     public override void Update()
     {
         base.Update();
+
+        if (character is PC_Controller)
+        {
+            Attack(character);
+        }
+
     }
 
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        CharacterBase character = collision.gameObject.GetComponent<CharacterBase>();
+        character = collision.gameObject.GetComponent<CharacterBase>();
         //Debug.Log("Zombie collided with: " + collision.gameObject.name);
 
-        if (character is PC_Controller)
-        {
-            //Debug.Log("Zombie is attacking: " + character.gameObject.name);
-            Attack(character);
-            //Debug.Log($"{character.name} has been attacked, current HP: {character.CurrentHp}");
-        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        character = null;
     }
 
     protected override void Die(CharacterBase killer)
@@ -74,6 +81,32 @@ public class ZombieEnemy : EnemyClass
                 }
             }
         }
+    }
+
+    public override void KillObject()
+    {
+        if (skeletonCaller != null)
+        {
+            skeletonCaller.zombiesCalled.Remove(this);
+        }
+        var GCS = GameControllerScript.GCS;
+
+        foreach (var enemy in GCS.enemiesSpawned)
+        {
+            if (enemy is SkeletEnemy skelet)
+            {
+                if (skelet.CallRangeObject.GetComponent<SkeletHelpCaller>().zombiesAround.Contains(this))
+                {
+                    skelet.CallRangeObject.GetComponent<SkeletHelpCaller>().zombiesAround.Remove(this);
+                }
+
+                if (skelet.zombiesCalled.Contains(this))
+                {
+                    skelet.zombiesCalled.Remove(this);
+                }
+            }
+        }
+        base.KillObject();
     }
 
 }

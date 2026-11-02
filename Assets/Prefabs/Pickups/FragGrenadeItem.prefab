@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 368181711769346143}
   - component: {fileID: -6831388971080310807}
   - component: {fileID: 6867045655702382791}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: FragGrenadeItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,3 +160,4 @@ MonoBehaviour:
   pulseMaxIntensity: 8
   mainSr: {fileID: 0}
   outlineSprite: {fileID: 5763595528109546683, guid: 6835a2dcd0a17634c9ee4cc00e7b2ece, type: 3}
+  glowMaterial: {fileID: 2100000, guid: 5713ab83948bcf04e9d3ffeaa4f20d1c, type: 2}

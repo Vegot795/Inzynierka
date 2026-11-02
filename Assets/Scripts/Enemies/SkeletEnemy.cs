@@ -194,11 +194,13 @@ public class SkeletEnemy : EnemyClass
 
         zombiesCalled.Clear();
         isBeingProtected = false;
-        foreach (var wall in WallSpotsList)
+        for (int i = WallSpotsList.Count - 1; i >= 0; i--)
         {
+            var wall = WallSpotsList[i];
             WallSpotsList.Remove(wall);
             Destroy(wall);
         }
+        WallSpotsList.Clear();
     }
 
     private List<GameObject> CreateShieldSpots()
@@ -238,6 +240,12 @@ public class SkeletEnemy : EnemyClass
     {
         CancelTheCall();
         base.Die(killer);
+    }
+
+    public override void KillObject()
+    {
+        CancelTheCall();
+        base.KillObject();
     }
 
     /*public GridCell GetCellInAttackRange()

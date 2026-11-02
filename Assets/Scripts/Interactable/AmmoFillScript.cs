@@ -13,6 +13,7 @@ public class AmmoFillScript : BuyableBase
         {
             inventory.currentScorePoints -= price;
             inventory.weaponClass.currentReserveAmmo = inventory.weaponClass.currentMaxAmmo;
+            inventory.PlaySFX(inventory.buyItemSFX);
         }
     }
 

@@ -16,6 +16,7 @@ public class OverlayController : MonoBehaviour
     public UIController UIC;
     public GameObject tipPrefab;
     public Camera cam;
+    public GameObject player;
     public List<GameObject> tipList = new List<GameObject>();
     [Header("Esc Menu")]
     public GameObject EscMenu;
@@ -51,7 +52,6 @@ public class OverlayController : MonoBehaviour
         {
             GS = GCS.GS;
         }
-
         LoadSettings();
         isAudioSet = true;
     }
@@ -193,7 +193,14 @@ public class OverlayController : MonoBehaviour
         TipController TC = tip.GetComponent<TipController>();
         TC.owner = buyable;
         TC.title.text = buyable.objectName;
-        TC.cost.text = buyable.price.ToString();
+        if (buyable is WeaponBuyScript WBS && player.GetComponent<PlayerInventory>().weaponClass.weaponData == WBS.weaponData)
+        {
+            TC.cost.text = "Already obtained";
+        }
+        else
+        {
+            TC.cost.text = buyable.price.ToString();
+        }
         buyable.Tip = tip;
         TC.assignedObject = buyable.gameObject;
         tipList.Add(tip);

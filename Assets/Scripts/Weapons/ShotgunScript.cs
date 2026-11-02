@@ -19,6 +19,7 @@ public class ShotgunScript : WeaponClass
         baseMaxAmmo = weaponData.maxAmmoCapacity;
         currentMaxAmmo = (int)(baseMaxAmmo * maxAmmoModif);
         currentReserveAmmo = currentMaxAmmo;
+        baseMagAmmo = weaponData.maxMagAmmo;
         maxMagAmmo = (int)(baseMagAmmo * maxAmmoModif);
         baseReloadTime = weaponData.reloadTime;
         currentReloadTime = baseReloadTime;
@@ -43,17 +44,22 @@ public class ShotgunScript : WeaponClass
         }
         base.Shoot(direction);
         StartCoroutine(ShowShot(shotDisplayTime));
-        var enemiesInRange = GetComponentInChildren<ShotgunShotScript>().enemiesInRange;
+        List<GameObject> enemiesInRange = new List<GameObject>();
+        enemiesInRange.AddRange(GetComponentInChildren<ShotgunShotScript>().enemiesInRange);
+
+        base.currentAmmo--;
+        base.lastFireTime = Time.time;
 
         if (enemiesInRange != null)
         {
             foreach (GameObject enemy in enemiesInRange)
             {
-                enemy.GetComponent<CharacterBase>().TakeDamage(currentDamage, playerController);
+                if (enemy != null)
+                {
+                    enemy.GetComponent<CharacterBase>().TakeDamage(currentDamage, playerController);
+                }
             }
         }
-        base.currentAmmo--;
-        base.lastFireTime = Time.time;
 
         if (currentAmmo == 0)
         {

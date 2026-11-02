@@ -9,10 +9,13 @@ public class speedBoof : BoofBoxData
     public override void ActivateBoof(PC_Controller player)
     {
         player.moveSpeedModif += speedModif;
+        player.RecalculateMovementSpeed();
     }
 
     public override void DeactivateBoof(PC_Controller player)
     {
         player.moveSpeedModif -= speedModif;
+        player.RecalculateMovementSpeed();
+
     }
 }

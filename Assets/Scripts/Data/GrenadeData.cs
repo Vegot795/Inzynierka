@@ -18,6 +18,7 @@ public class GrenadeData : ScriptableObject
     public float moveSpeed;
 
     public Sprite grenadeSprite;
+    public GameObject pickupPrefab;
     public GameObject prefab;
     public Sprite grenadeOutline;
     public GrenadeType grenadeType;

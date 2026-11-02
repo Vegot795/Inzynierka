@@ -21,5 +21,12 @@ public class StunGrenade : GrenadeScript
 
         hasExploded = true;
         animator.SetTrigger("toExplode");
+        StartCoroutine(WaitToDestroy(explosionAudio.length));
+    }
+
+    public void TurnOffCollider()
+    {
+        Collider2D col = GetComponent<Collider2D>();
+        col.enabled = false;
     }
 }

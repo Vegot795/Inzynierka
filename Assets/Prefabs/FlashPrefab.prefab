@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -9098977977204330061}
   - component: {fileID: 8042929746303577501}
   - component: {fileID: 6577683553570282735}
+  - component: {fileID: -6944461073012751830}
   m_Layer: 13
   m_Name: FlashPrefab
   m_TagString: Untagged
@@ -137,6 +138,8 @@ MonoBehaviour:
   playerController: {fileID: 0}
   AS: {fileID: 6577683553570282735}
   explosionAudio: {fileID: 8300000, guid: f3af30f7733f9824e93e06dd41e1c561, type: 3}
+  GS: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!70 &8042929746303577501
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -271,3 +274,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!50 &-6944461073012751830
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073478208496610200}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDamping: 0
+  m_AngularDamping: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

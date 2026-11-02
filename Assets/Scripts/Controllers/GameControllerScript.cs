@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class GameControllerScript : MonoBehaviour
 {
+    #region ----- Declarations -----
     [Header("Scripts")]
     public static GameControllerScript GCS { get; private set; }
     public MapGenerator mapGenerator;
@@ -62,8 +63,8 @@ public class GameControllerScript : MonoBehaviour
     public List<SpawnerScript> allSpawners = new List<SpawnerScript>();
 
 
-   // [Header("Settings")]
-
+    // [Header("Settings")]
+    #endregion
 
     public void Awake()
     {
@@ -84,6 +85,8 @@ public class GameControllerScript : MonoBehaviour
             WaveController();
 
         }
+
+        CheckEnemiesOutsideMap();
     }
 
     #region ------ Game Setup ------
@@ -101,6 +104,7 @@ public class GameControllerScript : MonoBehaviour
         pcController = playerObj.GetComponent<PC_Controller>();
         playerObj.transform.position = SRBounds.center;
         GS.player = pcController;
+        OC.player = playerObj;
         if (PD != null &&  PD.playerSprite != null)
         {
             playerObj.GetComponent<SpriteRenderer>().sprite = PD.playerSprite;
@@ -123,6 +127,7 @@ public class GameControllerScript : MonoBehaviour
         GCS = this;
         mapGenerator = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
         GS = GameSettings.GS;
+        OC = OverlayController.OC;
         if (GS == null)
         {
             GameObject devGameSettings = Instantiate(GSprefab);
@@ -178,8 +183,10 @@ public class GameControllerScript : MonoBehaviour
 
         List<SpawnerScript> spawnersToUse = GetAvailableSpawners();
 
-        var currentSpawner = spawnersToUse.OrderBy(_ => Random.value)
-                                          .FirstOrDefault();
+        var currentSpawner = spawnersToUse
+            .OrderBy(_ => Random.value)
+            .Where(spawner => spawner.owner.isPLayerInside() == true)
+            .FirstOrDefault();
 
         GameObject enemyToSpawn;
         int enemySpawnChance = Random.Range(0, 10);
@@ -238,6 +245,12 @@ public class GameControllerScript : MonoBehaviour
         }
         enemiesSpawned.Remove(enemy);
     }
+
+    public void DestroyEnemyObject(EnemyClass enemy)
+    {
+        enemiesSpawned.Remove(enemy);
+        enemiesSpawnedDuringRound--;
+    }
     #endregion
 
     #region ----- Wave Handler ------
@@ -275,7 +288,6 @@ public class GameControllerScript : MonoBehaviour
         if (PCC == null)
         {
             Debug.Log("[GCC] - Player Controller is null");
-
         }
         pcController.GetComponent<PlayerInventory>().AddScore(startScore);
     }
@@ -287,7 +299,6 @@ public class GameControllerScript : MonoBehaviour
         {
             GameObject PDobj = new GameObject();
             PD = PDobj.AddComponent<PlayerData>();
-
         }
 
         PD.TotalScore = TotalScore;
@@ -314,4 +325,19 @@ public class GameControllerScript : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void CheckEnemiesOutsideMap()
+    {
+        List<EnemyClass> dupEnemiesSpawned = new List<EnemyClass>();
+        dupEnemiesSpawned.AddRange(enemiesSpawned);
+        for (int i = dupEnemiesSpawned.Count - 1; i >= 0; i --)
+        {
+            var enemy = dupEnemiesSpawned[i];
+            if (!mapGenerator.mapBounds.Contains((Vector2)enemy.transform.position))
+            {
+                enemy.KillObject();
+            }
+        }
+    }
+
 }

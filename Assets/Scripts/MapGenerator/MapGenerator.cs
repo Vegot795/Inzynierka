@@ -20,22 +20,25 @@ public class MapGenerator : MonoBehaviour
     public GameObject doorPrefab;
     public GameObject spawnerPrefab;
     public GameObject BoofStationPrefab;
+
     [Header("Kids")]
     public GameObject cellsKid;
     public GameObject doorsKid;
     public GameObject spawnersKid;
     public GameObject BoofStationsKid;
     public GameObject BuyableParent;
+
     [Header("Map Settings")]
     public bool isMapReady = false;
     public int iterations = 4;
     public int roomCount = 0;
     public int corridorCount = 0;
-    public int smallRoomCellLimit = 100;
+    public int cellsPerSpawner = 40;
     public int mapWidth;
     public int mapHeight;
     public Grid gridMap;
     public Room startRoom;
+
     [Header("Lists")]
     public List<Room> allRoomList = new List<Room>();
     public List<Corridor> corridorList = new List<Corridor>();
@@ -52,6 +55,7 @@ public class MapGenerator : MonoBehaviour
     public int minEachBuyableCount = 2;
     public BoofsHolderScript BHS;
     public Room StartRoom;
+    public Rect mapBounds;
 
     private EnvironmentData[] notUsedRoomEnvironments;
 
@@ -104,6 +108,7 @@ public class MapGenerator : MonoBehaviour
 
         SetupGenerator();
         GenerateGrid(mapWidth, mapHeight);
+        mapBounds = GetMapBounds(cellsList);
         GenerateRooms();
 
         GroupUpExistingRooms();
@@ -241,6 +246,34 @@ public class MapGenerator : MonoBehaviour
                 vectorList.Clear();
             }
         }
+    }
+
+    public Rect GetMapBounds(List<GridCell> cells)
+    {
+        if (cells == null || cells.Count == 0)
+        {
+            return new Rect(0, 0, 0, 0);
+        }
+
+        float minX = float.MaxValue;
+        float maxX = float.MinValue;
+        float minY = float.MaxValue;
+        float maxY = float.MinValue;
+
+        foreach (GridCell cell in cells)
+        {
+            if (cell.x < minX) minX = cell.x;
+            if (cell.x > maxX) maxX = cell.x;
+            if (cell.y < minY) minY = cell.y;
+            if (cell.y > maxY) maxY = cell.y;
+        }
+
+        return new Rect(
+            minX,
+            minY,
+            maxX - minX + 1,
+            maxY - minY + 1
+        );
     }
 
     #endregion
@@ -918,18 +951,22 @@ public class MapGenerator : MonoBehaviour
 
             List<GridCell> cellsUnderWall = roomFloor
                 .Where(y => (GetCellNeighbors(y).Any(x => x.Value.type != GridCell.CellType.floor)) && y.corridorOwner == null)
+                .OrderBy(_ => Random.value)
                 .ToList();
+
 
             if (cellsUnderWall == null || cellsUnderWall.Count <= 0)
             {
                 //Debug.Log($"[MapGenerator] - cellsUnderWall is screwed, cellsUnderWall: {cellsUnderWall.Count}, roomFloor: {roomFloor.Count}");
             }
 
-            int SpawnersToCreate = (int)Mathf.Round(roomFloor.Count / 100);
-
+            int SpawnersToCreate = (int)Mathf.Round(roomFloor.Count / cellsPerSpawner);
             for (int x = 0; x < SpawnersToCreate; x++)
             {
-                GridCell spawnCell = cellsUnderWall[Random.Range(0, cellsUnderWall.Count-1)];
+                GridCell spawnCell = cellsUnderWall
+                    .Where(x => x.isOccupied == false && GetCellNeighbors(x).All(cell => cell.Value.isOccupied == false))
+                    .OrderBy(_ => Random.value)
+                    .First();
                 spawnCell.isOccupied = true;
                 GameObject spawner = Instantiate(spawnerPrefab);
                 SpawnerScript spawnerScript = spawner.GetComponent<SpawnerScript>();
@@ -943,6 +980,7 @@ public class MapGenerator : MonoBehaviour
                     .FirstOrDefault()
                     .Key;
                 spawner.transform.rotation = Quaternion.Euler(0, 0, spawnerScript.GetRotation());
+                spawnerScript.owner = room;
             }
         }
     }
@@ -987,6 +1025,7 @@ public class MapGenerator : MonoBehaviour
             //znajdź sąsiada matki
             var neighbourCell = GetCellNeighbors(cellForBoofStation)
                 .Where(cell => !cell.Value.IsUnityNull() && cell.Value.type == GridCell.CellType.floor && cell.Value.corridorOwner == null)
+                .Where(cell => GetCellNeighbors(cell.Value).Any(kvp => kvp.Value.corridorOwner == null))
                 .OrderBy(_ => Random.value)
                 .FirstOrDefault();
 
@@ -1057,7 +1096,7 @@ public class MapGenerator : MonoBehaviour
         foreach (var room in emptyRooms)
         {
             var emptyCells = room.cells
-                .Where(x => x.isOccupied == false && x.type == GridCell.CellType.floor)
+                .Where(x => x.isOccupied == false && x.type == GridCell.CellType.floor && x.corridorOwner == null && GetCellNeighbors(x).All(y => y.Value.corridorOwner == null))
                 .OrderBy(_ => Random.value)
                 .ToList();
 

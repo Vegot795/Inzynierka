@@ -18,5 +18,6 @@ public class FragGrenade : GrenadeScript
 
         hasExploded = true;
         animator.SetTrigger("toExplode");
+        StartCoroutine(WaitToDestroy(explosionAudio.length));
     }
 }

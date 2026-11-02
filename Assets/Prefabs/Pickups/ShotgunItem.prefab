@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3463221580298059715}
   - component: {fileID: -4806405794807032724}
   - component: {fileID: 8465750647258693112}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: ShotgunItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,6 +124,7 @@ MonoBehaviour:
   pulseMaxIntensity: 8
   mainSr: {fileID: 0}
   outlineSprite: {fileID: 3143004387345860052, guid: dd59338d12b61904c9fe4c115d0aa53c, type: 3}
+  glowMaterial: {fileID: 2100000, guid: 5713ab83948bcf04e9d3ffeaa4f20d1c, type: 2}
 --- !u!58 &8465750647258693112
 CircleCollider2D:
   m_ObjectHideFlags: 0

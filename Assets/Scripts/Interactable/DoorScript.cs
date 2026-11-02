@@ -23,6 +23,8 @@ public class DoorScript : InteractableBase
     private Vector3 rrbTarget;
     private Vector3 lrbTarget;
     public float moveSpeed = 0.2f;
+    public AudioSource AS;
+    public AudioClip openDoorSFX;
 
 
     private void Update()
@@ -88,13 +90,19 @@ public class DoorScript : InteractableBase
 
             Room roomToOpen = RoomsAttached
                 .Where(x => x.isUnlocked == false)
-                .First();
-            roomToOpen.UnlockRoom();
-            if (Tip != null)
+                .FirstOrDefault();
+            if (roomToOpen != null)
             {
-                OC.DestroyDoorTip(this);
+                roomToOpen.UnlockRoom();
+                if (Tip != null)
+                {
+                    OC.DestroyDoorTip(this);
+                }
+                AS.volume = GameSettings.GS.audioFloat;
+                AS.PlayOneShot(openDoorSFX);
             }
-        } 
+                MapGenerator.MG.GetComponent<GridAdapter>().RebuildGraph();            
+        }
     }
 
     public override void OnPlayerEnter()

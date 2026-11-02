@@ -19,7 +19,7 @@ public class PickupOutline : MonoBehaviour
 
     private GameObject outlineObject;
     private SpriteRenderer outlineSr;
-    private Material glowMaterial;
+    public Material glowMaterial;
     private bool isHovered;
 
     private void Start()
@@ -42,7 +42,6 @@ public class PickupOutline : MonoBehaviour
         outlineSr = outlineObject.AddComponent<SpriteRenderer>();
         outlineSr.sprite = outlineSprite;
 
-        glowMaterial = new Material(Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default"));
         outlineSr.material = glowMaterial;
         outlineSr.color = defaultColor;
 

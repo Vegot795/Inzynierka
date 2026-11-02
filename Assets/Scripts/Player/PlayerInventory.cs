@@ -38,6 +38,11 @@ public class PlayerInventory : MonoBehaviour
     private bool isFiring = false;
     public int grenadeCount = 1;
 
+    [Header("Audio")]
+    public AudioSource AS;
+    public AudioClip buyItemSFX;
+    public AudioClip pickupItemSFX;
+
     private void Awake()
     {
         currentScorePoints = 0;
@@ -139,6 +144,7 @@ public class PlayerInventory : MonoBehaviour
         weaponHolder.EquipWeapon(currentWeapon);
         SetWeaponScriptReferences(currentWeapon);
         Destroy(pickup.gameObject);
+        PlaySFX(pickupItemSFX);
 
         //Debug.Log($"[Inventory] Equipped weapon: {currentWeapon.weaponName}");
     }
@@ -149,21 +155,26 @@ public class PlayerInventory : MonoBehaviour
         {
             return;
         }
-        
-        if (currentGrenade == pickup.grenadeData)
-        {
-            grenadeCount++;
-        }
         else
         {
-            if (currentGrenade != null)
+            if (currentGrenade == pickup.grenadeData)
             {
-                DropGrenade();
+                grenadeCount++;
             }
-            currentGrenade = pickup.grenadeData;
-            grenadeCount = 1;
+            else
+            {
+                if (currentGrenade != null)
+                {
+                    DropGrenade();
+                }
+                currentGrenade = pickup.grenadeData;
+                grenadeCount = 1;
+            }
+            Destroy(pickup.gameObject);
+            PlaySFX(pickupItemSFX);
         }
-        Destroy(pickup.gameObject);
+
+
 
         //Debug.Log($"[Inventory] Picked up grenade: {currentGrenade.grenadeName}");
     }
@@ -171,7 +182,8 @@ public class PlayerInventory : MonoBehaviour
     private void DropWeapon()
     {
         Vector2 dropPos = (Vector2)transform.position;
-        var weaponPickup = WeaponPickup.SpawnFromData(currentWeapon, dropPos);
+        var weaponPickup = Instantiate(currentWeapon.pickupPrefab, dropPos, Quaternion.Euler(0, 0, 0));
+        //var weaponPickup = WeaponPickup.SpawnFromData(currentWeapon, dropPos);
         currentWeapon = null;
         weaponHolder.UnequipWeapon();
     }
@@ -179,7 +191,10 @@ public class PlayerInventory : MonoBehaviour
     private void DropGrenade()
     {
         Vector2 dropPos = (Vector2)transform.position + GetDropOffset();
-        GrenadePickup.SpawnFromData(currentGrenade, dropPos);
+
+        //GrenadePickup.SpawnFromData(currentGrenade, dropPos);
+        var dropGrenade = Instantiate(currentGrenade.pickupPrefab, dropPos, Quaternion.Euler(0, 0, 0));
+        dropGrenade.gameObject.name = $"Pickup_[{currentGrenade.grenadeName}";
         currentGrenade = null;
     }
     #endregion-----------------------------------------------
@@ -345,6 +360,15 @@ public class PlayerInventory : MonoBehaviour
 
         return targetPos;
     }
+
+    public void OnReload(InputValue value)
+    {
+        if (weaponClass.currentAmmo < weaponClass.maxMagAmmo)
+        {
+            StartCoroutine(weaponClass.DelayReload(weaponClass.currentReloadTime));
+        }
+    }
+
     #endregion-----------------------------------------------
 
 
@@ -394,5 +418,14 @@ public class PlayerInventory : MonoBehaviour
     {
         return Time.timeScale == 0;
     }
+    #region ----- SFX -----
+    public void PlaySFX(AudioClip clip)
+    {
+        var GS = GameSettings.GS;
+        AS.volume = GS.audioFloat;
+        AS.PlayOneShot(clip);
+    }
 
+
+    #endregion
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   grenadeName: miniGrenade
   explosionRadius: 1
   damage: 10
-  moveSpeed: 5
+  moveSpeed: 15
   grenadeSprite: {fileID: -803390451, guid: cb757604a00c979499c5d841e8ca73e3, type: 3}
   prefab: {fileID: 0}
   grenadeOutline: {fileID: 0}

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3098350518660932091}
   - component: {fileID: 7554247966409148859}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 8501429688159442975}
   - component: {fileID: 7367026968548973673}
   - component: {fileID: 2097111115637017814}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RifflePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ MonoBehaviour:
   muzzle: {fileID: 109985180763392267}
   layerToIgnore:
     serializedVersion: 2
-    m_Bits: 19520
+    m_Bits: 491104
 --- !u!111 &7367026968548973673
 Animation:
   m_ObjectHideFlags: 0

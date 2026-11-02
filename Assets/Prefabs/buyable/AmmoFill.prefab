@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3391696936454257952}
   - component: {fileID: 8909741283743642992}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: BoxCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3259680742518924871}
   - component: {fileID: 1058848272868009710}
   - component: {fileID: 144076010316584124}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: AmmoFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

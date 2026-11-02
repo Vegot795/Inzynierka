@@ -8,6 +8,7 @@ public class Room
 {
     [Header("Scripts")]
     public MapGenerator mapGenerator;
+    public GameControllerScript GCS;
     public EnvironmentData environmentData;
     public BoofBoxData BoofBox;
     public Room parentRoom;
@@ -519,4 +520,10 @@ public class Room
 
     }
 
+    public bool isPLayerInside()
+    {
+        GCS = GameControllerScript.GCS;
+        var player = GCS.playerObj.transform.position;
+        return bounds.Contains(new Vector2Int((int)player.x, (int)player.y));
+    }
 }

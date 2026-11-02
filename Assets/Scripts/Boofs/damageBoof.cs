@@ -10,12 +10,13 @@ public class damageBoof : BoofBoxData
     {
         var weapon = player.GetComponent<WeaponClass>();
         weapon.damageModif += damageModif;
-
+        weapon.OnDamageBoofStatusChange();
     }
 
     public override void DeactivateBoof(PC_Controller player)
     {
         var weapon = player.GetComponent<WeaponClass>();
         weapon.damageModif -= damageModif;
+        weapon.OnDamageBoofStatusChange();
     }
 }

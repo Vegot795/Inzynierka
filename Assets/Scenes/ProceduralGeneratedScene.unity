@@ -228,9 +228,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 5875579063792227156, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+      propertyPath: m_RefResolutionX
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875579063792227156, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+      propertyPath: m_RefResolutionY
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 4
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -826,6 +846,18 @@ PrefabInstance:
     - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
       propertyPath: gridMap
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: mapWidth
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: mapHeight
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
+      propertyPath: iterations
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
       propertyPath: gridCellPref
