@@ -77,7 +77,7 @@ public class PC_Controller : CharacterBase
 
     private bool TryMove(Vector2 direction)
     {
-       if(canMove)
+        if(canMove)
         {
             if (direction != Vector2.zero)
             {
@@ -91,20 +91,11 @@ public class PC_Controller : CharacterBase
                     rb.MovePosition(rb.position + direction * (baseMoveSpeed * moveSpeedModif) * Time.deltaTime);
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                else { return false; }
             }
-            else
-            {
-                return false;
-            }
+            else{ return false; }
         }
-       else
-        {
-            return false;
-        }
+        else { return false; }
     }
     public Vector2 PlayerRotation()
     {

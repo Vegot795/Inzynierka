@@ -6,13 +6,19 @@ using System.Linq;
 public static class EndgameStatsController
 {
     public static string fileName = "playerScores.json";
+    public static string dirName = "playerRecords";
     public static int maxPositionsDisplayed = 20;
-    public static string savesPath = Path.Combine(Application.persistentDataPath, "playerRecords", fileName);
+    public static string savesPath = Path.Combine(Application.persistentDataPath, dirName, fileName);
     
     public static void Save(StatListClass statList)
     {
         try
         {
+            if (!Directory.Exists(Path.Combine(Application.persistentDataPath, dirName)))
+            {
+                Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, dirName));
+            }
+
             string file = JsonUtility.ToJson(statList, true);
             File.WriteAllText(savesPath, file);
         }
