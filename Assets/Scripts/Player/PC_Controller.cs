@@ -18,6 +18,7 @@ public class PC_Controller : CharacterBase
     GameControllerScript GCS;
     OverlayController OC;
     GameSettings GS;
+    UIController UIC;
 
     [Header("Audio")]
     public AudioSource AS;
@@ -38,6 +39,7 @@ public class PC_Controller : CharacterBase
         GCS = GameControllerScript.GCS;
         OC = OverlayController.OC;
         GS = GameSettings.GS;
+        UIC = UIController.UIC;
         currentMoveSpeed = baseMoveSpeed * moveSpeedModif;
 
     }
@@ -72,7 +74,10 @@ public class PC_Controller : CharacterBase
     }
     private void OnEscMenu(InputValue value)
     {
-        OC.ToggleEscMenu();
+        if (!UIC.gameEnded)
+        {
+            OC.ToggleEscMenu();
+        }
     }
 
     private bool TryMove(Vector2 direction)

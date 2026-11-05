@@ -28,6 +28,7 @@ public class UI_MainMenu : MonoBehaviour
     public GameObject SettingsTab;
     public Slider AudioVolume;
     public Slider MusicVolume;
+    public Slider EnemyVolume;
     public Toggle musicToggle;
     public Toggle fpsToggle;
 
@@ -191,6 +192,7 @@ public class UI_MainMenu : MonoBehaviour
         {
             GS.audioFloat = AudioVolume.value;
             GS.musicFloat = MusicVolume.value;
+            GS.enemyFloat = EnemyVolume.value;
             GS.canPlayMusic = musicToggle.isOn;
             GS.showFPS = fpsToggle.isOn;
         }

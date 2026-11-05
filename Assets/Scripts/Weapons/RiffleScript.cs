@@ -7,6 +7,12 @@ public class RiffleScript : WeaponClass
     public GameObject projectilePrefab;
     public GameObject muzzle;
     public LayerMask layerToIgnore;
+    public LineRenderer LR;
+    [SerializeField] private float range = 100f;
+    private Transform startPos;
+    private Transform endPos;
+    Color lineColor = new Color(1f, 1f, 0, 1f);
+
 
     public override void Initialize(WeaponData data)
     {
@@ -32,6 +38,9 @@ public class RiffleScript : WeaponClass
 
         Reload();
         base.lastFireTime = -currentFireRate;
+
+        startPos = gameObject.transform;
+        SetupLR();
     }
 
     public override void Shoot(Vector2 direction)
@@ -50,6 +59,7 @@ public class RiffleScript : WeaponClass
         
         CharacterBase character = hit.collider.GetComponent<CharacterBase>();
         Debug.DrawLine(muzzle.transform.position, hit.transform.position);
+        StartCoroutine(ShootPath(0.01f, direction));
 
         base.currentAmmo--;
         base.lastFireTime = Time.time;
@@ -65,6 +75,51 @@ public class RiffleScript : WeaponClass
         }
     }
 
+    private void ShowShootPath(Vector2 direction)
+    {
+        RaycastHit2D hit;
 
+        if (Physics2D.Raycast(muzzle.transform.position, transform.right))
+        {
+            hit = Physics2D.Raycast(muzzle.transform.position, direction, 1000f, ~layerToIgnore);
+            DrawLine(muzzle.transform.position, hit.point);
+        }
+        else
+        {
+            //hit = Physics2D.Raycast(muzzle.transform.position, direction, 10000f, ~layerToIgnore);
+            DrawLine(muzzle.transform.position, muzzle.transform.right * 1000f);
+        }
+
+        //yield return new WaitForSeconds(time);
+        //HideLine();
+    }
+
+    private void DrawLine(Vector2 startPos, Vector2 endPos)
+    {
+
+        LR.SetPosition(0, startPos);
+        LR.SetPosition(1, endPos);
+    }
+
+    private void HideLine()
+    {
+        LR.SetPosition(0, Vector2.zero);
+        LR.SetPosition(1, Vector2.zero);
+    }
+
+    private IEnumerator ShootPath(float time, Vector2 direction)
+    {
+        ShowShootPath(direction);
+        yield return new WaitForSeconds(time);
+        HideLine();
+    }
+
+    private void SetupLR()
+    {
+        LR.startColor = lineColor;
+        LR.endColor = lineColor;
+        LR.startWidth = 0.02f;
+        LR.endWidth = LR.startWidth;
+    }
 
 }

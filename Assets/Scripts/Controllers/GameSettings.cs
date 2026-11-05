@@ -32,8 +32,10 @@ public class GameSettings : MonoBehaviour
     public List<AudioClip> GameMusic = new List<AudioClip>();
     public Slider AudioVolume;
     public Slider MusicVolume;
+    public Slider EnemyVolume;
     public float audioFloat;
     public float musicFloat;
+    public float enemyFloat;
     public int currentMusicNum = 0;
     public List<AudioSource> audioSources = new List<AudioSource>();
     [Header("Else")]
@@ -79,6 +81,7 @@ public class GameSettings : MonoBehaviour
         var settings = GameSettingsSaveSystem.Load();
         audioFloat = settings.AudioVolume;
         musicFloat = settings.MusicVolume;
+        enemyFloat = settings.EnemyVolume;
         showFPS = settings.showFPS;
         canPlayMusic = settings.playMusic;
     }

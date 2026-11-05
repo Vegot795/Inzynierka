@@ -1,11 +1,21 @@
 using UnityEngine;
 
-public class AmmoDropScript : PickupBase
+public class AmmoDropScript : PickupOnCollision
 {
     public int extraMags = 1;
 
-    public override void OnPickedUp(PlayerInventory inventory)
+    public override void OnTriggerEnter2D(Collider2D collision)
     {
+        base.OnTriggerEnter2D(collision);
+        if (base.inventory != null)
+        {
+            var inventory = base.inventory;
+        }
+        else
+        {
+            return;
+        }
+
         if (inventory.weaponClass == null || inventory.weaponClass.currentReserveAmmo == inventory.weaponClass.currentMaxAmmo)
         {
             return;

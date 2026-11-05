@@ -28,6 +28,7 @@ public class OverlayController : MonoBehaviour
     [Header("Settings")]
     public Slider audioSlider;
     public Slider musicSlider;
+    public Slider enemySlider;
     public Toggle musicToggle;
     public Toggle fpsToggle;
     public List<AudioSource> audioSources = new List<AudioSource>();
@@ -263,6 +264,7 @@ public class OverlayController : MonoBehaviour
         setts = GameSettingsSaveSystem.Load();
         audioSlider.SetValueWithoutNotify(setts.AudioVolume);
         musicSlider.SetValueWithoutNotify(setts.MusicVolume);
+        enemySlider.SetValueWithoutNotify(setts.EnemyVolume);
         fpsToggle.SetIsOnWithoutNotify(setts.showFPS);
         musicToggle.SetIsOnWithoutNotify(setts.playMusic);
         GS.LoadFromSaveFile();
@@ -272,6 +274,7 @@ public class OverlayController : MonoBehaviour
     {
         GS.audioFloat = audioSlider.value;
         GS.musicFloat = musicSlider.value;
+        GS.enemyFloat = enemySlider.value;
         GS.showFPS = fpsToggle.isOn;
         GS.canPlayMusic = musicToggle.isOn;
         GameSettingsSaveSystem.Save(setts);
