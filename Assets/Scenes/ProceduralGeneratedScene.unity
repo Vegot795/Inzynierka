@@ -238,7 +238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 8.4375
       objectReference: {fileID: 0}
     - target: {fileID: 6267213848387186796, guid: 0ba045e1b6fde1042922a1c2cf74d6e2, type: 3}
       propertyPath: m_BackGroundColor.b
@@ -531,6 +531,14 @@ PrefabInstance:
     - target: {fileID: 4780999535682603980, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ExitToScoreboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848475561955073729, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1344958544}
+    - target: {fileID: 4848475561955073729, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RetryGame
       objectReference: {fileID: 0}
     - target: {fileID: 5504869560439854081, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchorMax.y

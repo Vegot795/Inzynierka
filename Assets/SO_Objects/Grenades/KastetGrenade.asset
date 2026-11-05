@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grenadeName: KastetGrenade
   explosionRadius: 2
-  damage: 20
+  damage: 50
   moveSpeed: 15
   grenadeSprite: {fileID: -2497173784819439056, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}
   pickupPrefab: {fileID: 5439700008023112348, guid: 2d4283835e19d37428820358560f0656, type: 3}
