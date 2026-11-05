@@ -213,7 +213,7 @@ public class GameControllerScript : MonoBehaviour
         
 
 
-        if ((enemySpawnChance == 0 || enemyRatio >= 8) && WaveNumber >= 4) 
+        if ((enemySpawnChance == 0 || enemyRatio >= 20) && WaveNumber >= 4 && skeletsSpawned < 3) 
         {
             enemyToSpawn = SkeletPrefab;
 

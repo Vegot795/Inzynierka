@@ -259,8 +259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
-  BaseMaxHp: 30
-  currentMaxHp: 30
+  BaseMaxHp: 50
+  currentMaxHp: 50
   CurrentHp: 0
   healthModif: 1
   damageModif: 1
