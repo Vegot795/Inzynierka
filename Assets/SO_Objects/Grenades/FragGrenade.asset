@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grenadeName: FragGrenade
   explosionRadius: 2
-  damage: 20
+  damage: 50
   moveSpeed: 15
   grenadeSprite: {fileID: -1952370511707383376, guid: 3b122da31ad78574297d42d3a16d105c, type: 3}
   pickupPrefab: {fileID: 4075391717474951510, guid: 68046de560131ba42b99f1e8ee78ed5e, type: 3}

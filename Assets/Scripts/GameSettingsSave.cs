@@ -6,6 +6,7 @@ public class GameSettingsSave
 {
     public float AudioVolume;
     public float MusicVolume;
+    public float EnemyVolume;
     public bool playMusic;
     public bool showFPS;
 }
@@ -27,6 +28,7 @@ public static class GameSettingsSaveSystem
 
             gameSettings.AudioVolume = GS.audioFloat;
             gameSettings.MusicVolume = GS.musicFloat;
+            gameSettings.EnemyVolume = GS.enemyFloat;
             gameSettings.showFPS = GS.showFPS;
             gameSettings.playMusic = GS.canPlayMusic;
             string file = JsonUtility.ToJson(gameSettings, true);

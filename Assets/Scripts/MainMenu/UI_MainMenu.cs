@@ -28,8 +28,12 @@ public class UI_MainMenu : MonoBehaviour
     public GameObject SettingsTab;
     public Slider AudioVolume;
     public Slider MusicVolume;
+    public Slider EnemyVolume;
     public Toggle musicToggle;
     public Toggle fpsToggle;
+
+    [Header("Tutorial")]
+    public GameObject TutorialTab;
 
     [Header("Data")]
     public List<GameObject> AllTabs = new List<GameObject>();
@@ -191,6 +195,7 @@ public class UI_MainMenu : MonoBehaviour
         {
             GS.audioFloat = AudioVolume.value;
             GS.musicFloat = MusicVolume.value;
+            GS.enemyFloat = EnemyVolume.value;
             GS.canPlayMusic = musicToggle.isOn;
             GS.showFPS = fpsToggle.isOn;
         }
@@ -221,5 +226,11 @@ public class UI_MainMenu : MonoBehaviour
     {
         LoadSettings();
         BackToMainMenu();
+    }
+
+    public void OpenTutorial()
+    {
+        CloseAllTabs();
+        TutorialTab.SetActive(true);
     }
 }

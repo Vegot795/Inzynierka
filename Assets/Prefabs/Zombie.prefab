@@ -153,6 +153,8 @@ MonoBehaviour:
   repathTimer: 0
   dropChance: 20
   itemDropList: {fileID: 11400000, guid: 2ba1c54a4c7869b4cbe285739a3251ac, type: 2}
+  hpSliderPrefab: {fileID: 7245363146651474785, guid: 234a0d4f877473c40b419d63450eaae1, type: 3}
+  Cam: {fileID: 0}
   zombieScoreValue: 100
   calledbySkeleton: 0
   skeletonCaller: {fileID: 0}

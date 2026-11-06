@@ -262,6 +262,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9079399884620765926, guid: 33a80709159abde49a4318181de575d5, type: 3}
   m_PrefabInstance: {fileID: 2013436210200670862}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &372362142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 388059149538746717, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
+  m_PrefabInstance: {fileID: 3007085153862212302}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &424146941 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4691622590790690419, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
@@ -405,6 +410,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8802338481660429824, guid: 194e9fc97caa8ab4eb2fcbc2dbf9c0a9, type: 3}
   m_PrefabInstance: {fileID: 60052091}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1404455262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7327045874016429808, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
+  m_PrefabInstance: {fileID: 3007085153862212302}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1608640502 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7311619006494670757, guid: 33a80709159abde49a4318181de575d5, type: 3}
@@ -531,6 +541,14 @@ PrefabInstance:
     - target: {fileID: 4780999535682603980, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ExitToScoreboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848475561955073729, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1344958544}
+    - target: {fileID: 4848475561955073729, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RetryGame
       objectReference: {fileID: 0}
     - target: {fileID: 5504869560439854081, guid: 416b6e3de1053f54cb970ad0177521ca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1562,6 +1580,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1941024797}
     - target: {fileID: 7453070772739939082, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
+      propertyPath: tipBox
+      value: 
+      objectReference: {fileID: 372362142}
+    - target: {fileID: 7453070772739939082, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
       propertyPath: EscMenu
       value: 
       objectReference: {fileID: 3007085153862212305}
@@ -1582,6 +1604,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3007085153862212304}
     - target: {fileID: 7453070772739939082, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
+      propertyPath: hpSliderBox
+      value: 
+      objectReference: {fileID: 1404455262}
+    - target: {fileID: 7453070772739939082, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
       propertyPath: musicSlider
       value: 
       objectReference: {fileID: 3007085153862212303}
@@ -1589,6 +1615,10 @@ PrefabInstance:
       propertyPath: musicToggle
       value: 
       objectReference: {fileID: 629027926}
+    - target: {fileID: 7453070772739939082, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
+      propertyPath: hpSliderPrefab
+      value: 
+      objectReference: {fileID: 4638590671025341752, guid: 234a0d4f877473c40b419d63450eaae1, type: 3}
     - target: {fileID: 7453070772739939082, guid: dc75faa384704f143b2388bbb5131c87, type: 3}
       propertyPath: EscMenuBackground
       value: 

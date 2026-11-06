@@ -34,7 +34,7 @@ TagManager:
   - Buyable
   - Pickups
   - Doors
-  - 
+  - PlayerComponent
   - 
   - 
   - 

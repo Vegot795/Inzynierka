@@ -14,8 +14,6 @@ public class ZombieEnemy : EnemyClass
     CharacterBase character;
     public float baseAttackCD;
 
-
-
     public override void Awake()
     {
         base.Awake();

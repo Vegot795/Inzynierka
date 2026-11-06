@@ -315,17 +315,6 @@ public class GameControllerScript : MonoBehaviour
         EndgameStatsController.AddEntry(newEntry);
     }
 
-    public void ExitToScoreboard()
-    {
-        GS.exitToScoreboard = true;
-        StartCoroutine(GS.TurnOnLoadingScreen(LoadMainMenu));
-    }
-
-    private void LoadMainMenu()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
-
     public void CheckEnemiesOutsideMap()
     {
         List<EnemyClass> dupEnemiesSpawned = new List<EnemyClass>();
@@ -340,4 +329,30 @@ public class GameControllerScript : MonoBehaviour
         }
     }
 
+    #region ----- Buttons Functions -----
+    public void ExitToScoreboard()
+    {
+        GS.exitToScoreboard = true;
+        StartCoroutine(GS.TurnOnLoadingScreen(LoadMainMenu));
+    }
+
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void RetryGame()
+    {
+        PD = PlayerData.Instance;
+        PD.TotalScore = 0;
+        PD.TotalEnemiesKilled = 0;
+        PD.Date = string.Empty;
+        GS = GameSettings.GS;
+        StartCoroutine(GS.TurnOnLoadingScreen(LoadGameScene));
+    }
+
+    private void LoadGameScene()
+    {
+        SceneManager.LoadScene("ProceduralGeneratedScene");
+    }
+    #endregion
 }
