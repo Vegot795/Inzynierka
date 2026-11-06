@@ -37,6 +37,11 @@ public class OverlayController : MonoBehaviour
     public bool isAudioSet = false;
     public GameSettingsSave setts;
 
+    [Header("Else")]
+    public GameObject hpSliderBox;
+    public GameObject hpSliderPrefab;
+    public GameObject tipBox;
+
 
     void Awake()
     {
@@ -79,6 +84,18 @@ public class OverlayController : MonoBehaviour
             }
         }
         HandleAudioVolume();
+        HandleHpSlider();
+
+        if (UIC.gameEnded)
+        {
+            tipBox.SetActive(false);
+            hpSliderBox.SetActive(false);
+        }
+        else
+        {
+            tipBox.SetActive(true);
+            hpSliderBox.SetActive(true);
+        }
     }
 
     public Vector3 GetPositionForTip(GameObject tip)
@@ -132,7 +149,7 @@ public class OverlayController : MonoBehaviour
             GCS = GameControllerScript.GCS;
         }
         GameObject tip = Instantiate(tipPrefab);
-        tip.transform.SetParent(this.transform);
+        tip.transform.SetParent(tipBox.transform);
         TipController TC = tip.GetComponent<TipController>();
         TC.owner = door;
         TC.title.text = "Open";
@@ -156,7 +173,7 @@ public class OverlayController : MonoBehaviour
             GCS = GameControllerScript.GCS;
         }
         GameObject tip = Instantiate(tipPrefab);
-        tip.transform.SetParent(this.transform);
+        tip.transform.SetParent(tipBox.transform);
         TipController TC = tip.GetComponent<TipController>();
         TC.owner = BSS;
         TC.title.text = BSS.BBD.boofName.ToString();
@@ -190,7 +207,7 @@ public class OverlayController : MonoBehaviour
             GCS = GameControllerScript.GCS;
         }
         GameObject tip = Instantiate(tipPrefab);
-        tip.transform.SetParent(this.transform);
+        tip.transform.SetParent(tipBox.transform);
         TipController TC = tip.GetComponent<TipController>();
         TC.owner = buyable;
         TC.title.text = buyable.objectName;
@@ -211,6 +228,40 @@ public class OverlayController : MonoBehaviour
     {
         tipList.Remove(buyable.Tip);
         Destroy(buyable.Tip);
+    }
+
+    private void HandleHpSlider()
+    {
+        foreach (var enemy in GCS.enemiesSpawned)
+        {
+            if (enemy.sliderPreview == null)
+            {
+                enemy.sliderPreview = Instantiate(hpSliderPrefab);
+                enemy.sliderPreview.transform.SetParent(hpSliderBox.transform);
+                enemy.sliderPreview.gameObject.SetActive(false);
+            }
+
+            if (enemy.CurrentHp < enemy.currentMaxHp)
+            {
+                enemy.sliderPreview.gameObject.SetActive(true);
+            }
+            else
+            {
+                enemy.sliderPreview.gameObject.SetActive(false);
+            }
+
+            var sliderPosition = cam.WorldToScreenPoint(GetPositionForSlider(enemy));
+            enemy.sliderPreview.GetComponent<Slider>().value = enemy.CurrentHp / enemy.currentMaxHp;
+            enemy.sliderPreview.transform.position = sliderPosition;
+            Debug.Log("Code reached hpSlider transform position");
+        }
+        
+    }
+
+    private Vector3 GetPositionForSlider(EnemyClass enemy)
+    {
+        Vector3 displayPosition = new Vector3(enemy.transform.position.x, enemy.transform.position.y + 0.7f, enemy.transform.position.y);
+        return displayPosition;
     }
 
     #region ----- Escape Menu -----

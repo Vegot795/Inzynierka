@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 3236775391763442564}
   - component: {fileID: 6960572964724967731}
   - component: {fileID: 6951544953884413242}
-  m_Layer: 6
+  m_Layer: 19
   m_Name: MobActiveRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}

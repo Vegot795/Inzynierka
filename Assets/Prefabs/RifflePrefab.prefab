@@ -328,7 +328,7 @@ MonoBehaviour:
   muzzle: {fileID: 109985180763392267}
   layerToIgnore:
     serializedVersion: 2
-    m_Bits: 491104
+    m_Bits: 1015392
   LR: {fileID: 6939093957219431340}
   range: 100
 --- !u!111 &7367026968548973673

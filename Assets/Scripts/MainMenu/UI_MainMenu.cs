@@ -32,6 +32,9 @@ public class UI_MainMenu : MonoBehaviour
     public Toggle musicToggle;
     public Toggle fpsToggle;
 
+    [Header("Tutorial")]
+    public GameObject TutorialTab;
+
     [Header("Data")]
     public List<GameObject> AllTabs = new List<GameObject>();
     public PlayerData playerDataPrefab;
@@ -223,5 +226,11 @@ public class UI_MainMenu : MonoBehaviour
     {
         LoadSettings();
         BackToMainMenu();
+    }
+
+    public void OpenTutorial()
+    {
+        CloseAllTabs();
+        TutorialTab.SetActive(true);
     }
 }
