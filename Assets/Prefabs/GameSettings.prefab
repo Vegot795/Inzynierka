@@ -743,7 +743,7 @@ MonoBehaviour:
   exitToScoreboard: 0
   MainAS: {fileID: 0}
   canPlayMusic: 1
-  MenuMusic: {fileID: 8300000, guid: 558d7d84e9945104b93bfbb0fcf03ba9, type: 3}
+  MenuMusic: {fileID: 8300000, guid: e1b49c2e27b8bd444a05921f92a43494, type: 3}
   GameMusic:
   - {fileID: 8300000, guid: 699bf95e1349c2944be1b388275e6bd8, type: 3}
   - {fileID: 8300000, guid: 68c9b8a267417894781c3951343c2738, type: 3}
@@ -755,8 +755,8 @@ MonoBehaviour:
   enemyFloat: 0
   currentMusicNum: -1
   audioSources: []
-  DefaultCursor: {fileID: 2800000, guid: 67c151e2d76f4bc49a986d7f1f26e4b1, type: 3}
-  InGameCursor: {fileID: 2800000, guid: e5f37da2887ac2942a135d980014eaa7, type: 3}
+  DefaultCursor: {fileID: 5280797742577150837, guid: 67c151e2d76f4bc49a986d7f1f26e4b1, type: 3}
+  InGameCursor: {fileID: -4933988421671814310, guid: 3340f18abb669364d941a926f5b1c143, type: 3}
   fpsToggle: {fileID: 0}
   fpsText: {fileID: 7378333612658958820}
   fpsDisplay: {fileID: 7050161996180996085}

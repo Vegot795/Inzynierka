@@ -41,8 +41,8 @@ public class GameSettings : MonoBehaviour
     public List<AudioSource> audioSources = new List<AudioSource>();
 
     [Header("Cursors")]
-    public Texture2D DefaultCursor;
-    public Texture2D InGameCursor;
+    public Sprite DefaultCursor;
+    public Sprite InGameCursor;
 
     [Header("Else")]
     public Toggle fpsToggle;
@@ -295,14 +295,6 @@ public class GameSettings : MonoBehaviour
     }
     #endregion
 
-    public void SetSettingsInputs()
-    {
-        if (SceneManager.GetActiveScene().name == "MainMenu")
-        {
-
-        }
-    }
-
     public void LoadFromSaveFile()
     {
         setts = GameSettingsSaveSystem.Load();
@@ -313,9 +305,9 @@ public class GameSettings : MonoBehaviour
 
     }
 
-    public void ChangeCursorSprite(Texture2D sprite)
+    public void ChangeCursorSprite(Sprite sprite)
     {
-        Vector2 cursorPos = new Vector2(sprite.Size().x/2, sprite.Size().y/2);
-        Cursor.SetCursor(sprite,sprite.Size()/2 , CursorMode.ForceSoftware);
+        Vector2 cursorPos = new Vector2(sprite.pixelsPerUnit/2, sprite.pixelsPerUnit/2);
+        Cursor.SetCursor(sprite.texture, cursorPos , CursorMode.ForceSoftware);
     }
 }

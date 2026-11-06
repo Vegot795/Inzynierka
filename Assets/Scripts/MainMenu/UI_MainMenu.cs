@@ -90,20 +90,28 @@ public class UI_MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        if (PlayerData.Instance == null || PD == null)
+        if (NicknameInputField.text != null && NicknameInputField.text != string.Empty)
         {
-            PD = Instantiate(playerDataPrefab).GetComponent<PlayerData>();
-            DontDestroyOnLoad(PD);
+            if (PlayerData.Instance == null || PD == null)
+            {
+                PD = Instantiate(playerDataPrefab).GetComponent<PlayerData>();
+                DontDestroyOnLoad(PD);
+            }
+            else
+            {
+                PD.Clear();
+            }
+
+            PD.playerNickname = NicknameInputField.text;
+            PD.playerSprite = PlayerSprites[currentPCPrevNum];
+
+            StartCoroutine(GS.TurnOnLoadingScreen(LoadGameScene));
         }
         else
         {
-            PD.Clear();
+            NicknameInputField.placeholder.GetComponent<Text>().text = "Insert your nickname";
+            NicknameInputField.placeholder.GetComponent<Text>().color = new Color(1, 0, 0);
         }
-
-        PD.playerNickname = NicknameInputField.text;
-        PD.playerSprite = PlayerSprites[currentPCPrevNum];
-
-        StartCoroutine(GS.TurnOnLoadingScreen(LoadGameScene));
     }
 
     public void OpenScoreboard()
@@ -120,7 +128,8 @@ public class UI_MainMenu : MonoBehaviour
                 var ScoreRecord = Instantiate(RecordPrefab, scoreRecordHolder.transform);
                 ScoreRecord.gameObject.name = $"Score {i}";
                 //ScoreRecord.transform.parent = scoreRecordHolder.transform;
-                ScoreRecord.GetComponent<RecordScript>().Initialize(scoreList[i], i);
+                ScoreRecord.GetComponent<RecordScript>().Initialize(scoreList[i], i + 1);
+
             }
             catch
             {
