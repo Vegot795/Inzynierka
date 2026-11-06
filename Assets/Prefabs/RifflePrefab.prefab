@@ -324,8 +324,8 @@ MonoBehaviour:
   weaponData: {fileID: 0}
   playerController: {fileID: 0}
   GS: {fileID: 0}
-  projectilePrefab: {fileID: 7329302021653139206, guid: 470b9dc4aad5da547bc42189856c325a, type: 3}
   muzzle: {fileID: 109985180763392267}
+  projectilePrefab: {fileID: 7329302021653139206, guid: 470b9dc4aad5da547bc42189856c325a, type: 3}
   layerToIgnore:
     serializedVersion: 2
     m_Bits: 1015392

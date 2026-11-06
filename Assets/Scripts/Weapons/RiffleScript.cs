@@ -4,8 +4,9 @@ using UnityEngine.TextCore.Text;
 
 public class RiffleScript : WeaponClass
 {
+    [Header("RiffleScript")]
+
     public GameObject projectilePrefab;
-    public GameObject muzzle;
     public LayerMask layerToIgnore;
     public LineRenderer LR;
     [SerializeField] private float range = 100f;

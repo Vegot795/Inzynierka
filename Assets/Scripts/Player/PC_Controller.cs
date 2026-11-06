@@ -19,6 +19,7 @@ public class PC_Controller : CharacterBase
     OverlayController OC;
     GameSettings GS;
     UIController UIC;
+    public Vector3 mouseWorldPosition;
 
     [Header("Audio")]
     public AudioSource AS;
@@ -105,13 +106,14 @@ public class PC_Controller : CharacterBase
     public Vector2 PlayerRotation()
     {
         Vector3 mousePos = Mouse.current.position.ReadValue();
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+        mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 direction = (mouseWorldPosition - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         rb.MoveRotation(angle + 90f);
 
         return direction;
     }
+
     #endregion
 
     protected override void Die(CharacterBase killer)

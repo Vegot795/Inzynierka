@@ -45,6 +45,7 @@ public class WeaponClass : MonoBehaviour
     public WeaponData weaponData;
     public CharacterBase playerController;
     public GameSettings GS;
+    public GameObject muzzle;
 
     public virtual void Initialize(WeaponData data) { }
 

@@ -214,7 +214,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (!weaponClass) return;
 
-        weaponClass.Shoot(PC.mousePos);
+        weaponClass.Shoot(PC.mouseWorldPosition - weaponClass.muzzle.transform.position);
 
         switch (currentWeapon.weaponType)
         {

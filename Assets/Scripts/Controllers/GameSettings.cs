@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
@@ -38,6 +39,11 @@ public class GameSettings : MonoBehaviour
     public float enemyFloat;
     public int currentMusicNum = 0;
     public List<AudioSource> audioSources = new List<AudioSource>();
+
+    [Header("Cursors")]
+    public Texture2D DefaultCursor;
+    public Texture2D InGameCursor;
+
     [Header("Else")]
     public Toggle fpsToggle;
     public TextMeshProUGUI fpsText;
@@ -305,5 +311,11 @@ public class GameSettings : MonoBehaviour
         audioFloat = setts.AudioVolume;
         musicFloat = setts.MusicVolume;
 
+    }
+
+    public void ChangeCursorSprite(Texture2D sprite)
+    {
+        Vector2 cursorPos = new Vector2(sprite.Size().x/2, sprite.Size().y/2);
+        Cursor.SetCursor(sprite,sprite.Size()/2 , CursorMode.ForceSoftware);
     }
 }

@@ -5,8 +5,8 @@ using System.Collections;
 
 public class ShotgunScript : WeaponClass
 {
+    [Header ("ShotgunScript")]
     public GameObject projectilePrefab;
-    public GameObject muzzle;
 
 
     public SpriteRenderer muzzleSR;

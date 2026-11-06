@@ -280,6 +280,7 @@ public class OverlayController : MonoBehaviour
             MenuButtons.SetActive(true);
             Time.timeScale = 0;
             GS.isGamePaused = true;
+            GS.ChangeCursorSprite(GS.DefaultCursor);
         }
         else
         {
@@ -290,6 +291,8 @@ public class OverlayController : MonoBehaviour
             SettingsTab.SetActive(false);
             Time.timeScale = 1;
             GS.isGamePaused = false;
+            GS.ChangeCursorSprite(GS.InGameCursor);
+
         }
     }
 
