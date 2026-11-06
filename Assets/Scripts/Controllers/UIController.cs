@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
     public CharacterBase character;
     public PlayerInventory inventory;
     public GameControllerScript GCS;
+    public GameSettings GS;
 
     [Header("Endgame Stats")]
     public Image BlackScreen;
@@ -53,6 +54,7 @@ public class UIController : MonoBehaviour
         DeathScreen = transform.Find("DeathScreen").gameObject;
         curGrenadeImg = GameObject.Find("GrenadeImage").gameObject.GetComponent<Image>();
         grenadeCount = GameObject.Find("GrenadeCount").gameObject.GetComponent<TextMeshProUGUI>();
+        GS = GameSettings.GS;
 
 
 
@@ -64,10 +66,12 @@ public class UIController : MonoBehaviour
 		character = PC.GetComponent<CharacterBase>();
 		inventory = PC.GetComponent<PlayerInventory>();
         GCS = GameControllerScript.GCS;
+        GS.ChangeCursorSprite(GS.InGameCursor);
 
-	}
 
-	private void Update()
+    }
+
+    private void Update()
    {
         UpdateAmmoText();
         UpdateHealthText();

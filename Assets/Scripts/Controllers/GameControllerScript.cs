@@ -256,7 +256,7 @@ public class GameControllerScript : MonoBehaviour
     #region ----- Wave Handler ------
     public void WaveController()
     {
-        if (EnemiesKilledDuringRound == MaxEnemies)
+        if (EnemiesKilledDuringRound >= MaxEnemies)
         {
             EnemiesKilledDuringRound = 0;
             enemiesSpawnedDuringRound = 0;

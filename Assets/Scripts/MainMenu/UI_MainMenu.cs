@@ -103,7 +103,6 @@ public class UI_MainMenu : MonoBehaviour
         PD.playerNickname = NicknameInputField.text;
         PD.playerSprite = PlayerSprites[currentPCPrevNum];
 
-        GS.ChangeCursorSprite(GS.InGameCursor);
         StartCoroutine(GS.TurnOnLoadingScreen(LoadGameScene));
     }
 
