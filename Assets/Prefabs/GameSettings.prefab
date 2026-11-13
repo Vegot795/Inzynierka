@@ -756,7 +756,7 @@ MonoBehaviour:
   currentMusicNum: -1
   audioSources: []
   DefaultCursor: {fileID: 5280797742577150837, guid: 67c151e2d76f4bc49a986d7f1f26e4b1, type: 3}
-  InGameCursor: {fileID: -4933988421671814310, guid: 3340f18abb669364d941a926f5b1c143, type: 3}
+  InGameCursor: {fileID: 6773127605578109239, guid: cb6eaa118d543f443b030e71f5f676e4, type: 3}
   fpsToggle: {fileID: 0}
   fpsText: {fileID: 7378333612658958820}
   fpsDisplay: {fileID: 7050161996180996085}

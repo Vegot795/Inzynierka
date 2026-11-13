@@ -307,7 +307,12 @@ public class GameSettings : MonoBehaviour
 
     public void ChangeCursorSprite(Sprite sprite)
     {
-        Vector2 cursorPos = new Vector2(sprite.pixelsPerUnit/2, sprite.pixelsPerUnit/2);
-        Cursor.SetCursor(sprite.texture, cursorPos , CursorMode.ForceSoftware);
+        Vector2 cursorPos = Vector2.zero;
+        if (sprite == InGameCursor)
+        {
+            cursorPos = new Vector2(sprite.texture.width / 2, sprite.texture.height / 2);
+
+        }
+        Cursor.SetCursor(sprite.texture, cursorPos, CursorMode.ForceSoftware);
     }
 }

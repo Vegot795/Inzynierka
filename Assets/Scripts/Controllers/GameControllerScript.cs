@@ -181,12 +181,87 @@ public class GameControllerScript : MonoBehaviour
     {
         Debug.Log("[GCS] - spawn enemies called");
 
+
+        SpawnerScript currentSpawner = null;
+
         List<SpawnerScript> spawnersToUse = GetAvailableSpawners();
 
-        var currentSpawner = spawnersToUse
+        currentSpawner = spawnersToUse
             .OrderBy(_ => Random.value)
             .Where(spawner => spawner.owner.isPLayerInside() == true)
             .FirstOrDefault();
+
+        if (currentSpawner == null)
+        {
+            while (currentSpawner == null)
+            {
+                Vector2 playerPos = new Vector2(Mathf.RoundToInt(playerObj.transform.position.x), Mathf.RoundToInt(playerObj.transform.position.y));
+
+                var playerCell = MapGenerator.MG.cellsList
+                   .Where(cell => cell.x == playerPos.x && cell.y == playerPos.y).
+                   FirstOrDefault();
+
+                Room playerRoom = playerCell.roomOwner;
+
+                var corridors = new List<MapGenerator.Corridor>(playerRoom.OwnedCorridors);
+                var neighbours = new List<Room>();
+
+                foreach (var corridor in corridors)
+                {
+                    if (corridor.room1 != playerRoom)
+                    {
+                        if (!neighbours.Contains(corridor.room1))
+                            neighbours.Add(corridor.room1);
+                    }
+                    else
+                    {
+                        neighbours.Add(corridor.room2);
+                    }
+                }
+
+                var spawners = new List<GameObject>();
+                foreach (var room in neighbours)
+                {
+                    spawners.AddRange(room.spawners);
+                }
+
+                var candidateSpawner = spawners.OrderBy(s => Vector2.Distance(playerObj.transform.position, s.transform.position))
+                    .Where(spawner => spawner.GetComponent<SpawnerScript>().canSpawnEnemies && spawner.GetComponent<SpawnerScript>().isUnlocked == true)
+                    .FirstOrDefault();
+
+                if (candidateSpawner != null)
+                {
+                    currentSpawner = candidateSpawner.GetComponent<SpawnerScript>();
+
+                }
+                else
+                {
+                    yield return null;
+                }
+            }
+            
+
+        }
+
+        /*while (currentSpawner == null)
+        {
+            List<SpawnerScript> spawnersToUse = GetAvailableSpawners();
+
+            currentSpawner = spawnersToUse
+                .OrderBy(_ => Random.value)
+                .Where(spawner => spawner.owner.isPLayerInside() == true)
+                .FirstOrDefault();
+
+            if (currentSpawner != null)
+            {
+                continue;
+            }
+
+
+            yield return null;
+        }*/
+
+
 
         GameObject enemyToSpawn;
         int enemySpawnChance = Random.Range(0, 10);
@@ -223,9 +298,9 @@ public class GameControllerScript : MonoBehaviour
             enemyToSpawn = ZombiePrefab;
         }
 
-        StartCoroutine(currentSpawner.SpawnEnemiesInSpawner(enemyToSpawn, 2f));
+        StartCoroutine(currentSpawner.SpawnEnemiesInSpawner(enemyToSpawn, 3f));
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         readyToSpawn = true;
 
     }

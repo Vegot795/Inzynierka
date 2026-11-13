@@ -524,6 +524,10 @@ public class Room
     {
         GCS = GameControllerScript.GCS;
         var player = GCS.playerObj.transform.position;
-        return bounds.Contains(new Vector2Int((int)player.x, (int)player.y));
+        GridCell playerCell = MapGenerator.MG.cellsList
+            .Where(cell => cell.x == Mathf.RoundToInt(player.x) && cell.y == Mathf.RoundToInt(player.y))
+            .FirstOrDefault();
+
+        return cells.Contains(playerCell);
     }
 }

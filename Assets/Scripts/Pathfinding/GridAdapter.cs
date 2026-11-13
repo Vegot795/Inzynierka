@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class GridAdapter : MonoBehaviour
 {
+    public static GridAdapter GA { get; protected set; }
     public MapGenerator MapGenerator;
 
     private Node[,] nodes;
