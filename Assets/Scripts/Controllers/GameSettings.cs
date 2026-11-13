@@ -130,7 +130,7 @@ public class GameSettings : MonoBehaviour
             musicFloat = 0;
         }
 
-        ChangeMusicVolume(audioFloat, musicFloat);
+        ChangeMusicVolume(musicFloat);
         GameMusicHandler();
         HandleAudioVolume(audioFloat);
     }
@@ -247,9 +247,9 @@ public class GameSettings : MonoBehaviour
         canPlayMusic = !canPlayMusic;
     }
 
-    public void ChangeMusicVolume(float audio, float music)
+    public void ChangeMusicVolume(float music)
     {
-        MainAS.volume = audio * music;
+        MainAS.volume = music;
     }
 
     public void HandleAudioVolume(float audio)
@@ -302,17 +302,15 @@ public class GameSettings : MonoBehaviour
         canPlayMusic = setts.playMusic;
         audioFloat = setts.AudioVolume;
         musicFloat = setts.MusicVolume;
-
     }
 
     public void ChangeCursorSprite(Sprite sprite)
     {
         Vector2 cursorPos = Vector2.zero;
-        if (sprite == InGameCursor)
+        /*if (sprite == InGameCursor)
         {
+        }*/
             cursorPos = new Vector2(sprite.texture.width / 2, sprite.texture.height / 2);
-
-        }
         Cursor.SetCursor(sprite.texture, cursorPos, CursorMode.ForceSoftware);
     }
 }

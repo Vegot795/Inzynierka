@@ -745,8 +745,7 @@ MonoBehaviour:
   canPlayMusic: 1
   MenuMusic: {fileID: 8300000, guid: e1b49c2e27b8bd444a05921f92a43494, type: 3}
   GameMusic:
-  - {fileID: 8300000, guid: 699bf95e1349c2944be1b388275e6bd8, type: 3}
-  - {fileID: 8300000, guid: 68c9b8a267417894781c3951343c2738, type: 3}
+  - {fileID: 8300000, guid: 02b4476767a16934e815b8c1062da317, type: 3}
   AudioVolume: {fileID: 0}
   MusicVolume: {fileID: 0}
   EnemyVolume: {fileID: 0}
