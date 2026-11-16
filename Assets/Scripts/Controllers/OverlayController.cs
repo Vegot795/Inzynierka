@@ -310,7 +310,22 @@ public class OverlayController : MonoBehaviour
 
     public void QuitToMM()
     {
+        if (GCS.PD != null)
+        {
+            GCS.PD.Clear();
+        }
+        GS.StartCoroutine(GS.TurnOnLoadingScreen(LoadMainMenu));
+    }
 
+    public void BackFromSettings()
+    {
+        LoadSettings();
+        BackToMenu();
+    }
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+        GS.StartCoroutine(GS.TurnOffLoadingScreen(null));
     }
 
     public void LoadSettings()
@@ -348,6 +363,11 @@ public class OverlayController : MonoBehaviour
     }
 
     public void QuitToMainMenu()
+    {
+        GS.ExitToMainMenu();
+    }
+
+    public void QuitToScoreboard()
     {
         GS.ExitToScoreboard();
     }

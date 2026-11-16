@@ -229,6 +229,12 @@ public class GameSettings : MonoBehaviour
         StartCoroutine(TurnOffLoadingScreen(null));
     }
 
+    public void ExitToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+        StartCoroutine(TurnOffLoadingScreen(null));
+    }
+
     #region ----- Toggles -----
     public void ToggleFpsScript()
     {
